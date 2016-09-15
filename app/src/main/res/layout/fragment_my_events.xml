@@ -1,0 +1,17 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MyEvents"
+    android:background="#e5e5e5">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_horizontal"
+        android:paddingTop="40dp"
+        android:textSize="18sp"
+        android:textColor="@color/textGray"
+        android:text="You haven't booked any events yet." />
+
+</FrameLayout>
