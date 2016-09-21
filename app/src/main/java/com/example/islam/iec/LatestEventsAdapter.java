@@ -33,6 +33,8 @@ public class LatestEventsAdapter extends RecyclerView.Adapter<LatestEventsAdapte
         public ViewHolder(View v) {
             super(v);
 
+            // View can be event, past_event, or a separator.
+            // In the separator case, the following variables will be null.
             txtTitle = (TextView) v.findViewById(R.id.event_title);
             txtLocation = (TextView) v.findViewById(R.id.event_location);
             txtDate = (TextView) v.findViewById(R.id.event_date);
