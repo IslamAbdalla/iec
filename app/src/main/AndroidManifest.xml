@@ -19,7 +19,13 @@
             </intent-filter>
         </activity>
         <activity android:name=".BusinessGuideActivity"></activity>
-        <activity android:name=".EventActivity"></activity>
+        <activity android:name=".EventActivity"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.islam.iec.MainActivity"
+                />
+        </activity>
     </application>
 
 </manifest>
