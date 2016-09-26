@@ -46,7 +46,7 @@
                 android:layout_below="@+id/event_title"
                 android:text="Location"
                 android:padding="2dip"
-                android:layout_marginLeft="10dip"
+                android:layout_marginStart="10dip"
                 android:textSize="14sp"/>
             <TextView
                 android:layout_width="wrap_content"
@@ -55,25 +55,18 @@
                 android:layout_below="@+id/event_location"
                 android:text="1 January, 3:00pm"
                 android:padding="2dip"
-                android:layout_marginLeft="10dip"
+                android:layout_marginStart="10dip"
                 android:textSize="14sp"/>
 
             <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:text="Book"
                 android:layout_alignParentEnd="true"
                 android:layout_alignBottom="@+id/event_date"
-                android:text="Book"
-                android:background="@color/colorAccent"
-                android:textColor="@color/white"
-                android:minHeight="0dp"
-                android:minWidth="0dp"
                 android:paddingEnd="14dp"
                 android:paddingStart="14dp"
                 android:paddingTop="6dp"
                 android:paddingBottom="6dp"
-                android:textAllCaps="false"
-                android:textSize="16dp"/>
+                style="@style/BookButton"/>
 
         </RelativeLayout>
     </RelativeLayout>
