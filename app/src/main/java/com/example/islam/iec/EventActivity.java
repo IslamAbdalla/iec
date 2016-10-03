@@ -10,6 +10,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 
 /**
  * Created by islam on 9/15/16.
@@ -36,6 +37,7 @@ public class EventActivity extends AppCompatActivity {
 
             @Override
             public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+                Log.i("TEST", "onOffsetChanged: log" + verticalOffset);
                 if(scrollRange == -1) {
                     scrollRange = appBarLayout.getTotalScrollRange();
                 }

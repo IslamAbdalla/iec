@@ -23,7 +23,8 @@
             app:expandedTitleMarginStart="48dp"
             app:collapsedTitleTextAppearance="@style/CollapsedTitleEvent"
             app:expandedTitleTextAppearance="@style/ExpandedTitleEvent"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed">
+            app:layout_scrollFlags="scroll|exitUntilCollapsed"
+            >
 
             <ImageView
                 android:id="@+id/header"
@@ -32,8 +33,7 @@
                 android:src="@drawable/startup_weekend_khartoum"
                 android:scaleType="centerCrop"
                 app:layout_collapseMode="parallax"
-                android:fitsSystemWindows="true"
-                android:layout_marginTop="21dp"/>
+                android:fitsSystemWindows="true"/>
 
             <android.support.v7.widget.Toolbar
                 android:id="@+id/anim_toolbar"

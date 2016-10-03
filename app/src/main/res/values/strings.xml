@@ -8,4 +8,14 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="wc_title1">Page 1</string>
+    <string name="wc_desc1">Some nice text here</string>
+
+    <string name="wc_title2">Page 2</string>
+    <string name="wc_desc2">More beautiful text</string>
+
+    <string name="wc_title3">Page 3</string>
+    <string name="wc_desc3">The amazing finale</string>
+    <string name="wc_skip">Go to home</string>
 </resources>

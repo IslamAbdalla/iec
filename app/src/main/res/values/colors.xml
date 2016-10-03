@@ -7,4 +7,32 @@
     <color name="textGray">#aaa</color>
     <color name="bgGray">#f2f2f2</color>
     <color name="sepGray">#ddd</color>
+
+
+    <!-- Welcoming screens colors -->
+    <color name="wc_bg1">#eb8823</color>
+    <color name="wc_bg2">#63b9e8</color>
+    <color name="wc_bg3">#555</color>
+
+    <!-- WC inactive dot color-->
+    <color name="wc_inactive_dot1">#d77816</color>
+    <color name="wc_inactive_dot2">#479ac7</color>
+    <color name="wc_inactive_dot3">#444</color>
+
+    <!-- WC inactive dot color-->
+    <color name="wc_active_dot1">#f1a150</color>
+    <color name="wc_active_dot2">#a3d3ed</color>
+    <color name="wc_active_dot3">#777</color>
+
+    <array name="array_dot_active">
+        <item>@color/wc_active_dot1</item>
+        <item>@color/wc_active_dot2</item>
+        <item>@color/wc_active_dot3</item>
+    </array>
+
+    <array name="array_dot_inactive">
+        <item>@color/wc_inactive_dot1</item>
+        <item>@color/wc_inactive_dot2</item>
+        <item>@color/wc_inactive_dot3</item>
+    </array>
 </resources>
