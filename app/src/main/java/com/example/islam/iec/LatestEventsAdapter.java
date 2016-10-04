@@ -2,6 +2,7 @@ package com.example.islam.iec;
 
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -68,10 +69,12 @@ public class LatestEventsAdapter extends RecyclerView.Adapter<LatestEventsAdapte
 
     @Override
     public int getItemViewType(int position) {
-        if(eventsList.get(position).isSeparator()){
+        if(eventsList.get(position).isSeparator())
             return SEPARATOR;
-        } else if(eventsList.get(position).getUpcoming()) return UPCOMING;
-        else return PAST;
+        else if(eventsList.get(position).getUpcoming())
+            return UPCOMING;
+        else
+            return PAST;
     }
 
     // Replace the content of a view (invoked by the layout manager)
@@ -83,9 +86,8 @@ public class LatestEventsAdapter extends RecyclerView.Adapter<LatestEventsAdapte
         final Event event = eventsList.get(position);
 
         if(!event.isSeparator()) {
-            //final String name = mDataset.get(position);
-            holder.txtTitle.setText(event.getTitle());
-            holder.txtLocation.setText(event.getLocationText());
+            holder.txtTitle.setText(event.getName());
+            holder.txtLocation.setText(event.getLocation());
             holder.txtDate.setText((CharSequence) event.getDate().toString());
 
             if (position == 2) {
@@ -106,6 +108,20 @@ public class LatestEventsAdapter extends RecyclerView.Adapter<LatestEventsAdapte
     @Override
     public int getItemCount() {
         return eventsList.size();
+    }
+
+
+    public void clearEvents(){
+        Log.i("IEC", "clearEvents: Cleared!");
+        int listSize = eventsList.size();
+        if (listSize > 0) {
+            for (int i = 0; i < listSize; i++) {
+                eventsList.remove(0);
+            }
+
+            this.notifyItemRangeRemoved(0, listSize);
+        }
+
     }
 
 }

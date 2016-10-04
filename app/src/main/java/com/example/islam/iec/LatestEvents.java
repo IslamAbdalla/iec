@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,8 +21,9 @@ import java.util.Date;
 public class LatestEvents extends Fragment {
 
     private RecyclerView latestEventsRecyclerView;
-    private RecyclerView.Adapter latestEventsAdapter;
+    private LatestEventsAdapter latestEventsAdapter;
     private RecyclerView.LayoutManager latestEventsLayoutManager;
+    ArrayList<Event> latestEventsList;
 
 
     public LatestEvents() {
@@ -34,7 +36,7 @@ public class LatestEvents extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
 
-        new WebDownloaderTask().execute(new String[] { "http://www.test.com/index.html" });
+        new WebDownloaderTask(this).execute(new String[] { "http://www.test.com/index.html" });
         return inflater.inflate(R.layout.fragment_latest_events, container, false);
 
     }
@@ -43,57 +45,57 @@ public class LatestEvents extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState){
         super.onActivityCreated(savedInstanceState);
 
-        // ------------- End of Recycler ActivityRecycler Activity
-
         latestEventsRecyclerView = (RecyclerView) getView().findViewById(R.id.latest_events_rec_view);
-        ArrayList<Event> latestEvents = new ArrayList<>();
-//        ArrayList<String> oldLatestEvents = new ArrayList<>();
+        latestEventsRecyclerView.setHasFixedSize(true);
+        latestEventsList = new ArrayList<>();
 
-//        oldLatestEvents.add("Startup Weekend Khartoum");
-//        oldLatestEvents.add("Startup Weekend Medani");
-//        oldLatestEvents.add("Startup Grind");
-
-        latestEvents.add(new Event("Startup Weekend Khartoum",
-                                    new Location(""),
+        latestEventsList.add(new Event("Startup Weekend Khartoum",
                                     "Khartoum, Spark city",
-                                    new Date(),
+                                    "Khartoum, Spark city",
+                                    "2 Oct 2016",
                                     "No description",
                                     R.drawable.startup_weekend_khartoum,
                                     true
                                     ));
 
-        latestEvents.add(new Event("Separator"));
+        latestEventsList.add(new Event("Separator"));
 
-        latestEvents.add(new Event("Startup Weekend Medani",
-                                    new Location(""),
+        latestEventsList.add(new Event("Startup Weekend Medani",
                                     "Medani, Hantoob",
-                                    new Date(),
+                                    "Medani, Hantoob",
+                                    "2 Oct 2016",
                                     "No description",
                                     R.drawable.startup_weekend_khartoum,
                                     false
                                     ));
 
-        latestEvents.add(new Event("Startup Grind",
-                                    new Location(""),
+        latestEventsList.add(new Event("Startup Grind",
                                     "Bahri, Cooper",
-                                    new Date(),
+                                    "Bahri, Cooper",
+                                    "2 Oct 2016",
                                     "No description",
                                     R.drawable.startup_weekend_khartoum,
                                     false
                                     ));
-
-        latestEventsRecyclerView.setHasFixedSize(true);
 
         // Use linear layout manager
         latestEventsLayoutManager = new LinearLayoutManager(getActivity());
         latestEventsRecyclerView.setLayoutManager(latestEventsLayoutManager);
 
         // specify an adapter
-        latestEventsAdapter = new LatestEventsAdapter(latestEvents);
+        latestEventsAdapter = new LatestEventsAdapter(latestEventsList);
         latestEventsRecyclerView.setAdapter(latestEventsAdapter);
 
 
-        // ------------- End of Recycler Activity
+    }
+
+    public void setEvents(ArrayList<Event> latestEvents) {
+
+    }
+
+    public void clearEvents(){
+        Log.i("IEC", "clearEvents: Cleared first called");
+        latestEventsAdapter.clearEvents();
     }
 
 }

@@ -1,26 +1,28 @@
 package com.example.islam.iec;
 
 import android.location.Location;
-import android.support.annotation.BoolRes;
 import android.support.annotation.DrawableRes;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 /**
  * Created by islam on 9/15/16.
  */
 public class Event {
-    private String title;
-    private Date date;
+    private String name;
+    private String date;
     private String description;
+    private String image;
     private @DrawableRes int imageId;
-    private Location location;
+    private String location;
     private String locationText;
     private Boolean upcoming;
     private Boolean isSeparator;
+    private ArrayList<Project> projects;
 
-    public Event(String title, Location location,String locationText, Date date, String description, @DrawableRes int imageId, Boolean upcoming) {
-        this.title = title;
+    public Event(String title, String location,String locationText, String date, String description, @DrawableRes int imageId, Boolean upcoming) {
+        this.name = title;
         this.location = location;
         this.locationText = locationText;
         this.date = date;
@@ -30,7 +32,7 @@ public class Event {
         this.isSeparator = false;
     }
     public Event(String string){
-        this.title = null;
+        this.name = null;
         this.location = null;
         this.locationText = null;
         this.date = null;
@@ -41,19 +43,19 @@ public class Event {
     }
 
 
-    public String getTitle() {
-        return title;
+    public String getName() {
+        return name;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public Date getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(String date) {
         this.date = date;
     }
 
@@ -73,11 +75,11 @@ public class Event {
         this.imageId = imageId;
     }
 
-    public Location getLocation() {
+    public String getLocation() {
         return location;
     }
 
-    public void setLocation(Location location) {
+    public void setLocation(String location) {
         this.location = location;
     }
 
@@ -99,5 +101,36 @@ public class Event {
 
     public Boolean isSeparator() {
         return isSeparator;
+    }
+
+    private class Project {
+        private String name;
+        private String image;
+        private String link;
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public String getImage() {
+            return image;
+        }
+
+        public void setImage(String image) {
+            this.image = image;
+        }
+
+        public String getLink() {
+            return link;
+        }
+
+        public void setLink(String link) {
+            this.link = link;
+        }
+
     }
 }

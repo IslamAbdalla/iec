@@ -1,11 +1,12 @@
 package com.example.islam.iec;
 
+import android.app.Activity;
 import android.os.AsyncTask;
+import android.support.v4.app.Fragment;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
-import com.loopj.android.http.*;
-
-import java.io.IOException;
+import java.lang.ref.WeakReference;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -17,7 +18,15 @@ import okhttp3.Response;
 
 
 public class WebDownloaderTask  extends AsyncTask<String, Void, String> {
-    private static final String BASE_URL = "http://192.168.43.155/wp-json/iec-api/v1";
+    private static final String BASE_URL = "http://192.168.0.114/wp-json/iec-api/v1";
+    WeakReference<Fragment> fragmentWeakReference;
+
+
+    public WebDownloaderTask(Fragment fragment) {
+       // super();
+        fragmentWeakReference = new WeakReference<>(fragment);
+
+    }
 
     @Override
     protected String doInBackground(String... urls) {
@@ -39,8 +48,16 @@ public class WebDownloaderTask  extends AsyncTask<String, Void, String> {
 
     @Override
     protected void onPostExecute(String s) {
-        Log.i("IEC", "onPostExecute: " + s);
         super.onPostExecute(s);
+        Log.i("IEC", "onPostExecute: " + s);
+
+        LatestEvents fragment = (LatestEvents) fragmentWeakReference.get();
+        if (fragment != null) {
+            Log.i("IEC", "onPostExecute: not null");
+            fragment.clearEvents();
+
+
+        }
 
     }
 

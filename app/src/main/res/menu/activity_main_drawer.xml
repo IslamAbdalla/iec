@@ -5,19 +5,19 @@
         <item
             android:id="@+id/nav_guide"
             android:icon="@drawable/ic_menu_guide"
-            android:title="Business guide" />
+            android:name="Business guide" />
         <item
             android:id="@+id/nav_about"
             android:icon="@drawable/ic_menu_about"
-            android:title="About IEC" />
+            android:name="About IEC" />
         <item
             android:id="@+id/nav_profile"
             android:icon="@drawable/ic_menu_profile"
-            android:title="My profile" />
+            android:name="My profile" />
         <item
             android:id="@+id/nav_logout"
             android:icon="@drawable/ic_menu_logout"
-            android:title="Logout" />
+            android:name="Logout" />
     </group>
 
 </menu>
