@@ -21,13 +21,13 @@ public class Event {
     private Boolean isSeparator;
     private ArrayList<Project> projects;
 
-    public Event(String title, String location,String locationText, String date, String description, @DrawableRes int imageId, Boolean upcoming) {
+    public Event(String title, String location,String locationText, String date, String description, String image, Boolean upcoming) {
         this.name = title;
         this.location = location;
         this.locationText = locationText;
         this.date = date;
         this.description = description;
-        this.imageId = imageId;
+        this.image = image;
         this.upcoming = upcoming;
         this.isSeparator = false;
     }
@@ -37,7 +37,7 @@ public class Event {
         this.locationText = null;
         this.date = null;
         this.description = null;
-        this.imageId = 0;
+        this.image = null;
         this.upcoming = null;
         this.isSeparator = true;
     }

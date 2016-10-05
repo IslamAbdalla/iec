@@ -67,15 +67,11 @@ public class WebDownloaderTask  extends AsyncTask<String, Void, String> {
                     latestEventsList = parseEvents(eventsJSONArray, latestEventsList);
 
                     fragment.setEvents(latestEventsList);
-
-
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-
         }
-
     }
 
     private ArrayList<Event>  parseEvents(JSONArray eventsJSONArray, ArrayList<Event> latestEventsList) throws JSONException {
@@ -91,12 +87,10 @@ public class WebDownloaderTask  extends AsyncTask<String, Void, String> {
                     event.optString("location"),
                     event.optString("date"),
                     event.optString("details"),
-                    R.drawable.startup_weekend_khartoum,
+                    event.optString("image"),
                     (index == 0)
             ));
         }
         return latestEventsList;
     }
-
-
 }

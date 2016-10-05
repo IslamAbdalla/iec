@@ -54,7 +54,7 @@ public class LatestEvents extends Fragment {
                                     "Khartoum, Spark city",
                                     "2 Oct 2016",
                                     "No description",
-                                    R.drawable.startup_weekend_khartoum,
+                                    "",
                                     true
                                     ));
 
@@ -65,7 +65,7 @@ public class LatestEvents extends Fragment {
                                     "Medani, Hantoob",
                                     "2 Oct 2016",
                                     "No description",
-                                    R.drawable.startup_weekend_khartoum,
+                                    "",
                                     false
                                     ));
 
@@ -74,7 +74,7 @@ public class LatestEvents extends Fragment {
                                     "Bahri, Cooper",
                                     "2 Oct 2016",
                                     "No description",
-                                    R.drawable.startup_weekend_khartoum,
+                                    "",
                                     false
                                     ));
 

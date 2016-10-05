@@ -16,7 +16,6 @@ import java.util.ArrayList;
  * Created by islam on 9/12/16.
  */
 public class LatestEventsAdapter extends RecyclerView.Adapter<LatestEventsAdapter.ViewHolder> {
-    //private ArrayList<String> mDataset;
     private ArrayList<Event> eventsList;
     final private int UPCOMING = 1, PAST = 0, SEPARATOR = 2;
 

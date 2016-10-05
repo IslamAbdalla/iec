@@ -37,7 +37,6 @@ public class EventActivity extends AppCompatActivity {
 
             @Override
             public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
-                Log.i("TEST", "onOffsetChanged: log" + verticalOffset);
                 if(scrollRange == -1) {
                     scrollRange = appBarLayout.getTotalScrollRange();
                 }
