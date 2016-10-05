@@ -90,6 +90,9 @@ public class LatestEvents extends Fragment {
     }
 
     public void setEvents(ArrayList<Event> latestEvents) {
+        Log.i("IEC", "setEvents: Set");
+        latestEventsAdapter.updateDataSet(latestEvents);
+        latestEventsAdapter.notifyDataSetChanged();
 
     }
 

@@ -51,6 +51,11 @@ public class LatestEventsAdapter extends RecyclerView.Adapter<LatestEventsAdapte
         eventsList = inEventsList;
     }
 
+    // Provide a data updater function
+    public void updateDataSet(ArrayList<Event> inEventList) {
+        eventsList = inEventList;
+    }
+
     // Create new views (invoked by the layout manager)
     @Override
     public LatestEventsAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
