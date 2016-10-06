@@ -10,6 +10,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
 import android.util.Log;
 import android.widget.TextView;
 
@@ -20,6 +21,7 @@ public class EventActivity extends AppCompatActivity {
     public TextView title;
     public TextView location;
     public TextView date;
+    public TextView details;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +41,7 @@ public class EventActivity extends AppCompatActivity {
         title = (TextView) findViewById(R.id.event_ac_title);
         location = (TextView) findViewById(R.id.event_ac_loc);
         date = (TextView) findViewById(R.id.event_ac_date);
+        details = (TextView) findViewById(R.id.event_ac_details);
 
         // Get event details
         Bundle data = getIntent().getExtras();
@@ -48,6 +51,7 @@ public class EventActivity extends AppCompatActivity {
             title.setText(event.getName());
             location.setText(event.getLocation());
             date.setText(event.getDate());
+            details.setText(Html.fromHtml(event.getDescription()));
         }
 
         if (appBarLayout != null && event != null) {
