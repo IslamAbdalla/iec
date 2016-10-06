@@ -12,7 +12,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.util.Log;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
 
 /**
  * Created by islam on 9/15/16.
@@ -22,6 +25,7 @@ public class EventActivity extends AppCompatActivity {
     public TextView location;
     public TextView date;
     public TextView details;
+    public ImageView image;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +46,7 @@ public class EventActivity extends AppCompatActivity {
         location = (TextView) findViewById(R.id.event_ac_loc);
         date = (TextView) findViewById(R.id.event_ac_date);
         details = (TextView) findViewById(R.id.event_ac_details);
+        image = (ImageView) findViewById(R.id.header);
 
         // Get event details
         Bundle data = getIntent().getExtras();
@@ -52,6 +57,13 @@ public class EventActivity extends AppCompatActivity {
             location.setText(event.getLocation());
             date.setText(event.getDate());
             details.setText(Html.fromHtml(event.getDescription()));
+
+            Picasso.with(this)
+                    .load("https://fb-s-a-a.akamaihd.net//h-ak-xat1//v//t1.0-9//12243032_588909211249762_6871105849622827936_n.jpg?oh=15e8d8828e7b560a9ba1532540b6fcb2&oe=58AB55EB&__gda__=1487484599_4fa96e8a83a13079b227a7c65ca2afaf")
+                    //.resize(holder.imgEvent.getMeasuredWidth(),360)
+                    .fit()
+                    .centerCrop()
+                    .into(image);
         }
 
         if (appBarLayout != null && event != null) {

@@ -17,14 +17,6 @@ public class Event implements Parcelable{
     private String date;
     private String description;
 
-    public String getImage() {
-        return image;
-    }
-
-    public void setImage(String image) {
-        this.image = image;
-    }
-
     private String image;
     private @DrawableRes int imageId;
     private String location;
@@ -109,6 +101,14 @@ public class Event implements Parcelable{
 
     public void setUpcoming(Boolean upcoming) {
         this.upcoming = upcoming;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 
     public Boolean isSeparator() {

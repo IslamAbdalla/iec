@@ -235,7 +235,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:background="@color/white">
+                    android:focusable="true"
+                    android:clickable="true"
+                    android:background="?android:attr/selectableItemBackground">
 
                     <FrameLayout
                         android:layout_width="70dp"
@@ -266,7 +268,7 @@
                 android:layout_height="wrap_content"
                 android:text="Share with"
                 android:layout_marginStart="20dp"
-                android:layout_marginBottom="20dp"
+                android:layout_marginBottom="12dp"
                 android:textColor="@color/textGray"
                 />
             <LinearLayout
