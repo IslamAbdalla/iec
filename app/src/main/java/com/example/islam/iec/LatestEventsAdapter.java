@@ -1,5 +1,6 @@
 package com.example.islam.iec;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -10,6 +11,8 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
 import java.util.ArrayList;
 
 /**
@@ -18,6 +21,8 @@ import java.util.ArrayList;
 public class LatestEventsAdapter extends RecyclerView.Adapter<LatestEventsAdapter.ViewHolder> {
     private ArrayList<Event> eventsList;
     final private int UPCOMING = 1, PAST = 0, SEPARATOR = 2;
+    private Context context;
+
 
     // Provide a reference to the view for each data item
     // Complex data may need more than one view per item, and
@@ -28,7 +33,6 @@ public class LatestEventsAdapter extends RecyclerView.Adapter<LatestEventsAdapte
         public TextView txtDate;
         public ImageView imgEvent;
         public RelativeLayout rootLayout;
-
 
         public ViewHolder(View v) {
             super(v);
@@ -46,7 +50,8 @@ public class LatestEventsAdapter extends RecyclerView.Adapter<LatestEventsAdapte
 
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public LatestEventsAdapter(ArrayList<Event> inEventsList) {
+    public LatestEventsAdapter(Context context, ArrayList<Event> inEventsList) {
+        this.context = context;
         eventsList = inEventsList;
     }
 
@@ -107,6 +112,11 @@ public class LatestEventsAdapter extends RecyclerView.Adapter<LatestEventsAdapte
                     v.getContext().startActivity(intent);
                 }
             });
+
+            Picasso.with(context)
+                    .load("https://fb-s-a-a.akamaihd.net//h-ak-xat1//v//t1.0-9//12243032_588909211249762_6871105849622827936_n.jpg?oh=15e8d8828e7b560a9ba1532540b6fcb2&oe=58AB55EB&__gda__=1487484599_4fa96e8a83a13079b227a7c65ca2afaf")
+                    .resize(300, 360)
+                    .into(holder.imgEvent);
         }
     }
 

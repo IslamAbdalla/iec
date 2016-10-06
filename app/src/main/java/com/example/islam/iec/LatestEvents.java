@@ -83,7 +83,7 @@ public class LatestEvents extends Fragment {
         latestEventsRecyclerView.setLayoutManager(latestEventsLayoutManager);
 
         // specify an adapter
-        latestEventsAdapter = new LatestEventsAdapter(latestEventsList);
+        latestEventsAdapter = new LatestEventsAdapter(getActivity(), latestEventsList);
         latestEventsRecyclerView.setAdapter(latestEventsAdapter);
 
 
