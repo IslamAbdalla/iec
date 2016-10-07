@@ -58,10 +58,10 @@ public class WebDownloaderTask  extends AsyncTask<String, Void, String> {
 
         LatestEvents fragment = (LatestEvents) fragmentWeakReference.get();
         if (fragment != null) {
-            fragment.clearEvents();
             try {
                 JSONObject response = new JSONObject(s);
                 if (0 == response.optInt("status") ) {
+                    fragment.clearEvents();
                     JSONArray eventsJSONArray = response.optJSONArray("events");
                     ArrayList<Event> latestEventsList = new ArrayList<>();
                     latestEventsList = parseEvents(eventsJSONArray, latestEventsList);

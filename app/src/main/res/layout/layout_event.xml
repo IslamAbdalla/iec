@@ -61,6 +61,7 @@
                 android:textSize="14sp"/>
 
             <Button
+                android:id="@+id/btn_book"
                 android:text="Book"
                 android:layout_alignParentEnd="true"
                 android:layout_alignBottom="@+id/event_date"
@@ -68,7 +69,8 @@
                 android:paddingStart="14dp"
                 android:paddingTop="6dp"
                 android:paddingBottom="6dp"
-                style="@style/BookButton"/>
+                style="@style/BookButton"
+                android:onClick="bookEvent"/>
 
         </RelativeLayout>
     </RelativeLayout>

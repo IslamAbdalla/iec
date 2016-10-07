@@ -18,6 +18,7 @@ public class PrefManager {
     private static final String PREF_NAME = "wc_welcome";
 
     private static final String IS_FIRST_TIME_LAUNCHED = "IsFirstTimeLaunch";
+    private static final String IS_LOGGED_IN = "IsLoggedIn";
 
     public PrefManager(Context context) {
         this._context = context;
@@ -32,5 +33,14 @@ public class PrefManager {
 
     public boolean isFirstTimeLaunch() {
         return pref.getBoolean(IS_FIRST_TIME_LAUNCHED, true);
+    }
+
+    public void setIsLoggedIn(boolean IsLoggedIn) {
+        editor.putBoolean(IS_LOGGED_IN, IsLoggedIn);
+        editor.apply();
+    }
+
+    public boolean isLoggedIn() {
+        return pref.getBoolean(IS_LOGGED_IN, false);
     }
 }

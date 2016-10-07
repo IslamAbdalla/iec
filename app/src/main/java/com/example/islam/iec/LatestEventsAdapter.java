@@ -99,8 +99,21 @@ public class LatestEventsAdapter extends RecyclerView.Adapter<LatestEventsAdapte
             holder.txtLocation.setText(event.getLocation());
             holder.txtDate.setText((CharSequence) event.getDate().toString());
 
+            Log.i("IEC", "onBindViewHolder: Image URL: " + event.getImage());
+            Picasso.with(context)
+                    .load("https://fb-s-a-a.akamaihd.net//h-ak-xat1//v//t1.0-9//12243032_588909211249762_6871105849622827936_n.jpg?oh=15e8d8828e7b560a9ba1532540b6fcb2&oe=58AB55EB&__gda__=1487484599_4fa96e8a83a13079b227a7c65ca2afaf")
+                    //.resize(holder.imgEvent.getMeasuredWidth(),360)
+                    .fit()
+                    .centerCrop()
+                    .into(holder.imgEvent);
             if (position == 2) {
                 holder.imgEvent.setImageResource(R.drawable.startup_weekend_medani);
+            Picasso.with(context)
+                    .load("https://scontent-arn2-1.xx.fbcdn.net/t31.0-8/13047850_812313515567579_4736785202866688398_o.jpg")
+                    //.resize(holder.imgEvent.getMeasuredWidth(),360)
+                    .fit()
+                    .centerCrop()
+                    .into(holder.imgEvent);
 
             }
 
@@ -112,13 +125,6 @@ public class LatestEventsAdapter extends RecyclerView.Adapter<LatestEventsAdapte
                     v.getContext().startActivity(intent);
                 }
             });
-            Log.i("IEC", "onBindViewHolder: Image URL: " + event.getImage());
-            Picasso.with(context)
-                    .load("https://fb-s-a-a.akamaihd.net//h-ak-xat1//v//t1.0-9//12243032_588909211249762_6871105849622827936_n.jpg?oh=15e8d8828e7b560a9ba1532540b6fcb2&oe=58AB55EB&__gda__=1487484599_4fa96e8a83a13079b227a7c65ca2afaf")
-                    //.resize(holder.imgEvent.getMeasuredWidth(),360)
-                    .fit()
-                    .centerCrop()
-                    .into(holder.imgEvent);
         }
     }
 

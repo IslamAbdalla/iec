@@ -101,4 +101,5 @@ public class LatestEvents extends Fragment {
         latestEventsAdapter.clearEvents();
     }
 
+
 }
