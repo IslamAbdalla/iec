@@ -36,7 +36,7 @@ public class LatestEvents extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
 
-        new WebDownloaderTask(this).execute(new String[] { "http://www.test.com/index.html" });
+        new WebDownloaderTask(this, WebDownloaderTask.GET_EVENTS).execute(new String[] { "http://www.test.com/index.html" });
         return inflater.inflate(R.layout.fragment_latest_events, container, false);
 
     }

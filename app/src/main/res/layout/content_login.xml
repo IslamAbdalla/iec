@@ -52,5 +52,6 @@
         android:text="Login"
         style="@style/BookButton"
         android:padding="10dp"
-        android:layout_marginTop="16dp"/>
+        android:layout_marginTop="16dp"
+        android:onClick="signIn"/>
 </LinearLayout>

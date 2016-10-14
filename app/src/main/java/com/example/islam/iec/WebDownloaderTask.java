@@ -3,7 +3,6 @@ package com.example.islam.iec;
 import android.app.Activity;
 import android.os.AsyncTask;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
 import org.json.JSONArray;
@@ -25,20 +24,47 @@ import okhttp3.Response;
 public class WebDownloaderTask  extends AsyncTask<String, Void, String> {
     private static final String BASE_URL = "http://192.168.43.155/wp-json/iec-api/v1";
     WeakReference<Fragment> fragmentWeakReference;
+    WeakReference<Activity> activityWeakReference;
+    final static public int GET_EVENTS = 0, GET_TICKETS = 1, LOG_IN = 2, REGISTER = 3, BOOK = 4;
+    private int action;
 
 
-    public WebDownloaderTask(Fragment fragment) {
-       // super();
+    public WebDownloaderTask(Fragment fragment, int mAction) {
         fragmentWeakReference = new WeakReference<>(fragment);
+        action = mAction;
 
+    }
+    public WebDownloaderTask(Activity activity, int mAction) {
+        activityWeakReference = new WeakReference<>(activity);
+        action = mAction;
     }
 
     @Override
     protected String doInBackground(String... urls) {
+        String route;
+        switch (action) {
+            case GET_EVENTS:
+                route = "/get-events/";
+                break;
+            case GET_TICKETS:
+                route = "/ticket/";
+                break;
+            case LOG_IN:
+                route = "/login/";
+                break;
+            case REGISTER:
+                route = "/register/";
+                break;
+            case BOOK:
+                route = "/book/";
+                break;
+            default:
+                route = "/";
+        }
 
         OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder()
-                        .url(BASE_URL + "/get-events/")
+                        .url(BASE_URL + route)
                         .build();
         try {
             Response response = client.newCall(request).execute();
@@ -55,22 +81,33 @@ public class WebDownloaderTask  extends AsyncTask<String, Void, String> {
     protected void onPostExecute(String s) {
         super.onPostExecute(s);
         Log.i("IEC", "onPostExecute: " + s);
+        JSONObject response = null;
+        try {
+            response = new JSONObject(s);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
-        LatestEvents fragment = (LatestEvents) fragmentWeakReference.get();
-        if (fragment != null) {
-            try {
-                JSONObject response = new JSONObject(s);
-                if (0 == response.optInt("status") ) {
-                    fragment.clearEvents();
-                    JSONArray eventsJSONArray = response.optJSONArray("events");
-                    ArrayList<Event> latestEventsList = new ArrayList<>();
-                    latestEventsList = parseEvents(eventsJSONArray, latestEventsList);
+        switch (action) {
+            case GET_EVENTS:
+                LatestEvents fragment = (LatestEvents) fragmentWeakReference.get();
+                if (fragment != null) {
+                    try {
+                        if (response != null && 0 == response.optInt("status")) {
+                            fragment.clearEvents();
+                            JSONArray eventsJSONArray = response.optJSONArray("events");
+                            ArrayList<Event> latestEventsList = new ArrayList<>();
+                            latestEventsList = parseEvents(eventsJSONArray, latestEventsList);
 
-                    fragment.setEvents(latestEventsList);
+                            fragment.setEvents(latestEventsList);
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                 }
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
+                break;
+
+
         }
     }
 
