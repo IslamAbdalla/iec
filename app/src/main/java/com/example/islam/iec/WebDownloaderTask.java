@@ -14,6 +14,7 @@ import java.util.ArrayList;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import okhttp3.RequestBody;
 import okhttp3.Response;
 
 /**
@@ -42,6 +43,9 @@ public class WebDownloaderTask  extends AsyncTask<String, Void, String> {
     @Override
     protected String doInBackground(String... urls) {
         String route;
+        OkHttpClient client = new OkHttpClient();
+        Request request;
+
         switch (action) {
             case GET_EVENTS:
                 route = "/get-events/";
@@ -62,15 +66,33 @@ public class WebDownloaderTask  extends AsyncTask<String, Void, String> {
                 route = "/";
         }
 
-        OkHttpClient client = new OkHttpClient();
-        Request request = new Request.Builder()
-                        .url(BASE_URL + route)
-                        .build();
+        // GET request
+        if (action == GET_EVENTS) {
+            request = new Request.Builder()
+                    .url(BASE_URL + route)
+                    .build();
+        } else
+        // POST request
+        if (action == LOG_IN){
+            request = new Request.Builder()
+                    .url(BASE_URL + route)
+                    .method("POST", RequestBody.create(null, new byte[0]))
+                    .header("Authorization", "Basic d29yZHByZXNzdXNlcjozSWVPSE9SSk9lQ1FxXiVvVVY=")
+                    .build();
+
+        } else {
+            request = new Request.Builder()
+                    .url(BASE_URL + route)
+                    .build();
+        }
         try {
+            Log.i("IEC", "doInBackground: "+ request.toString());
             Response response = client.newCall(request).execute();
             if (response.isSuccessful()) {
                 return response.body().string();
             }
+            else
+            Log.i("IEC", "doInBackground: "+response.body().string());
         } catch (Exception e) {
             return e.toString();
         }

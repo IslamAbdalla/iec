@@ -22,7 +22,7 @@ public class Login extends AppCompatActivity {
     }
 
     public void signIn(View view){
-        //new WebDownloaderTask(this).execute(new String[] { "http://www.test.com/index.html" });
+        new WebDownloaderTask(this, WebDownloaderTask.LOG_IN).execute("http://www.test.com/index.html");
     }
 
 }
