@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 import android.support.v4.app.Fragment;
 import android.util.Base64;
 import android.util.Log;
+import android.widget.EditText;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -29,6 +30,7 @@ public class WebDownloaderTask  extends AsyncTask<String, Void, String> {
     WeakReference<Activity> activityWeakReference;
     final static public int GET_EVENTS = 0, GET_TICKETS = 1, LOG_IN = 2, REGISTER = 3, BOOK = 4;
     private int action;
+    private String username, password;
 
 
     public WebDownloaderTask(Fragment fragment, int mAction) {
@@ -42,20 +44,48 @@ public class WebDownloaderTask  extends AsyncTask<String, Void, String> {
     }
 
     @Override
+    protected void onPreExecute() {
+        switch (action){
+            case LOG_IN:
+                Activity loginActivity = activityWeakReference.get();
+                EditText usernameEditText = (EditText) loginActivity.findViewById(R.id.username_input);
+                EditText passwordEditText = (EditText) loginActivity.findViewById(R.id.password_input);
+                if (usernameEditText != null) {
+                    username = usernameEditText.getText().toString();
+                    password = passwordEditText.getText().toString();
+                }
+
+        }
+
+    }
+
+    @Override
     protected String doInBackground(String... urls) {
         String route;
         OkHttpClient client = new OkHttpClient();
         Request request;
+        request = new Request.Builder()
+                .url(BASE_URL )
+                .build();
 
         switch (action) {
             case GET_EVENTS:
                 route = "/get-events/";
+                request = new Request.Builder()
+                        .url(BASE_URL + route)
+                        .build();
                 break;
             case GET_TICKETS:
                 route = "/ticket/";
                 break;
             case LOG_IN:
                 route = "/login/";
+                request = new Request.Builder()
+                        .url(BASE_URL + route)
+                        .method("POST", RequestBody.create(null, new byte[0]))
+                        //.header("Authorization", "Basic "+ Base64.encodeToString("wordpressuser:3IeOHORJOeCQq^%oUV".getBytes(),Base64.NO_WRAP))
+                        .header("Authorization", "Basic "+ Base64.encodeToString((username + ":" + password).getBytes(),Base64.NO_WRAP))
+                        .build();
                 break;
             case REGISTER:
                 route = "/register/";
@@ -65,26 +95,9 @@ public class WebDownloaderTask  extends AsyncTask<String, Void, String> {
                 break;
             default:
                 route = "/";
-        }
-
-        // GET request
-        if (action == GET_EVENTS) {
-            request = new Request.Builder()
-                    .url(BASE_URL + route)
-                    .build();
-        } else
-        // POST request
-        if (action == LOG_IN){
-            request = new Request.Builder()
-                    .url(BASE_URL + route)
-                    .method("POST", RequestBody.create(null, new byte[0]))
-                    .header("Authorization", "Basic "+ Base64.encodeToString("wordpressuser:3IeOHORJOeCQq^%oUV".getBytes(),Base64.NO_WRAP))
-                    .build();
-
-        } else {
-            request = new Request.Builder()
-                    .url(BASE_URL + route)
-                    .build();
+                request = new Request.Builder()
+                        .url(BASE_URL + route)
+                        .build();
         }
         try {
             Log.i("IEC", "doInBackground: "+ request.toString());
