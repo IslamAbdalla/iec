@@ -171,7 +171,7 @@ public class MainActivity extends AppCompatActivity
             alertDialogBuilder.setPositiveButton("Log in", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    Toast.makeText(MainActivity.this, "You are trying to login, hurray", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(MainActivity.this, "You are trying to login, hurray", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(MainActivity.this, Login.class);
                     startActivity(intent);
 
@@ -181,7 +181,7 @@ public class MainActivity extends AppCompatActivity
             alertDialogBuilder.setNegativeButton("Sign up", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    Toast.makeText(MainActivity.this, "You are trying to sign up, hurray", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(MainActivity.this, "You are trying to sign up, hurray", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(MainActivity.this, SignUp.class);
                     startActivity(intent);
                 }

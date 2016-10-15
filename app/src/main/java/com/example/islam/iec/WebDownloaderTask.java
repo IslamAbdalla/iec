@@ -1,6 +1,7 @@
 package com.example.islam.iec;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.support.v4.app.Fragment;
 import android.util.Base64;
@@ -31,6 +32,7 @@ public class WebDownloaderTask  extends AsyncTask<String, Void, String> {
     final static public int GET_EVENTS = 0, GET_TICKETS = 1, LOG_IN = 2, REGISTER = 3, BOOK = 4;
     private int action;
     private String username, password;
+    private ProgressDialog progressDialog;
 
 
     public WebDownloaderTask(Fragment fragment, int mAction) {
@@ -48,6 +50,7 @@ public class WebDownloaderTask  extends AsyncTask<String, Void, String> {
         switch (action){
             case LOG_IN:
                 Activity loginActivity = activityWeakReference.get();
+                progressDialog = ProgressDialog.show(loginActivity, "Signing in", "Please wait");
                 EditText usernameEditText = (EditText) loginActivity.findViewById(R.id.username_input);
                 EditText passwordEditText = (EditText) loginActivity.findViewById(R.id.password_input);
                 if (usernameEditText != null) {
@@ -142,9 +145,10 @@ public class WebDownloaderTask  extends AsyncTask<String, Void, String> {
                     }
                 }
                 break;
-
-
+            case LOG_IN:
+                progressDialog.dismiss();
         }
+
     }
 
     private ArrayList<Event>  parseEvents(JSONArray eventsJSONArray, ArrayList<Event> latestEventsList) throws JSONException {
