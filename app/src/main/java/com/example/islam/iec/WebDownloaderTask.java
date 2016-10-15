@@ -3,6 +3,7 @@ package com.example.islam.iec;
 import android.app.Activity;
 import android.os.AsyncTask;
 import android.support.v4.app.Fragment;
+import android.util.Base64;
 import android.util.Log;
 
 import org.json.JSONArray;
@@ -77,7 +78,7 @@ public class WebDownloaderTask  extends AsyncTask<String, Void, String> {
             request = new Request.Builder()
                     .url(BASE_URL + route)
                     .method("POST", RequestBody.create(null, new byte[0]))
-                    .header("Authorization", "Basic d29yZHByZXNzdXNlcjozSWVPSE9SSk9lQ1FxXiVvVVY=")
+                    .header("Authorization", "Basic "+ Base64.encodeToString("wordpressuser:3IeOHORJOeCQq^%oUV".getBytes(),Base64.NO_WRAP))
                     .build();
 
         } else {
