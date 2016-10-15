@@ -60,7 +60,29 @@ public class MainActivity extends AppCompatActivity
             tabLayout.setupWithViewPager(viewPager);
         }
 
+        updateUI();
 
+    }
+
+    /**
+     * This function is called to update the UI including the nav drawer buttons, booked tickets..
+     * etc. Normally, this function is called after logging in and logging out.
+     */
+    public void updateUI() {
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        if (prefManager.isLoggedIn()){
+            if (navigationView != null) {
+                navigationView.getMenu().findItem(R.id.nav_profile).setVisible(true);
+                navigationView.getMenu().findItem(R.id.nav_logout).setVisible(true);
+                navigationView.getMenu().findItem(R.id.nav_login).setVisible(false);
+            }
+        } else {
+            if (navigationView != null) {
+                navigationView.getMenu().findItem(R.id.nav_profile).setVisible(false);
+                navigationView.getMenu().findItem(R.id.nav_logout).setVisible(false);
+                navigationView.getMenu().findItem(R.id.nav_login).setVisible(true);
+            }
+        }
     }
 
     @Override
@@ -97,6 +119,12 @@ public class MainActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        updateUI();
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
@@ -115,6 +143,9 @@ public class MainActivity extends AppCompatActivity
             Log.i("IEC", "Calling logout: Logging out");
 
             logout();
+        } else if (id == R.id.nav_login) {
+            Intent intent = new Intent(MainActivity.this, Login.class);
+            startActivityForResult(intent,0);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -134,6 +165,9 @@ public class MainActivity extends AppCompatActivity
                 User emptyUser = new User("","","","","","","");
                 prefManager.setUser(emptyUser);
                 prefManager.setIsLoggedIn(false);
+
+                updateUI();
+                Toast.makeText(MainActivity.this, "Logged out successfully", Toast.LENGTH_SHORT).show();
 
             }
         });
@@ -196,9 +230,8 @@ public class MainActivity extends AppCompatActivity
             alertDialogBuilder.setPositiveButton("Log in", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-//                    Toast.makeText(MainActivity.this, "You are trying to login, hurray", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(MainActivity.this, Login.class);
-                    startActivity(intent);
+                    startActivityForResult(intent, 0);
 
                 }
             });
@@ -206,7 +239,6 @@ public class MainActivity extends AppCompatActivity
             alertDialogBuilder.setNegativeButton("Sign up", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-//                    Toast.makeText(MainActivity.this, "You are trying to sign up, hurray", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(MainActivity.this, SignUp.class);
                     startActivity(intent);
                 }
@@ -214,5 +246,7 @@ public class MainActivity extends AppCompatActivity
             alertDialogBuilder.show();
         }
     }
+
+
 
 }

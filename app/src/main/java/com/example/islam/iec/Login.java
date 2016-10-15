@@ -30,5 +30,6 @@ public class Login extends AppCompatActivity {
         if (prefManager.isLoggedIn())
             Log.i("IEC", "completeLogin: Logged in :D");
         else Log.i("IEC", "completeLogin: Nope");
+        finish();
     }
 }

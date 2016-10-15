@@ -6,22 +6,32 @@
             android:id="@+id/nav_guide"
             android:icon="@drawable/ic_menu_guide"
             android:name="Business guide"
-            android:title="Business guide" />
+            android:title="Business guide"
+            android:visible="true"/>
         <item
             android:id="@+id/nav_about"
             android:icon="@drawable/ic_menu_about"
             android:name="About IEC"
-            android:title="About IEC" />
+            android:title="About IEC"
+            android:visible="true" />
         <item
             android:id="@+id/nav_profile"
             android:icon="@drawable/ic_menu_profile"
             android:name="My profile"
-            android:title="My profile" />
+            android:title="My profile"
+            android:visible="false" />
         <item
             android:id="@+id/nav_logout"
             android:icon="@drawable/ic_menu_logout"
             android:name="Logout"
-            android:title="Logout" />
+            android:title="Logout"
+            android:visible="false" />
+        <item
+            android:id="@+id/nav_login"
+            android:icon="@drawable/ic_menu_logout"
+            android:name="Login"
+            android:title="Login"
+            android:visible="true" />
     </group>
 
 </menu>
