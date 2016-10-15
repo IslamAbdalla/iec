@@ -149,27 +149,24 @@ public class WebDownloaderTask  extends AsyncTask<String, Void, String> {
                 }
                 break;
             case LOG_IN:
-                 if (response != null && 0 == response.optInt("status")) {
-                     JSONObject userJSON = response.optJSONObject("user");
-                     User user = parseUser(userJSON);
-                     if (user != null) {
-                         Log.i("IEC", "onPostExecute: user name: " + user.getName());
-                         Log.i("IEC", "onPostExecute: username: " + user.getUsername());
-                         Log.i("IEC", "onPostExecute: user password: " + user.getPassword());
-                         Log.i("IEC", "onPostExecute: user address: " + user.getAddress());
-                         Log.i("IEC", "onPostExecute: user email: " + user.getEmail());
-                         Log.i("IEC", "onPostExecute: user job: " + user.getJob());
-                         Log.i("IEC", "onPostExecute: user phone: " + user.getPhone());
-                     }
-                 }
+                if (response != null && 0 == response.optInt("status")) {
+                    JSONObject userJSON = response.optJSONObject("user");
+                    User user = parseUser(userJSON);
+                    if (user != null) {
+                        Login loginActivity = (Login) activityWeakReference.get();
+                        if (loginActivity != null) {
+                            PrefManager prefManager = new PrefManager(loginActivity);
+                            prefManager.setUser(user);
+                            prefManager.setIsLoggedIn(true);
+                            loginActivity.completeLogin();
+//                            Log.i("IEC", "onPostExecute: prefManager " + prefManager.isFirstTimeLaunch());
+                        }
+                    }
+                }
                 else {
-                     // TODO: Handle failed login attempt
-                     return;
-                 }
-                Activity loginActivity = activityWeakReference.get();
-//                if (loginActivity != null) {
-//
-//                }
+                    // TODO: Handle failed login attempt
+                    return;
+                }
 
                 progressDialog.dismiss();
         }
