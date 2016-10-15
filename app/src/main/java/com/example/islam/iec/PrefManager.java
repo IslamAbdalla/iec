@@ -21,7 +21,9 @@ public class PrefManager {
     private static final String IS_LOGGED_IN = "IsLoggedIn";
 
     // User data
+    private static final String USER_NAME = "UserName";
     private static final String USERNAME = "Username";
+    private static final String USER_PASSWORD = "UserPassword";
     private static final String USER_EMAIL = "UserEmail";
     private static final String USER_PHONE = "UserPhone";
     private static final String USER_ADDRESS = "UserAddress";
@@ -53,6 +55,8 @@ public class PrefManager {
 
     public void setUser(User user){
         editor.putString(USERNAME, user.getUsername());
+        editor.putString(USER_NAME, user.getName());
+        editor.putString(USER_PASSWORD, user.getPassword());
         editor.putString(USER_EMAIL, user.getEmail());
         editor.putString(USER_PHONE, user.getPhone());
         editor.putString(USER_ADDRESS, user.getAddress());
@@ -61,10 +65,12 @@ public class PrefManager {
     }
 
     public User getUser() {
-        return new User(pref.getString(USER_PHONE, "No data"),
-                        pref.getString(USER_PHONE, "No data"),
-                        pref.getString(USER_PHONE, "No data"),
-                        pref.getString(USER_PHONE, "No data"),
+        return new User(pref.getString(USER_NAME, "No data"),
+                        pref.getString(USERNAME, "No data"),
+                        pref.getString(USER_PASSWORD, "No data"),
+                        pref.getString(USER_ADDRESS, "No data"),
+                        pref.getString(USER_EMAIL, "No data"),
+                        pref.getString(USER_JOB, "No data"),
                         pref.getString(USER_PHONE, "No data")
                         );
     }

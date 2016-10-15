@@ -50,12 +50,15 @@ public class WebDownloaderTask  extends AsyncTask<String, Void, String> {
         switch (action){
             case LOG_IN:
                 Activity loginActivity = activityWeakReference.get();
-                progressDialog = ProgressDialog.show(loginActivity, "Signing in", "Please wait");
-                EditText usernameEditText = (EditText) loginActivity.findViewById(R.id.username_input);
-                EditText passwordEditText = (EditText) loginActivity.findViewById(R.id.password_input);
-                if (usernameEditText != null) {
-                    username = usernameEditText.getText().toString();
-                    password = passwordEditText.getText().toString();
+                if (loginActivity != null) {
+                    progressDialog = ProgressDialog.show(loginActivity, "Signing in", "Please wait");
+                    EditText usernameEditText = (EditText) loginActivity.findViewById(R.id.username_input);
+                    EditText passwordEditText = (EditText) loginActivity.findViewById(R.id.password_input);
+                    if (usernameEditText != null) {
+                        username = usernameEditText.getText().toString();
+                        password = passwordEditText.getText().toString();
+                    }
+
                 }
 
         }
@@ -146,9 +149,48 @@ public class WebDownloaderTask  extends AsyncTask<String, Void, String> {
                 }
                 break;
             case LOG_IN:
+                 if (response != null && 0 == response.optInt("status")) {
+                     JSONObject userJSON = response.optJSONObject("user");
+                     User user = parseUser(userJSON);
+                     if (user != null) {
+                         Log.i("IEC", "onPostExecute: user name: " + user.getName());
+                         Log.i("IEC", "onPostExecute: username: " + user.getUsername());
+                         Log.i("IEC", "onPostExecute: user password: " + user.getPassword());
+                         Log.i("IEC", "onPostExecute: user address: " + user.getAddress());
+                         Log.i("IEC", "onPostExecute: user email: " + user.getEmail());
+                         Log.i("IEC", "onPostExecute: user job: " + user.getJob());
+                         Log.i("IEC", "onPostExecute: user phone: " + user.getPhone());
+                     }
+                 }
+                else {
+                     // TODO: Handle failed login attempt
+                     return;
+                 }
+                Activity loginActivity = activityWeakReference.get();
+//                if (loginActivity != null) {
+//
+//                }
+
                 progressDialog.dismiss();
         }
 
+    }
+
+    private User parseUser(JSONObject userJSON) {
+        try {
+            return new User(
+                    userJSON.getString("name"),
+                    username,
+                    password,
+                    userJSON.getString("address"),
+                    userJSON.getString("email"),
+                    userJSON.getString("job"),
+                    userJSON.getString("phone")
+            );
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     private ArrayList<Event>  parseEvents(JSONArray eventsJSONArray, ArrayList<Event> latestEventsList) throws JSONException {
