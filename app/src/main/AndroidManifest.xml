@@ -19,7 +19,11 @@
         <activity
             android:name=".BusinessGuideActivity"
             android:configChanges="orientation"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.islam.iec.MainActivity" />
+        </activity>>
         <activity
             android:name=".EventActivity"
             android:configChanges="orientation"
