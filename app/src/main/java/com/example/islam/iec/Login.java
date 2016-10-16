@@ -22,6 +22,10 @@ public class Login extends AppCompatActivity {
 
     }
 
+    /**
+     * Called when the sign in button is clicked
+     * @param view the view
+     */
     public void signIn(View view){
         new WebDownloaderTask(this, WebDownloaderTask.LOG_IN).execute("http://www.test.com/index.html");
     }

@@ -240,7 +240,7 @@ public class MainActivity extends AppCompatActivity
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     Intent intent = new Intent(MainActivity.this, SignUp.class);
-                    startActivity(intent);
+                    startActivityForResult(intent, 1);
                 }
             });
             alertDialogBuilder.show();

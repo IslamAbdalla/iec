@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.util.Base64;
 import android.util.Log;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -15,6 +16,8 @@ import org.json.JSONObject;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
@@ -33,14 +36,18 @@ public class WebDownloaderTask  extends AsyncTask<String, Void, String> {
     private int action;
     private String username, password;
     private ProgressDialog progressDialog;
+    private User registerUser;
+    final static public String TAG = "IEC";
 
 
     public WebDownloaderTask(Fragment fragment, int mAction) {
+        // If called from a fragment, such is the case when action is get events.
         fragmentWeakReference = new WeakReference<>(fragment);
         action = mAction;
 
     }
     public WebDownloaderTask(Activity activity, int mAction) {
+        // If called from an activity, such is the case when action is sign in, register.
         activityWeakReference = new WeakReference<>(activity);
         action = mAction;
     }
@@ -57,10 +64,28 @@ public class WebDownloaderTask  extends AsyncTask<String, Void, String> {
                     if (usernameEditText != null) {
                         username = usernameEditText.getText().toString();
                         password = passwordEditText.getText().toString();
+                        Log.d(TAG, "onPreExecute: Got username");
                     }
 
+                } else {
+                    Log.e("IEC", "onPreExecute: loginActivity is null." );
                 }
+                break;
+            case REGISTER:
+                Activity signUpActivity = activityWeakReference.get();
+                registerUser = new User("","","","","","","");
+                if (signUpActivity != null) {
+                    progressDialog = ProgressDialog.show(signUpActivity, "Signing up", "Please wait");
+                    EditText username = (EditText) signUpActivity.findViewById(R.id.username_input);
+                    EditText phone = (EditText) signUpActivity.findViewById(R.id.phone_input);
+                    EditText password = (EditText) signUpActivity.findViewById(R.id.password_input);
 
+                    registerUser.setUsername(username.getText().toString());
+                    registerUser.setPhone(phone.getText().toString());
+                    registerUser.setPassword(password.getText().toString());
+
+                }
+                break;
         }
 
     }
@@ -94,7 +119,19 @@ public class WebDownloaderTask  extends AsyncTask<String, Void, String> {
                         .build();
                 break;
             case REGISTER:
+                RequestBody requestBody = new MultipartBody.Builder()
+                        .setType(MultipartBody.FORM)
+                        .addFormDataPart("username", registerUser.getUsername())
+                        .addFormDataPart("phone", registerUser.getPassword())
+                        .addFormDataPart("password", registerUser.getPassword())
+                        .build();
+
                 route = "/register/";
+                request = new Request.Builder()
+                        .url(BASE_URL + route)
+                        .method("POST", RequestBody.create(null, new byte[0]))
+                        .post(requestBody)
+                        .build();
                 break;
             case BOOK:
                 route = "/book/";
@@ -129,7 +166,6 @@ public class WebDownloaderTask  extends AsyncTask<String, Void, String> {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
         switch (action) {
             case GET_EVENTS:
                 LatestEvents fragment = (LatestEvents) fragmentWeakReference.get();
@@ -149,25 +185,52 @@ public class WebDownloaderTask  extends AsyncTask<String, Void, String> {
                 }
                 break;
             case LOG_IN:
-                if (response != null && 0 == response.optInt("status")) {
-                    JSONObject userJSON = response.optJSONObject("user");
-                    User user = parseUser(userJSON);
-                    if (user != null) {
-                        Login loginActivity = (Login) activityWeakReference.get();
-                        if (loginActivity != null) {
-                            PrefManager prefManager = new PrefManager(loginActivity);
-                            prefManager.setUser(user);
-                            prefManager.setIsLoggedIn(true);
-                            loginActivity.completeLogin();
-//                            Log.i("IEC", "onPostExecute: prefManager " + prefManager.isFirstTimeLaunch());
-                        }
-                    }
-                }
-                else {
-                    // TODO: Handle failed login attempt
-                    return;
-                }
 
+                Login loginActivity = (Login) activityWeakReference.get();
+                if (response != null){
+                    if (0 == response.optInt("status")) {
+                        JSONObject userJSON = response.optJSONObject("user");
+                        User user = parseUser(userJSON);
+                        if (user != null) {
+                            if (loginActivity != null) {
+                                PrefManager prefManager = new PrefManager(loginActivity);
+                                prefManager.setUser(user);
+                                prefManager.setIsLoggedIn(true);
+                                loginActivity.completeLogin();
+                                Toast.makeText(loginActivity, "Logged in successfully.", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    } else if (!response.optString("error_msg").isEmpty()) {
+                        Toast.makeText(loginActivity, "Failed to log in.", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(loginActivity, "Unknown error occurred.", Toast.LENGTH_LONG).show();
+                    }
+                } else {
+                        Toast.makeText(loginActivity, "Could not connect to the server.", Toast.LENGTH_LONG).show();
+                }
+                progressDialog.dismiss();
+
+                break;
+
+            case REGISTER:
+                SignUp signUpActivity = (SignUp) activityWeakReference.get();
+                if (response != null) {
+                    if (0 == response.optInt("status")) {
+                        PrefManager prefManager = new PrefManager(signUpActivity);
+                        prefManager.setUser(registerUser);
+                        prefManager.setIsLoggedIn(true);
+                        signUpActivity.completeLogin();
+                        Toast.makeText(signUpActivity, "Signed up successfully.", Toast.LENGTH_LONG).show();
+
+                    } else if (!response.optString("error_msg").isEmpty()){
+                        Toast.makeText(signUpActivity, response.optString("error_msg"), Toast.LENGTH_LONG).show();
+                    } else {
+                        Toast.makeText(signUpActivity, "Unknown error occurred.", Toast.LENGTH_LONG).show();
+
+                    }
+                } else {
+                        Toast.makeText(signUpActivity, "Could not connect to the server.", Toast.LENGTH_LONG).show();
+                }
                 progressDialog.dismiss();
         }
 
