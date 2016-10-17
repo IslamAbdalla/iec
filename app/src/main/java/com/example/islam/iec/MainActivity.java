@@ -26,7 +26,8 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-    private PrefManager prefManager;
+    public PrefManager prefManager;
+    private MyEvents myEventsFragment;
 
 
     @Override
@@ -51,7 +52,7 @@ public class MainActivity extends AppCompatActivity
             navigationView.setItemIconTintList(null);
         }
 
-
+        myEventsFragment = new MyEvents();
         ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
         setupViewPager(viewPager);
 
@@ -60,15 +61,19 @@ public class MainActivity extends AppCompatActivity
             tabLayout.setupWithViewPager(viewPager);
         }
 
-        updateUI();
+        updateUI(true);
 
     }
 
     /**
      * This function is called to update the UI including the nav drawer buttons, booked tickets..
      * etc. Normally, this function is called after logging in and logging out.
+     * @param firstTime this param is needed so that updateTickets function is not called when
+     *                  updateUI is called from the constructor as the fragment is not created yet.
+     *                  Updating the tickets for the first time happens in the fragmant
+     *                  onActivityCreated method.
      */
-    public void updateUI() {
+    public void updateUI(Boolean firstTime) {
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         if (prefManager.isLoggedIn()){
             if (navigationView != null) {
@@ -76,6 +81,7 @@ public class MainActivity extends AppCompatActivity
                 navigationView.getMenu().findItem(R.id.nav_logout).setVisible(true);
                 navigationView.getMenu().findItem(R.id.nav_login).setVisible(false);
                 navigationView.getMenu().findItem(R.id.nav_signup).setVisible(false);
+
             }
         } else {
             if (navigationView != null) {
@@ -83,7 +89,12 @@ public class MainActivity extends AppCompatActivity
                 navigationView.getMenu().findItem(R.id.nav_logout).setVisible(false);
                 navigationView.getMenu().findItem(R.id.nav_login).setVisible(true);
                 navigationView.getMenu().findItem(R.id.nav_signup).setVisible(true);
+
+
             }
+        }
+        if(!firstTime) {
+            myEventsFragment.updateTickets(prefManager.isLoggedIn());
         }
     }
 
@@ -123,7 +134,7 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        updateUI();
+        updateUI(false);
         super.onActivityResult(requestCode, resultCode, data);
     }
 
@@ -171,7 +182,7 @@ public class MainActivity extends AppCompatActivity
                 prefManager.setUser(emptyUser);
                 prefManager.setIsLoggedIn(false);
 
-                updateUI();
+                updateUI(false);
                 Toast.makeText(MainActivity.this, "Logged out successfully", Toast.LENGTH_SHORT).show();
 
             }
@@ -191,7 +202,7 @@ public class MainActivity extends AppCompatActivity
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
         adapter.addFragment(new LatestEvents(), "Events");
-        adapter.addFragment(new MyEvents(), "My Tickets");
+        adapter.addFragment(myEventsFragment, "My Tickets");
         viewPager.setAdapter(adapter);
     }
 

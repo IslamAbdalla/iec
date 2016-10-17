@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_marginTop="6dip"
+    android:layout_marginTop="12dip"
     android:layout_marginEnd="6dip"
     android:layout_marginStart="6dp"
     android:layout_marginBottom="10dp"
@@ -30,7 +30,7 @@
             android:text="Event Name"
             android:textColor="#444"
             android:padding="10dip"
-            android:textSize="22sp"
+            android:textSize="18sp"
             android:layout_alignParentTop="true"
             android:layout_toEndOf="@id/color_bar"
             android:gravity="center"/>
@@ -47,8 +47,8 @@
             android:id="@+id/ticket_event_reg_code"
             android:text="Click to view"
             android:textColor="#666"
-            android:padding="3dip"
-            android:textSize="18sp"
+            android:padding="6dip"
+            android:textSize="14sp"
             android:layout_below="@id/ticket_sep"
             android:layout_toEndOf="@id/color_bar"
             android:gravity="center"/>

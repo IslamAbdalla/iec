@@ -25,6 +25,7 @@ public class MyEvents extends Fragment {
     private EventTicketsAdapter myEventsAdapter;
     private RecyclerView.LayoutManager myEventsLayoutManager;
     ArrayList<EventTicket> myEventsList;
+    private PrefManager prefManager;
 
     public MyEvents() {
         // Required empty public constructor
@@ -35,7 +36,7 @@ public class MyEvents extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        new WebDownloaderTask(this, WebDownloaderTask.GET_TICKETS).execute("http://www.test.com/index.html");
+
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_my_events, container, false);
 
@@ -60,7 +61,13 @@ public class MyEvents extends Fragment {
         myEventsAdapter = new EventTicketsAdapter(getActivity(), myEventsList);
         myEventsRecyclerView.setAdapter(myEventsAdapter);
 
+        prefManager = new PrefManager(getContext());
 
+        if (prefManager.isLoggedIn() ){
+            new WebDownloaderTask(this, WebDownloaderTask.GET_TICKETS).execute("http://www.test.com/index.html");
+        } else {
+            showNoTicketsIndicator();
+        }
 
     }
 
@@ -86,6 +93,16 @@ public class MyEvents extends Fragment {
         Log.i("IEC", "clearTickets: Cleared first called");
         showNoTicketsIndicator();
         myEventsAdapter.clearTickets();
+    }
+
+    public void updateTickets(Boolean isLoggedIn){
+        Log.d("IEC", "updateTickets: updateTickets called");
+
+        if (isLoggedIn ){
+            new WebDownloaderTask(this, WebDownloaderTask.GET_TICKETS).execute("http://www.test.com/index.html");
+        } else {
+            clearTickets();
+        }
     }
 
 
