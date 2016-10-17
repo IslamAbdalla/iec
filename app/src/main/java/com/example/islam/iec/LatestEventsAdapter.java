@@ -1,12 +1,16 @@
 package com.example.islam.iec;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -22,6 +26,7 @@ public class LatestEventsAdapter extends RecyclerView.Adapter<LatestEventsAdapte
     private ArrayList<Event> eventsList;
     final private int UPCOMING = 1, PAST = 0, SEPARATOR = 2;
     private Context context;
+    private PrefManager prefManager;
 
 
     // Provide a reference to the view for each data item
@@ -33,6 +38,7 @@ public class LatestEventsAdapter extends RecyclerView.Adapter<LatestEventsAdapte
         public TextView txtDate;
         public ImageView imgEvent;
         public RelativeLayout rootLayout;
+        public Button bookButton;
 
         public ViewHolder(View v) {
             super(v);
@@ -44,6 +50,8 @@ public class LatestEventsAdapter extends RecyclerView.Adapter<LatestEventsAdapte
             txtDate = (TextView) v.findViewById(R.id.event_date);
             imgEvent = (ImageView) v.findViewById(R.id.event_pic);
             rootLayout = (RelativeLayout) v.findViewById(R.id.root_layout);
+            bookButton = (Button) v.findViewById(R.id.btn_book);
+
         }
 
     }
@@ -53,6 +61,7 @@ public class LatestEventsAdapter extends RecyclerView.Adapter<LatestEventsAdapte
     public LatestEventsAdapter(Context context, ArrayList<Event> inEventsList) {
         this.context = context;
         eventsList = inEventsList;
+        prefManager = new PrefManager(context);
     }
 
     // Provide a data updater function
@@ -125,6 +134,38 @@ public class LatestEventsAdapter extends RecyclerView.Adapter<LatestEventsAdapte
                     v.getContext().startActivity(intent);
                 }
             });
+            if (holder.bookButton != null) {
+                holder.bookButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Log.i("IEC", "bookEvent: loggedIn: " + prefManager.isLoggedIn());
+                        if (prefManager.isLoggedIn()) {
+                            new WebDownloaderTask((Activity) context, WebDownloaderTask.BOOK).execute(event.getId());
+                        } else {
+                            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
+                            alertDialogBuilder.setMessage("Are you sure you are logged in?");
+                            alertDialogBuilder.setPositiveButton("Log in", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    Intent intent = new Intent(context, Login.class);
+                                    ((Activity) context).startActivityForResult(intent, 0);
+
+                                }
+                            });
+
+                            alertDialogBuilder.setNegativeButton("Sign up", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    Intent intent = new Intent(context, SignUp.class);
+                                    ((Activity) context).startActivityForResult(intent, 1);
+                                }
+                            });
+                            alertDialogBuilder.show();
+                        }
+
+                    }
+                });
+            }
         }
     }
 

@@ -16,6 +16,7 @@ public class Event implements Parcelable{
     private String name;
     private String date;
     private String description;
+    private String id;
 
     private String image;
     private @DrawableRes int imageId;
@@ -25,8 +26,9 @@ public class Event implements Parcelable{
     private Boolean isSeparator;
     private ArrayList<Project> projects;
 
-    public Event(String title, String location,String locationText, String date, String description, String image, Boolean upcoming) {
+    public Event(String title, String id, String location,String locationText, String date, String description, String image, Boolean upcoming) {
         this.name = title;
+        this.id = id;
         this.location = location;
         this.locationText = locationText;
         this.date = date;
@@ -37,6 +39,7 @@ public class Event implements Parcelable{
     }
     public Event(String string){
         this.name = null;
+        this.id = null;
         this.location = null;
         this.locationText = null;
         this.date = null;
@@ -59,6 +62,13 @@ public class Event implements Parcelable{
         return date;
     }
 
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
     public void setDate(String date) {
         this.date = date;
     }

@@ -70,7 +70,7 @@ public class MainActivity extends AppCompatActivity
      * etc. Normally, this function is called after logging in and logging out.
      * @param firstTime this param is needed so that updateTickets function is not called when
      *                  updateUI is called from the constructor as the fragment is not created yet.
-     *                  Updating the tickets for the first time happens in the fragmant
+     *                  Updating the tickets for the first time happens in the fragment
      *                  onActivityCreated method.
      */
     public void updateUI(Boolean firstTime) {
@@ -236,33 +236,8 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-
-    public void bookEvent(View view){
-
-        Log.i("IEC", "bookEvent: loggedIn: " + prefManager.isLoggedIn());
-        if (!prefManager.isLoggedIn()) {
-            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-            alertDialogBuilder.setMessage("Are you sure you are logged in?");
-            alertDialogBuilder.setPositiveButton("Log in", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    Intent intent = new Intent(MainActivity.this, Login.class);
-                    startActivityForResult(intent, 0);
-
-                }
-            });
-
-            alertDialogBuilder.setNegativeButton("Sign up", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    Intent intent = new Intent(MainActivity.this, SignUp.class);
-                    startActivityForResult(intent, 1);
-                }
-            });
-            alertDialogBuilder.show();
-        }
+    public void addTicket(){
+        Log.d("IEC", "addTicket: Hehe, I am called");
     }
-
-
 
 }

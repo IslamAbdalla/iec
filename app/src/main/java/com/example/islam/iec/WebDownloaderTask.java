@@ -29,7 +29,7 @@ import okhttp3.Response;
 
 
 public class WebDownloaderTask  extends AsyncTask<String, Void, String> {
-    private static final String BASE_URL = "http://192.168.0.114/wp-json/iec-api/v1";
+    private static final String BASE_URL = "http://192.168.43.155/wp-json/iec-api/v1";
     WeakReference<Fragment> fragmentWeakReference;
     WeakReference<Activity> activityWeakReference;
     final static public int GET_EVENTS = 0, GET_TICKETS = 1, LOG_IN = 2, REGISTER = 3, BOOK = 4;
@@ -93,10 +93,11 @@ public class WebDownloaderTask  extends AsyncTask<String, Void, String> {
     }
 
     @Override
-    protected String doInBackground(String... urls) {
+    protected String doInBackground(String... string) {
         String route;
         OkHttpClient client = new OkHttpClient();
         Request request;
+        RequestBody requestBody;
         request = new Request.Builder()
                 .url(BASE_URL )
                 .build();
@@ -127,7 +128,7 @@ public class WebDownloaderTask  extends AsyncTask<String, Void, String> {
                         .build();
                 break;
             case REGISTER:
-                RequestBody requestBody = new MultipartBody.Builder()
+                requestBody = new MultipartBody.Builder()
                         .setType(MultipartBody.FORM)
                         .addFormDataPart("username", registerUser.getUsername())
                         .addFormDataPart("phone", registerUser.getPassword())
@@ -143,6 +144,20 @@ public class WebDownloaderTask  extends AsyncTask<String, Void, String> {
                 break;
             case BOOK:
                 route = "/book/";
+                String eventID = string[0];
+                Log.d(TAG, "doInBackground: eventID: " + eventID);
+                requestBody = new MultipartBody.Builder()
+                        .setType(MultipartBody.FORM)
+                        .addFormDataPart("event", eventID)
+                        .build();
+                request = new Request.Builder()
+                        .url(BASE_URL + route)
+                        .method("POST", RequestBody.create(null, new byte[0]))
+                        .header("Authorization", "Basic "+ Base64.encodeToString("wordpressuser:3IeOHORJOeCQq^%oUV".getBytes(),Base64.NO_WRAP))
+//                        .header("Authorization", "Basic "+ Base64.encodeToString((username + ":" + password).getBytes(),Base64.NO_WRAP))
+                        .post(requestBody)
+                        .build();
+
                 break;
             default:
                 route = "/";
@@ -262,6 +277,12 @@ public class WebDownloaderTask  extends AsyncTask<String, Void, String> {
                 }
 
                 break;
+            case BOOK:
+                Log.d(TAG, "onPostExecute: book" + s);
+                MainActivity mainActivity = (MainActivity) activityWeakReference.get();
+
+                mainActivity.addTicket();
+                break;
         }
 
     }
@@ -304,6 +325,7 @@ public class WebDownloaderTask  extends AsyncTask<String, Void, String> {
                 separator = 0;
             }
             latestEventsList.add(new Event(event.optString("name"),
+                    event.optString("id"),
                     event.optString("location"),
                     event.optString("location"),
                     event.optString("date"),
