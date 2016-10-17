@@ -11,12 +11,14 @@
         android:id="@+id/my_events_rec_view"/>
 
     <TextView
+        android:id="@+id/no_tickets_indicator"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center_horizontal"
         android:paddingTop="40dp"
         android:textSize="18sp"
         android:textColor="@color/textGray"
-        android:text="You haven't booked any events yet." />
+        android:text="You haven't booked any events yet."
+        android:visibility="invisible"/>
 
 </FrameLayout>
