@@ -27,6 +27,12 @@
             android:title="Logout"
             android:visible="false" />
         <item
+            android:id="@+id/nav_signup"
+            android:icon="@drawable/ic_menu_profile"
+            android:name="Sign up"
+            android:title="Sign up"
+            android:visible="true" />
+        <item
             android:id="@+id/nav_login"
             android:icon="@drawable/ic_menu_logout"
             android:name="Login"

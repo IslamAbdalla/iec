@@ -18,6 +18,7 @@
         android:paddingTop="40dp"
         android:textSize="18sp"
         android:textColor="#aaa"
-        android:text="No events yet. Try again later." />
+        android:text="No events yet. Try again later."
+        android:visibility="invisible"/>
 
 </FrameLayout>

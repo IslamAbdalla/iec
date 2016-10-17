@@ -75,12 +75,14 @@ public class MainActivity extends AppCompatActivity
                 navigationView.getMenu().findItem(R.id.nav_profile).setVisible(true);
                 navigationView.getMenu().findItem(R.id.nav_logout).setVisible(true);
                 navigationView.getMenu().findItem(R.id.nav_login).setVisible(false);
+                navigationView.getMenu().findItem(R.id.nav_signup).setVisible(false);
             }
         } else {
             if (navigationView != null) {
                 navigationView.getMenu().findItem(R.id.nav_profile).setVisible(false);
                 navigationView.getMenu().findItem(R.id.nav_logout).setVisible(false);
                 navigationView.getMenu().findItem(R.id.nav_login).setVisible(true);
+                navigationView.getMenu().findItem(R.id.nav_signup).setVisible(true);
             }
         }
     }
@@ -146,6 +148,9 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_login) {
             Intent intent = new Intent(MainActivity.this, Login.class);
             startActivityForResult(intent,0);
+        } else  if (id == R.id.nav_signup) {
+            Intent intent = new Intent(MainActivity.this, SignUp.class);
+            startActivityForResult(intent, 1);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

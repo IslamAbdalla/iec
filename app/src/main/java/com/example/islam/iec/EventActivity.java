@@ -60,7 +60,7 @@ public class EventActivity extends AppCompatActivity {
 
             if (event.getUpcoming())
             Picasso.with(this)
-                    .load("https://fb-s-a-a.akamaihd.net//h-ak-xat1//v//t1.0-9//12243032_588909211249762_6871105849622827936_n.jpg?oh=15e8d8828e7b560a9ba1532540b6fcb2&oe=58AB55EB&__gda__=1487484599_4fa96e8a83a13079b227a7c65ca2afaf")
+                    .load("https://scontent.xx.fbcdn.net/v/t1.0-9/14358705_715127548627927_376893474631163672_n.jpg?oh=3452f21fa868e991606207fe0bc8ad23&oe=5866434F")
                     //.resize(holder.imgEvent.getMeasuredWidth(),360)
                     .fit()
                     .centerCrop()
