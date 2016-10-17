@@ -34,6 +34,8 @@ public class MyEvents extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        new WebDownloaderTask(this, WebDownloaderTask.GET_TICKETS).execute("http://www.test.com/index.html");
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_my_events, container, false);
 
@@ -42,14 +44,12 @@ public class MyEvents extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        showNoTicketsIndicator();
 
         myEventsRecyclerView = (RecyclerView) getView().findViewById(R.id.my_events_rec_view);
         myEventsRecyclerView.setHasFixedSize(true);
 
         myEventsList = new ArrayList<>();
-        myEventsList.add(new EventTicket("Startup Weekend Khartoum", "KF32kDCZ3DXE523D"));
-        myEventsList.add(new EventTicket("Startup Grind", "AdgSEd42dVdf43GsdS"));
-
 
 
         // Use linear layout manager
@@ -60,10 +60,11 @@ public class MyEvents extends Fragment {
         myEventsAdapter = new EventTicketsAdapter(getActivity(), myEventsList);
         myEventsRecyclerView.setAdapter(myEventsAdapter);
 
-        myEventsAdapter.addTicket(new EventTicket("Test Added", "Ooh! I like you."));
+
+
     }
 
-        public void hideNoTicketsIndicator(){
+    public void hideNoTicketsIndicator(){
         TextView textView = (TextView) getView().findViewById(R.id.no_tickets_indicator);
         textView.setVisibility(View.INVISIBLE);
     }
@@ -73,14 +74,17 @@ public class MyEvents extends Fragment {
     }
 
     public void setTickets(ArrayList<EventTicket> eventTickets) {
-        Log.i("IEC", "setEvents: Set");
+        Log.i("IEC", "setTickets: Set");
+        if (eventTickets.isEmpty()) showNoTicketsIndicator();
+        else hideNoTicketsIndicator();
         myEventsAdapter.updateDataSet(eventTickets);
         myEventsAdapter.notifyDataSetChanged();
 
     }
 
     public void clearTickets(){
-        Log.i("IEC", "clearEvents: Cleared first called");
+        Log.i("IEC", "clearTickets: Cleared first called");
+        showNoTicketsIndicator();
         myEventsAdapter.clearTickets();
     }
 

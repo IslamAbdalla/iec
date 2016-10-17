@@ -29,7 +29,7 @@ import okhttp3.Response;
 
 
 public class WebDownloaderTask  extends AsyncTask<String, Void, String> {
-    private static final String BASE_URL = "http://192.168.43.155/wp-json/iec-api/v1";
+    private static final String BASE_URL = "http://192.168.0.114/wp-json/iec-api/v1";
     WeakReference<Fragment> fragmentWeakReference;
     WeakReference<Activity> activityWeakReference;
     final static public int GET_EVENTS = 0, GET_TICKETS = 1, LOG_IN = 2, REGISTER = 3, BOOK = 4;
@@ -54,6 +54,8 @@ public class WebDownloaderTask  extends AsyncTask<String, Void, String> {
 
     @Override
     protected void onPreExecute() {
+
+        // Mainly to show the progress dialog
         switch (action){
             case LOG_IN:
                 Activity loginActivity = activityWeakReference.get();
@@ -99,6 +101,7 @@ public class WebDownloaderTask  extends AsyncTask<String, Void, String> {
                 .url(BASE_URL )
                 .build();
 
+        Log.d(TAG, "onPreExecute: Action: " + action);
         switch (action) {
             case GET_EVENTS:
                 route = "/get-events/";
@@ -108,6 +111,11 @@ public class WebDownloaderTask  extends AsyncTask<String, Void, String> {
                 break;
             case GET_TICKETS:
                 route = "/ticket/";
+                request = new Request.Builder()
+                        .url(BASE_URL + route)
+                        .header("Authorization", "Basic "+ Base64.encodeToString("wordpressuser:3IeOHORJOeCQq^%oUV".getBytes(),Base64.NO_WRAP))
+//                        .header("Authorization", "Basic "+ Base64.encodeToString((username + ":" + password).getBytes(),Base64.NO_WRAP))
+                        .build();
                 break;
             case LOG_IN:
                 route = "/login/";
@@ -159,7 +167,7 @@ public class WebDownloaderTask  extends AsyncTask<String, Void, String> {
     @Override
     protected void onPostExecute(String s) {
         super.onPostExecute(s);
-        Log.i("IEC", "onPostExecute: " + s);
+        Log.d("IEC", "onPostExecute: " + s);
         JSONObject response = null;
         try {
             response = new JSONObject(s);
@@ -232,8 +240,42 @@ public class WebDownloaderTask  extends AsyncTask<String, Void, String> {
                         Toast.makeText(signUpActivity, "Could not connect to the server.", Toast.LENGTH_LONG).show();
                 }
                 progressDialog.dismiss();
+                break;
+            case GET_TICKETS:
+                Log.d(TAG, "onPostExecute: get Tickets" + s);
+                MyEvents myEventsFragment = (MyEvents) fragmentWeakReference.get();
+                if (myEventsFragment != null) {
+
+                        if (response != null && 0 == response.optInt("status")) {
+                            myEventsFragment.clearTickets();
+                            JSONArray eventsJSONArray = response.optJSONArray("ticket");
+                            ArrayList<EventTicket> eventsTicketsList;
+
+                            try {
+                                eventsTicketsList = parseTickets(eventsJSONArray);
+                                myEventsFragment.setTickets(eventsTicketsList);
+                            } catch (JSONException e) {
+                                 e.printStackTrace();
+                            }
+                        }
+
+                }
+
+                break;
         }
 
+    }
+
+    private ArrayList<EventTicket> parseTickets(JSONArray ticketsJSONArray) throws JSONException{
+        ArrayList<EventTicket> eventTickets = new ArrayList<>();
+
+        for (int index = 0; index < ticketsJSONArray.length(); index++) {
+            JSONObject ticket = ticketsJSONArray.getJSONObject(index);
+            eventTickets.add(new EventTicket(
+                    ticket.optString("event"),
+                    ticket.optString("reg_code")));
+        }
+        return eventTickets;
     }
 
     private User parseUser(JSONObject userJSON) {
