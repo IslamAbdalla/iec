@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -59,6 +60,31 @@ public class EventTicketsAdapter extends RecyclerView.Adapter<EventTicketsAdapte
     public int getItemCount() {
         return eventTickets.size();
     }
+
+
+    public void clearTickets(){
+        Log.i("IEC", "clearEvents: Cleared!");
+        int listSize = eventTickets.size();
+        if (listSize > 0) {
+            for (int i = 0; i < listSize; i++) {
+                eventTickets.remove(0);
+            }
+
+            this.notifyItemRangeRemoved(0, listSize);
+        }
+
+    }
+
+    // Provide a data updater function
+    public void updateDataSet(ArrayList<EventTicket> inEventTickets) {
+        eventTickets = inEventTickets;
+    }
+
+    public void addTicket(EventTicket ticket) {
+        eventTickets.add(0, ticket);
+        notifyItemInserted(0);
+    }
+
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public TextView eventName;

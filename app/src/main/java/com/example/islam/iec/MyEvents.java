@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -58,6 +59,8 @@ public class MyEvents extends Fragment {
         // specify an adapter (See also next example)
         myEventsAdapter = new EventTicketsAdapter(getActivity(), myEventsList);
         myEventsRecyclerView.setAdapter(myEventsAdapter);
+
+        myEventsAdapter.addTicket(new EventTicket("Test Added", "Ooh! I like you."));
     }
 
         public void hideNoTicketsIndicator(){
@@ -68,4 +71,18 @@ public class MyEvents extends Fragment {
         TextView textView = (TextView) getView().findViewById(R.id.no_tickets_indicator);
         textView.setVisibility(View.VISIBLE);
     }
+
+    public void setTickets(ArrayList<EventTicket> eventTickets) {
+        Log.i("IEC", "setEvents: Set");
+        myEventsAdapter.updateDataSet(eventTickets);
+        myEventsAdapter.notifyDataSetChanged();
+
+    }
+
+    public void clearTickets(){
+        Log.i("IEC", "clearEvents: Cleared first called");
+        myEventsAdapter.clearTickets();
+    }
+
+
 }
