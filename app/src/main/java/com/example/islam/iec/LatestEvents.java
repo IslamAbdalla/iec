@@ -49,34 +49,34 @@ public class LatestEvents extends Fragment {
         latestEventsRecyclerView.setHasFixedSize(true);
         latestEventsList = new ArrayList<>();
 
-        latestEventsList.add(new Event("Startup Weekend Khartoum",
-                                    "Khartoum, Spark city",
-                                    "Khartoum, Spark city",
-                                    "2 Oct 2016",
-                                    "No description",
-                                    "",
-                                    true
-                                    ));
-
-        latestEventsList.add(new Event("Separator"));
-
-        latestEventsList.add(new Event("Startup Weekend Medani",
-                                    "Medani, Hantoob",
-                                    "Medani, Hantoob",
-                                    "2 Oct 2016",
-                                    "No description",
-                                    "",
-                                    false
-                                    ));
-
-        latestEventsList.add(new Event("Startup Grind",
-                                    "Bahri, Cooper",
-                                    "Bahri, Cooper",
-                                    "2 Oct 2016",
-                                    "No description",
-                                    "",
-                                    false
-                                    ));
+//        latestEventsList.add(new Event("Startup Weekend Khartoum",
+//                                    "Khartoum, Spark city",
+//                                    "Khartoum, Spark city",
+//                                    "2 Oct 2016",
+//                                    "No description",
+//                                    "",
+//                                    true
+//                                    ));
+//
+//        latestEventsList.add(new Event("Separator"));
+//
+//        latestEventsList.add(new Event("Startup Weekend Medani",
+//                                    "Medani, Hantoob",
+//                                    "Medani, Hantoob",
+//                                    "2 Oct 2016",
+//                                    "No description",
+//                                    "",
+//                                    false
+//                                    ));
+//
+//        latestEventsList.add(new Event("Startup Grind",
+//                                    "Bahri, Cooper",
+//                                    "Bahri, Cooper",
+//                                    "2 Oct 2016",
+//                                    "No description",
+//                                    "",
+//                                    false
+//                                    ));
 
         // Use linear layout manager
         latestEventsLayoutManager = new LinearLayoutManager(getActivity());
