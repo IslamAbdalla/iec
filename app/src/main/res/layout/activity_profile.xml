@@ -47,6 +47,7 @@
                     android:paddingBottom="10dp"
                     android:textColor="#666"
                     android:paddingTop="4dp"
+                    android:id="@+id/profile_username"
                     />
                 <View
                     android:layout_width="match_parent"
@@ -77,6 +78,7 @@
                     android:paddingBottom="10dp"
                     android:textColor="#666"
                     android:paddingTop="4dp"
+                    android:id="@+id/profile_phone"
                     />
 
             </LinearLayout>
@@ -126,6 +128,7 @@
                     android:paddingBottom="10dp"
                     android:textColor="#666"
                     android:paddingTop="4dp"
+                    android:id="@+id/profile_name"
                     />
                 <View
                     android:layout_width="match_parent"
@@ -156,6 +159,7 @@
                     android:paddingBottom="10dp"
                     android:textColor="#666"
                     android:paddingTop="4dp"
+                    android:id="@+id/profile_email"
                     />
                 <View
                     android:layout_width="match_parent"
@@ -186,6 +190,7 @@
                     android:paddingBottom="10dp"
                     android:textColor="#666"
                     android:paddingTop="4dp"
+                    android:id="@+id/profile_address"
                     />
                 <View
                     android:layout_width="match_parent"
@@ -215,6 +220,7 @@
                     android:paddingBottom="10dp"
                     android:textColor="#666"
                     android:paddingTop="4dp"
+                    android:id="@+id/profile_job"
                     />
             </LinearLayout>
 
