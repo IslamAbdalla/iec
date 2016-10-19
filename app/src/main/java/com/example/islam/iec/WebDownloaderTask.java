@@ -29,7 +29,7 @@ import okhttp3.Response;
 
 
 public class WebDownloaderTask  extends AsyncTask<String, Void, String> {
-    private static final String BASE_URL = "http://192.168.43.155/wp-json/iec-api/v1";
+    private static final String BASE_URL = "http://192.168.0.114/wp-json/iec-api/v1";
     WeakReference<Fragment> fragmentWeakReference;
     WeakReference<Activity> activityWeakReference;
     final static public int GET_EVENTS = 0, GET_TICKETS = 1, LOG_IN = 2, REGISTER = 3, BOOK = 4;

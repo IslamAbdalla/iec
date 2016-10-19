@@ -23,7 +23,8 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.islam.iec.MainActivity" />
-        </activity>>
+        </activity>
+        >
         <activity
             android:name=".EventActivity"
             android:configChanges="orientation"
@@ -63,6 +64,10 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.islam.iec.MainActivity" />
         </activity>
+        <activity android:name=".ProfileActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.islam.iec.MainActivity" /></activity>
     </application>
 
 </manifest>
