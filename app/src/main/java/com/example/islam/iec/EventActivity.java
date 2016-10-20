@@ -1,6 +1,7 @@
 package com.example.islam.iec;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
@@ -12,6 +13,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -105,5 +107,11 @@ public class EventActivity extends AppCompatActivity {
 
 
 
+    }
+
+    public void openProjects(View view) {
+
+        Intent intent = new Intent(this, ProjectsActivity.class);
+        startActivity(intent);
     }
 }

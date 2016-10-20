@@ -237,7 +237,8 @@
                     android:orientation="horizontal"
                     android:focusable="true"
                     android:clickable="true"
-                    android:background="?android:attr/selectableItemBackground">
+                    android:background="?android:attr/selectableItemBackground"
+                    android:onClick="openProjects">
 
                     <FrameLayout
                         android:layout_width="70dp"
