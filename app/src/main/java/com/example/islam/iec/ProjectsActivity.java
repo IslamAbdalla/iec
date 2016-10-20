@@ -16,22 +16,27 @@ public class ProjectsActivity extends AppCompatActivity {
     private RecyclerView.LayoutManager projectsLayoutManager;
     ArrayList<Project> projectsList;
     private PrefManager prefManager;
+    private String eventID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_projects);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        
+
+
+        Bundle data = getIntent().getExtras();
+        eventID = data.getString("eventID");
+        Log.d("IEC", "onCreate: Event ID "+ eventID );
         projectsRecyclerView = (RecyclerView) findViewById(R.id.projects_rec_view);
         if (projectsRecyclerView != null) {
             projectsRecyclerView.setHasFixedSize(true);
         }
 
         projectsList = new ArrayList<>();
-        projectsList.add(new Project("", "The great and powerful", "someURL"));
-        projectsList.add(new Project("My image", "The second project", "someURL"));
-        projectsList.add(new Project("", "Vote for me", "someURL"));
+        projectsList.add(new Project("", "The great and powerful", "someURL", "323"));
+        projectsList.add(new Project("My image", "The second project", "someURL", "52"));
+        projectsList.add(new Project("", "Vote for me", "someURL","81"));
 
 
         // Use linear layout manager

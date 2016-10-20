@@ -23,6 +23,7 @@ import com.squareup.picasso.Picasso;
  * Created by islam on 9/15/16.
  */
 public class EventActivity extends AppCompatActivity {
+    public Event event;
     public TextView title;
     public TextView location;
     public TextView date;
@@ -52,7 +53,7 @@ public class EventActivity extends AppCompatActivity {
 
         // Get event details
         Bundle data = getIntent().getExtras();
-        final Event event = data.getParcelable("event");
+        event = data.getParcelable("event");
         if (event != null ) {
             Log.i("IEC", "onCreate: Event.name: " +  event.getName());
             title.setText(event.getName());
@@ -112,6 +113,8 @@ public class EventActivity extends AppCompatActivity {
     public void openProjects(View view) {
 
         Intent intent = new Intent(this, ProjectsActivity.class);
+        Log.d("IEC", "openProjects: Event ID " + event.getId());
+        intent.putExtra("eventID", event.getId() );
         startActivity(intent);
     }
 }

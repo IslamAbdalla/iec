@@ -129,7 +129,7 @@ public class Event implements Parcelable{
         private String name;
         private String image;
         private String link;
-
+        private String id;
         public String getName() {
             return name;
         }
@@ -154,6 +154,15 @@ public class Event implements Parcelable{
             this.link = link;
         }
 
+        public String getId() {
+            return id;
+        }
+
+        public void setId(String id) {
+            this.id = id;
+        }
+
+
 
         @Override
         public int describeContents() {
@@ -165,6 +174,7 @@ public class Event implements Parcelable{
             dest.writeString(this.name);
             dest.writeString(this.image);
             dest.writeString(this.link);
+            dest.writeString(this.id);
         }
 
         public Project() {
@@ -174,6 +184,7 @@ public class Event implements Parcelable{
             this.name = in.readString();
             this.image = in.readString();
             this.link = in.readString();
+            this.id = in.readString();
         }
 
         public static final Creator<Project> CREATOR = new Creator<Project>() {
@@ -198,6 +209,7 @@ public class Event implements Parcelable{
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(this.name);
         dest.writeString(this.date);
+        dest.writeString(this.id);
         dest.writeString(this.description);
         dest.writeString(this.image);
         dest.writeInt(this.imageId);
@@ -211,6 +223,7 @@ public class Event implements Parcelable{
     protected Event(Parcel in) {
         this.name = in.readString();
         this.date = in.readString();
+        this.id = in.readString();
         this.description = in.readString();
         this.image = in.readString();
         this.imageId = in.readInt();

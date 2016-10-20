@@ -182,6 +182,8 @@ public class WebDownloaderTask  extends AsyncTask<String, Void, String> {
                 requestBody = new MultipartBody.Builder()
                         .setType(MultipartBody.FORM)
                         .addFormDataPart("fullname", registerUser.getName())
+                        .addFormDataPart("password", registerUser.getPassword())
+                        .addFormDataPart("phone", registerUser.getPhone())
                         .addFormDataPart("job", registerUser.getJob())
                         .addFormDataPart("email", registerUser.getEmail())
                         .addFormDataPart("address", registerUser.getAddress())

@@ -7,11 +7,13 @@ public class Project {
     private String name;
     private String url;
     private String imageURL;
+    private String id;
 
-    public Project(String imageURL, String name, String url) {
+    public Project(String imageURL, String name, String url, String id) {
         this.imageURL = imageURL;
         this.name = name;
         this.url = url;
+        this.id = id;
     }
 
     public String getImageURL() {
@@ -36,5 +38,13 @@ public class Project {
 
     public void setUrl(String url) {
         this.url = url;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }
