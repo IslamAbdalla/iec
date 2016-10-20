@@ -78,7 +78,7 @@
                         android:focusable="true"
                         android:clickable="true"
                         android:background="?android:attr/selectableItemBackground"
-                        android:onClick="updateUserData"
+                        android:onClick="updateInput"
                         android:id="@+id/profile_password_layout">
                         <TextView
                             android:layout_width="wrap_content"
@@ -116,7 +116,7 @@
                         android:focusable="true"
                         android:clickable="true"
                         android:background="?android:attr/selectableItemBackground"
-                        android:onClick="updateUserData"
+                        android:onClick="updateInput"
                         android:id="@+id/profile_phone_layout">
                         <TextView
                             android:layout_width="wrap_content"
@@ -173,7 +173,7 @@
                         android:focusable="true"
                         android:clickable="true"
                         android:background="?android:attr/selectableItemBackground"
-                        android:onClick="updateUserData"
+                        android:onClick="updateInput"
                         android:id="@+id/profile_name_layout">
                         <TextView
                             android:layout_width="wrap_content"
@@ -211,7 +211,7 @@
                         android:focusable="true"
                         android:clickable="true"
                         android:background="?android:attr/selectableItemBackground"
-                        android:onClick="updateUserData"
+                        android:onClick="updateInput"
                         android:id="@+id/profile_email_layout">
                         <TextView
                             android:layout_width="wrap_content"
@@ -249,7 +249,7 @@
                         android:focusable="true"
                         android:clickable="true"
                         android:background="?android:attr/selectableItemBackground"
-                        android:onClick="updateUserData"
+                        android:onClick="updateInput"
                         android:id="@+id/profile_address_layout">
                         <TextView
                             android:layout_width="wrap_content"
@@ -286,7 +286,7 @@
                         android:focusable="true"
                         android:clickable="true"
                         android:background="?android:attr/selectableItemBackground"
-                        android:onClick="updateUserData"
+                        android:onClick="updateInput"
                         android:id="@+id/profile_job_layout">
                         <TextView
                             android:layout_width="wrap_content"
@@ -321,6 +321,7 @@
                 android:layout_height="wrap_content"
                 android:text="Update data"
                 android:background="@color/colorAccent"
+                android:onClick="updateUserData"
                 />
         </LinearLayout>
     </ScrollView>

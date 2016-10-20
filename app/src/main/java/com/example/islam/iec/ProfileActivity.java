@@ -8,7 +8,9 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
@@ -18,8 +20,8 @@ import android.widget.Toast;
 
 public class ProfileActivity extends AppCompatActivity {
     private PrefManager prefManager;
-    private User user;
-    private Boolean updated;
+    public User user;
+    public Boolean updated;
 
     private TextView username ;
     private TextView name  ;
@@ -28,6 +30,10 @@ public class ProfileActivity extends AppCompatActivity {
     private TextView email ;
     private TextView address  ;
     private TextView job  ;
+
+    public void setUpdated(Boolean updated) {
+        this.updated = updated;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,18 +94,19 @@ public class ProfileActivity extends AppCompatActivity {
 
     }
 
-    public void updateUserData(View view) {
+    public void updateInput(View view) {
 
         final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
         final EditText input = new EditText(ProfileActivity.this);
         LinearLayout.LayoutParams lp;
+        final View dialogView;
         LayoutInflater inflater = getLayoutInflater();
         switch (view.getId()) {
 
 
             case R.id.profile_password_layout:
                 alertDialogBuilder.setMessage("Update your password");
-                final View dialogView = inflater.inflate(R.layout.password_dialog, null);
+                dialogView = inflater.inflate(R.layout.password_dialog, null);
                 alertDialogBuilder.setView(dialogView)
 
                     .setPositiveButton("Update", new DialogInterface.OnClickListener() {
@@ -118,6 +125,7 @@ public class ProfileActivity extends AppCompatActivity {
                             Toast.makeText(ProfileActivity.this, "Password updated", Toast.LENGTH_SHORT).show();
                         password.setText(((EditText) dialogView.findViewById(R.id.dialog_new_password)).getText());
                         user.setPassword(((EditText) dialogView.findViewById(R.id.dialog_new_password)).getText().toString());
+                            updated = true;
                         }
                     }
                 })
@@ -132,18 +140,16 @@ public class ProfileActivity extends AppCompatActivity {
                 break;
             case R.id.profile_phone_layout:
                 alertDialogBuilder.setMessage("Update your phone");
-                lp = new LinearLayout.LayoutParams(
-                        LinearLayout.LayoutParams.MATCH_PARENT,
-                        LinearLayout.LayoutParams.MATCH_PARENT);
-                input.setLayoutParams(lp);
-                input.setInputType(EditorInfo.TYPE_CLASS_PHONE);
-                alertDialogBuilder.setView(input);
+                dialogView = inflater.inflate(R.layout.update_dialog, null);
+                ((EditText)dialogView.findViewById(R.id.dialog_input)).setInputType(EditorInfo.TYPE_CLASS_PHONE);
+                alertDialogBuilder.setView(dialogView);
                 alertDialogBuilder.setPositiveButton("Update", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
 //                        Toast.makeText(ProfileActivity.this, "Logged out successfully", Toast.LENGTH_SHORT).show();
-                        phone.setText(input.getText());
-                        user.setPhone(input.getText().toString());
+                        phone.setText(((EditText)dialogView.findViewById(R.id.dialog_input)).getText());
+                        user.setPhone(((EditText)dialogView.findViewById(R.id.dialog_input)).getText().toString());
+                        updated = true;
                     }
                 });
 
@@ -158,18 +164,15 @@ public class ProfileActivity extends AppCompatActivity {
 
             case R.id.profile_name_layout:
                 alertDialogBuilder.setMessage("Update your full name");
-                lp = new LinearLayout.LayoutParams(
-                        LinearLayout.LayoutParams.MATCH_PARENT,
-                        LinearLayout.LayoutParams.MATCH_PARENT);
-                input.setLayoutParams(lp);
-                input.setInputType(EditorInfo.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
-                alertDialogBuilder.setView(input);
+                dialogView = inflater.inflate(R.layout.update_dialog, null);
+                alertDialogBuilder.setView(dialogView);
                 alertDialogBuilder.setPositiveButton("Update", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
 //                        Toast.makeText(ProfileActivity.this, "Logged out successfully", Toast.LENGTH_SHORT).show();
-                        name.setText(input.getText().toString());
-                        user.setName(input.getText().toString());
+                        name.setText(((EditText)dialogView.findViewById(R.id.dialog_input)).getText().toString());
+                        user.setName(((EditText)dialogView.findViewById(R.id.dialog_input)).getText().toString());
+                        updated = true;
                     }
                 });
 
@@ -185,18 +188,16 @@ public class ProfileActivity extends AppCompatActivity {
 
             case R.id.profile_email_layout:
                 alertDialogBuilder.setMessage("Update you email");
-                lp = new LinearLayout.LayoutParams(
-                        LinearLayout.LayoutParams.MATCH_PARENT,
-                        LinearLayout.LayoutParams.MATCH_PARENT);
-                input.setLayoutParams(lp);
-                input.setInputType(EditorInfo.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
-                alertDialogBuilder.setView(input);
+                dialogView = inflater.inflate(R.layout.update_dialog, null);
+                ((EditText)dialogView.findViewById(R.id.dialog_input)).setInputType(EditorInfo.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
+                alertDialogBuilder.setView(dialogView);
                 alertDialogBuilder.setPositiveButton("Update", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
 //                        Toast.makeText(ProfileActivity.this, "Logged out successfully", Toast.LENGTH_SHORT).show();
-                        email.setText(input.getText().toString());
-                        user.setEmail(input.getText().toString());
+                        email.setText(((EditText)dialogView.findViewById(R.id.dialog_input)).getText().toString());
+                        user.setEmail(((EditText)dialogView.findViewById(R.id.dialog_input)).getText().toString());
+                        updated = true;
                     }
                 });
 
@@ -206,21 +207,19 @@ public class ProfileActivity extends AppCompatActivity {
 
                     }
                 });
-
+                break;
 
             case R.id.profile_address_layout:
                 alertDialogBuilder.setMessage("Update your address");
-                 lp = new LinearLayout.LayoutParams(
-                        LinearLayout.LayoutParams.MATCH_PARENT,
-                        LinearLayout.LayoutParams.MATCH_PARENT);
-                input.setLayoutParams(lp);
-                alertDialogBuilder.setView(input);
+                dialogView = inflater.inflate(R.layout.update_dialog, null);
+                alertDialogBuilder.setView(dialogView);
                 alertDialogBuilder.setPositiveButton("Update", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
 //                        Toast.makeText(ProfileActivity.this, "Logged out successfully", Toast.LENGTH_SHORT).show();
-                        address.setText(input.getText().toString());
-                        user.setAddress(input.getText().toString());
+                        address.setText(((EditText)dialogView.findViewById(R.id.dialog_input)).getText().toString());
+                        user.setAddress(((EditText)dialogView.findViewById(R.id.dialog_input)).getText().toString());
+                        updated = true;
                     }
                 });
 
@@ -235,17 +234,15 @@ public class ProfileActivity extends AppCompatActivity {
 
             case R.id.profile_job_layout:
                 alertDialogBuilder.setMessage("Update you job");
-                lp = new LinearLayout.LayoutParams(
-                        LinearLayout.LayoutParams.MATCH_PARENT,
-                        LinearLayout.LayoutParams.MATCH_PARENT);
-                input.setLayoutParams(lp);
-                alertDialogBuilder.setView(input);
+                dialogView = inflater.inflate(R.layout.update_dialog, null);
+                alertDialogBuilder.setView(dialogView);
                 alertDialogBuilder.setPositiveButton("Update", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
 //                        Toast.makeText(ProfileActivity.this, "Logged out successfully", Toast.LENGTH_SHORT).show();
-                        job.setText(input.getText().toString());
-                        user.setJob(input.getText().toString());
+                        job.setText(((EditText)dialogView.findViewById(R.id.dialog_input)).getText().toString());
+                        user.setJob(((EditText)dialogView.findViewById(R.id.dialog_input)).getText().toString());
+                        updated = true;
                     }
                 });
 
@@ -258,5 +255,54 @@ public class ProfileActivity extends AppCompatActivity {
 
         }
         alertDialogBuilder.show();
+    }
+
+    public void updateUserData(View view) {
+        new WebDownloaderTask(this, WebDownloaderTask.UPDATE).execute("http://www.test.com/index.html");
+    }
+
+    @Override
+    public void onBackPressed() {
+        Log.d("IEC", "onBackPressed: Back is clicked. Updated: "+ updated.toString());
+
+        if(updated){
+
+            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+            alertDialogBuilder.setMessage("You did not update your profile. Continue?");
+            alertDialogBuilder.setPositiveButton("No", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+
+
+//                    Toast.makeText(ProfileActivity.this, "Logged out successfully", Toast.LENGTH_SHORT).show();
+
+                }
+            });
+
+            alertDialogBuilder.setNegativeButton("Yes", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    ProfileActivity.super.onBackPressed();
+
+                }
+            });
+            alertDialogBuilder.show();
+        } else {
+
+            ProfileActivity.super.onBackPressed();
+        }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        Boolean returnFlag = false;
+    if (item.getItemId() == android.R.id.home) {
+//        this.onBackPressed();
+       // return false;
+        Log.d("IEC", "onOptionsItemSelected: Back is pressed");
+        this.onBackPressed();
+
+    }
+        return true;
     }
 }

@@ -29,10 +29,10 @@ import okhttp3.Response;
 
 
 public class WebDownloaderTask  extends AsyncTask<String, Void, String> {
-    private static final String BASE_URL = "http://192.168.0.114/wp-json/iec-api/v1";
+    private static final String BASE_URL = "http://192.168.43.155/wp-json/iec-api/v1";
     WeakReference<Fragment> fragmentWeakReference;
     WeakReference<Activity> activityWeakReference;
-    final static public int GET_EVENTS = 0, GET_TICKETS = 1, LOG_IN = 2, REGISTER = 3, BOOK = 4;
+    final static public int GET_EVENTS = 0, GET_TICKETS = 1, LOG_IN = 2, REGISTER = 3, BOOK = 4, UPDATE = 5;
     private int action;
     private String username, password;
     private ProgressDialog progressDialog;
@@ -47,7 +47,7 @@ public class WebDownloaderTask  extends AsyncTask<String, Void, String> {
 
     }
     public WebDownloaderTask(Activity activity, int mAction) {
-        // If called from an activity, such is the case when action is sign in, register.
+        // If called from an activity, such is the case when action is sign in, register, update.
         activityWeakReference = new WeakReference<>(activity);
         action = mAction;
     }
@@ -86,6 +86,22 @@ public class WebDownloaderTask  extends AsyncTask<String, Void, String> {
                     registerUser.setPhone(phone.getText().toString());
                     registerUser.setPassword(password.getText().toString());
 
+                }
+                break;
+            case UPDATE:
+                Activity profileActivity = activityWeakReference.get();
+                registerUser = new User("","","","","","","");
+                if (profileActivity != null) {
+                    progressDialog = ProgressDialog.show(profileActivity, "Updating data", "Please wait");
+                    registerUser.setPassword(((ProfileActivity) profileActivity).user.getPassword());
+                    registerUser.setName(((ProfileActivity) profileActivity).user.getName());
+                    registerUser.setEmail(((ProfileActivity) profileActivity).user.getEmail());
+                    registerUser.setJob(((ProfileActivity) profileActivity).user.getJob());
+                    registerUser.setAddress(((ProfileActivity) profileActivity).user.getAddress());
+                    registerUser.setPhone(((ProfileActivity) profileActivity).user.getPhone());
+                } else {
+
+                    Log.e(TAG, "onPreExecute: Failed to update user data");
                 }
                 break;
         }
@@ -158,6 +174,27 @@ public class WebDownloaderTask  extends AsyncTask<String, Void, String> {
                         .post(requestBody)
                         .build();
 
+                break;
+
+            case UPDATE:
+                route = "/update/";
+
+                requestBody = new MultipartBody.Builder()
+                        .setType(MultipartBody.FORM)
+                        .addFormDataPart("fullname", registerUser.getName())
+                        .addFormDataPart("job", registerUser.getJob())
+                        .addFormDataPart("email", registerUser.getEmail())
+                        .addFormDataPart("address", registerUser.getAddress())
+                        .build();
+
+                route = "/register/";
+                request = new Request.Builder()
+                        .url(BASE_URL + route)
+                        .method("POST", RequestBody.create(null, new byte[0]))
+                        .header("Authorization", "Basic "+ Base64.encodeToString("wordpressuser:3IeOHORJOeCQq^%oUV".getBytes(),Base64.NO_WRAP))
+//                        .header("Authorization", "Basic "+ Base64.encodeToString((username + ":" + password).getBytes(),Base64.NO_WRAP))
+                        .post(requestBody)
+                        .build();
                 break;
             default:
                 route = "/";
@@ -278,10 +315,35 @@ public class WebDownloaderTask  extends AsyncTask<String, Void, String> {
 
                 break;
             case BOOK:
+                // TODO: check for status 0
                 Log.d(TAG, "onPostExecute: book" + s);
                 MainActivity mainActivity = (MainActivity) activityWeakReference.get();
 
                 mainActivity.addTicket();
+                Toast.makeText(mainActivity, "Ticket booked", Toast.LENGTH_LONG).show();
+
+                break;
+            case UPDATE:
+                Log.d(TAG, "onPostExecute: update " + s);
+                ProfileActivity profileActivity = (ProfileActivity) activityWeakReference.get();
+                if (response != null) {
+                    if (0 == response.optInt("status")) {
+                        PrefManager prefManager = new PrefManager(profileActivity);
+                        prefManager.setUser(registerUser);
+                        prefManager.setIsLoggedIn(true);
+                        Toast.makeText(profileActivity, "Data updated successfully.", Toast.LENGTH_LONG).show();
+                        profileActivity.setUpdated(false);
+
+                    } else if (!response.optString("error_msg").isEmpty()){
+                        Toast.makeText(profileActivity, response.optString("error_msg"), Toast.LENGTH_LONG).show();
+                    } else {
+                        Toast.makeText(profileActivity, "Unknown error occurred.", Toast.LENGTH_LONG).show();
+
+                    }
+                } else {
+                    Toast.makeText(profileActivity, "Could not connect to the server.", Toast.LENGTH_LONG).show();
+                }
+                progressDialog.dismiss();
                 break;
         }
 
