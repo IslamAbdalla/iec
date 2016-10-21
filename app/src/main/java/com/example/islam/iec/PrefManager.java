@@ -34,6 +34,7 @@ public class PrefManager {
     private static final String USER_JOB = "UserJob";
 
     private static final String EVENTS_LIST = "EventsList";
+    private static final String TICKETS_LIST = "TicketsList";
 
     public PrefManager(Context context) {
         this._context = context;
@@ -91,4 +92,19 @@ public class PrefManager {
         String json = gson.toJson(eventsList);
         return pref.getString(EVENTS_LIST,json);
     }
+
+    public void setTicketsList(String ticketsList){
+        editor.putString(TICKETS_LIST, ticketsList);
+        editor.apply();
+    }
+
+    public String getTicketsList(){
+        ArrayList<EventTicket> eventsList = new ArrayList<>();
+        Gson gson = new Gson();
+        String json = gson.toJson(eventsList);
+        return pref.getString(TICKETS_LIST,json);
+    }
+
+
+
 }

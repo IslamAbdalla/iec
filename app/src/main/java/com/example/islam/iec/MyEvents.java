@@ -13,6 +13,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.islam.iec.R;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import java.util.ArrayList;
 
@@ -45,12 +47,19 @@ public class MyEvents extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        showNoTicketsIndicator();
-
         myEventsRecyclerView = (RecyclerView) getView().findViewById(R.id.my_events_rec_view);
         myEventsRecyclerView.setHasFixedSize(true);
 
         myEventsList = new ArrayList<>();
+
+        prefManager = new PrefManager(getContext());
+        Gson gson = new Gson();
+        String json = prefManager.getTicketsList();
+        myEventsList = gson.fromJson(json, new TypeToken<ArrayList<EventTicket>>(){}.getType());
+        if (myEventsList.isEmpty()) {
+            showNoTicketsIndicator();
+        }
+
 
 
         // Use linear layout manager

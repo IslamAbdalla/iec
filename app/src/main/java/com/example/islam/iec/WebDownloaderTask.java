@@ -314,12 +314,23 @@ public class WebDownloaderTask  extends AsyncTask<String, Void, String> {
                             JSONArray eventsJSONArray = response.optJSONArray("ticket");
                             ArrayList<EventTicket> eventsTicketsList;
 
+
+
                             try {
                                 eventsTicketsList = parseTickets(eventsJSONArray);
+
+                                Gson gson = new Gson();
+                                String json = gson.toJson(eventsTicketsList);
+                                PrefManager prefManager = new PrefManager(myEventsFragment.getContext());
+                                prefManager.setTicketsList(json);
+                                Log.d(TAG, "onPostExecute: Setting EventList: " + json);
+
                                 myEventsFragment.setTickets(eventsTicketsList);
                             } catch (JSONException e) {
                                  e.printStackTrace();
                             }
+
+
                         }
 
                 }
@@ -330,8 +341,25 @@ public class WebDownloaderTask  extends AsyncTask<String, Void, String> {
                 Log.d(TAG, "onPostExecute: book" + s);
                 MainActivity mainActivity = (MainActivity) activityWeakReference.get();
 
-                mainActivity.addTicket();
-                Toast.makeText(mainActivity, "Ticket booked", Toast.LENGTH_LONG).show();
+
+                if (response != null) {
+                    if (0 == response.optInt("status")) {
+                        PrefManager prefManager = new PrefManager(mainActivity);
+                        mainActivity.addTicket();
+                        Toast.makeText(mainActivity, "Ticket booked", Toast.LENGTH_LONG).show();
+
+
+                    } else if (!response.optString("error_msg").isEmpty()){
+                        Toast.makeText(mainActivity, response.optString("error_msg"), Toast.LENGTH_LONG).show();
+                    } else {
+                        Toast.makeText(mainActivity, "Unknown error occurred.", Toast.LENGTH_LONG).show();
+
+                    }
+                } else {
+                    Toast.makeText(mainActivity, "Could not connect to the server.", Toast.LENGTH_LONG).show();
+                }
+
+
 
                 break;
             case UPDATE:
