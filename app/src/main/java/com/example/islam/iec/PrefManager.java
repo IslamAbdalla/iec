@@ -3,6 +3,10 @@ package com.example.islam.iec;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.google.gson.Gson;
+
+import java.util.ArrayList;
+
 /**
  * Created by islam on 9/27/16.
  */
@@ -28,6 +32,8 @@ public class PrefManager {
     private static final String USER_PHONE = "UserPhone";
     private static final String USER_ADDRESS = "UserAddress";
     private static final String USER_JOB = "UserJob";
+
+    private static final String EVENTS_LIST = "EventsList";
 
     public PrefManager(Context context) {
         this._context = context;
@@ -73,5 +79,16 @@ public class PrefManager {
                         pref.getString(USER_JOB, "No data"),
                         pref.getString(USER_PHONE, "No data")
                         );
+    }
+    public void setEventsList(String eventsList){
+        editor.putString(EVENTS_LIST, eventsList);
+        editor.apply();
+    }
+
+    public String getEventsList(){
+        ArrayList<Event> eventsList = new ArrayList<>();
+        Gson gson = new Gson();
+        String json = gson.toJson(eventsList);
+        return pref.getString(EVENTS_LIST,json);
     }
 }

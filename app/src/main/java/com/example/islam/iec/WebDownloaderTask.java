@@ -9,6 +9,8 @@ import android.util.Log;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -238,6 +240,13 @@ public class WebDownloaderTask  extends AsyncTask<String, Void, String> {
                             JSONArray eventsJSONArray = response.optJSONArray("events");
                             ArrayList<Event> latestEventsList = new ArrayList<>();
                             latestEventsList = parseEvents(eventsJSONArray, latestEventsList);
+
+                            Gson gson = new Gson();
+                            String json = gson.toJson(latestEventsList);
+                            PrefManager prefManager = new PrefManager(fragment.getContext());
+                            prefManager.setEventsList(json);
+                            Log.d(TAG, "onPostExecute: Setting EventList: " + json);
+
 
                             fragment.setEvents(latestEventsList);
                         }

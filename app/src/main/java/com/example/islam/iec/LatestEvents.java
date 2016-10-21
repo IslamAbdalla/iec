@@ -11,6 +11,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -23,7 +26,8 @@ public class LatestEvents extends Fragment {
     private RecyclerView latestEventsRecyclerView;
     private LatestEventsAdapter latestEventsAdapter;
     private RecyclerView.LayoutManager latestEventsLayoutManager;
-    ArrayList<Event> latestEventsList;
+    private ArrayList<Event> latestEventsList;
+    private PrefManager prefManager;
 
 
     public LatestEvents() {
@@ -48,6 +52,12 @@ public class LatestEvents extends Fragment {
         latestEventsRecyclerView = (RecyclerView) getView().findViewById(R.id.latest_events_rec_view);
         latestEventsRecyclerView.setHasFixedSize(true);
         latestEventsList = new ArrayList<>();
+
+        prefManager = new PrefManager(getContext());
+
+        Gson gson = new Gson();
+        String json = prefManager.getEventsList();
+        latestEventsList = gson.fromJson(json, new TypeToken<ArrayList<Event>>(){}.getType());
 
 //        latestEventsList.add(new Event("Startup Weekend Khartoum",
 //                                    "Khartoum, Spark city",
