@@ -55,11 +55,17 @@ public class MyEvents extends Fragment {
         prefManager = new PrefManager(getContext());
         Gson gson = new Gson();
         String json = prefManager.getTicketsList();
-        myEventsList = gson.fromJson(json, new TypeToken<ArrayList<EventTicket>>(){}.getType());
-        if (myEventsList.isEmpty()) {
+
+        if (prefManager.isLoggedIn() ){
+
+            myEventsList = gson.fromJson(json, new TypeToken<ArrayList<EventTicket>>(){}.getType());
+            if (myEventsList.isEmpty()) {
+                showNoTicketsIndicator();
+            }
+            new WebDownloaderTask(this, WebDownloaderTask.GET_TICKETS).execute("http://www.test.com/index.html");
+        } else {
             showNoTicketsIndicator();
         }
-
 
 
         // Use linear layout manager
@@ -72,11 +78,6 @@ public class MyEvents extends Fragment {
 
         prefManager = new PrefManager(getContext());
 
-        if (prefManager.isLoggedIn() ){
-            new WebDownloaderTask(this, WebDownloaderTask.GET_TICKETS).execute("http://www.test.com/index.html");
-        } else {
-            showNoTicketsIndicator();
-        }
 
     }
 

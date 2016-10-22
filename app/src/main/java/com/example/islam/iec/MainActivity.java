@@ -255,9 +255,10 @@ public class MainActivity extends AppCompatActivity
         json = gson.toJson(eventTickets);
         prefManager.setTicketsList(json);
 
-        // Update tickets from server
-//        myEventsFragment.updateTickets(prefManager.isLoggedIn());
         latestEvents.setBooked(ticket.getEventID());
+
+        // Update tickets from server
+        myEventsFragment.updateTickets(prefManager.isLoggedIn());
 
     }
 
