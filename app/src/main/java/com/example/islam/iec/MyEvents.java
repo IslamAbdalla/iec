@@ -26,7 +26,7 @@ public class MyEvents extends Fragment {
     private RecyclerView myEventsRecyclerView;
     private EventTicketsAdapter myEventsAdapter;
     private RecyclerView.LayoutManager myEventsLayoutManager;
-    ArrayList<EventTicket> myEventsList;
+    public ArrayList<EventTicket> myEventsList;
     private PrefManager prefManager;
 
     public MyEvents() {

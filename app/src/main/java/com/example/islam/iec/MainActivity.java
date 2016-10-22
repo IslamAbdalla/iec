@@ -21,6 +21,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -237,8 +240,21 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    public void addTicket(){
-        Log.d("IEC", "addTicket: Hehe, I am called");
+    public void addTicket(EventTicket ticket){
+        Log.d("IEC", "addTicket: Adding ticket");
+        Gson gson = new Gson();
+
+        String json = prefManager.getTicketsList();
+        ArrayList<EventTicket> eventTickets = gson.fromJson(json, new TypeToken<ArrayList<EventTicket>>(){}.getType());
+
+        eventTickets.add(0, ticket);
+        myEventsFragment.setTickets(eventTickets);
+
+        json = gson.toJson(eventTickets);
+        prefManager.setTicketsList(json);
+
+        // Update tickets from server
+        myEventsFragment.updateTickets(prefManager.isLoggedIn());
 
     }
 

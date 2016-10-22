@@ -345,7 +345,7 @@ public class WebDownloaderTask  extends AsyncTask<String, Void, String> {
                 if (response != null) {
                     if (0 == response.optInt("status")) {
                         PrefManager prefManager = new PrefManager(mainActivity);
-                        mainActivity.addTicket();
+                        mainActivity.addTicket(new EventTicket( response.optString("name") ,response.optString("reg_code") ));
                         Toast.makeText(mainActivity, "Ticket booked", Toast.LENGTH_LONG).show();
 
 
