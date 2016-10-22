@@ -257,7 +257,7 @@ public class MainActivity extends AppCompatActivity
 
         // Update tickets from server
 //        myEventsFragment.updateTickets(prefManager.isLoggedIn());
-        latestEvents.redrawEvents();
+        latestEvents.setBooked(ticket.getEventID());
 
     }
 

@@ -10,6 +10,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -117,6 +119,43 @@ public class LatestEvents extends Fragment {
         latestEventsRecyclerView.setAdapter(latestEventsAdapter);
         latestEventsRecyclerView.setLayoutManager(latestEventsLayoutManager);
         latestEventsAdapter.notifyDataSetChanged();
+    }
+
+    public void setBooked(String eventID) {
+        Log.i("IEC", "setBooked:");
+        int position = getEventPosition(eventID);
+        Log.i("IEC", "setBooked: Position: " + position);
+        if (position != -1){
+            View view = latestEventsLayoutManager.findViewByPosition(position);
+            Button bookButton = (Button) view.findViewById(R.id.btn_book);
+            if (bookButton != null) {
+                bookButton.setBackgroundColor(getActivity().getResources().getColor(R.color.textGray));
+                bookButton.setText("Booked");
+                bookButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Toast.makeText(getContext(), "Event is already booked", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        }
+    }
+
+
+    private int getEventPosition(String eventID) {
+        Log.i("IEC", "getEventPosition: eventID: " + eventID);
+
+        Gson gson = new Gson();
+        String json = prefManager.getEventsList();
+        latestEventsList = gson.fromJson(json, new TypeToken<ArrayList<Event>>(){}.getType());
+
+        for (int i = 0; i < latestEventsList.size(); i++) {
+            Event event = latestEventsList.get(i);
+        Log.i("IEC", "getEventPosition: ID: " + event.getId());
+            if (event.getId().equals(eventID))
+                return i;
+        }
+        return -1;
     }
 
 

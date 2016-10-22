@@ -62,7 +62,7 @@ public class LatestEventsAdapter extends RecyclerView.Adapter<LatestEventsAdapte
     }
 
 
-    // Provide a suitable constructor (depends on the kind of dataset)
+    // Provide a suitable constructor
     public LatestEventsAdapter(Context context, ArrayList<Event> inEventsList) {
         this.context = context;
         eventsList = inEventsList;
@@ -193,8 +193,8 @@ public class LatestEventsAdapter extends RecyclerView.Adapter<LatestEventsAdapte
     }
 
 
+
     public void clearEvents(){
-        Log.i("IEC", "clearEvents: Cleared!");
         int listSize = eventsList.size();
         if (listSize > 0) {
             for (int i = 0; i < listSize; i++) {
