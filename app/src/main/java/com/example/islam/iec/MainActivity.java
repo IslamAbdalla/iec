@@ -100,6 +100,7 @@ public class MainActivity extends AppCompatActivity
         }
         if(!firstTime) {
             myEventsFragment.updateTickets(prefManager.isLoggedIn());
+            latestEvents.redrawEvents();
         }
     }
 

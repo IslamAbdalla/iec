@@ -142,6 +142,7 @@ public class ProfileActivity extends AppCompatActivity {
                 alertDialogBuilder.setMessage("Update your phone");
                 dialogView = inflater.inflate(R.layout.update_dialog, null);
                 ((EditText)dialogView.findViewById(R.id.dialog_input)).setInputType(EditorInfo.TYPE_CLASS_PHONE);
+                ((EditText)dialogView.findViewById(R.id.dialog_input)).setText(user.getPhone());
                 alertDialogBuilder.setView(dialogView);
                 alertDialogBuilder.setPositiveButton("Update", new DialogInterface.OnClickListener() {
                     @Override
@@ -165,6 +166,7 @@ public class ProfileActivity extends AppCompatActivity {
             case R.id.profile_name_layout:
                 alertDialogBuilder.setMessage("Update your full name");
                 dialogView = inflater.inflate(R.layout.update_dialog, null);
+                ((EditText)dialogView.findViewById(R.id.dialog_input)).setText(user.getName());
                 alertDialogBuilder.setView(dialogView);
                 alertDialogBuilder.setPositiveButton("Update", new DialogInterface.OnClickListener() {
                     @Override
@@ -190,6 +192,7 @@ public class ProfileActivity extends AppCompatActivity {
                 alertDialogBuilder.setMessage("Update you email");
                 dialogView = inflater.inflate(R.layout.update_dialog, null);
                 ((EditText)dialogView.findViewById(R.id.dialog_input)).setInputType(EditorInfo.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
+                ((EditText)dialogView.findViewById(R.id.dialog_input)).setText(user.getEmail());
                 alertDialogBuilder.setView(dialogView);
                 alertDialogBuilder.setPositiveButton("Update", new DialogInterface.OnClickListener() {
                     @Override
@@ -212,6 +215,7 @@ public class ProfileActivity extends AppCompatActivity {
             case R.id.profile_address_layout:
                 alertDialogBuilder.setMessage("Update your address");
                 dialogView = inflater.inflate(R.layout.update_dialog, null);
+                ((EditText)dialogView.findViewById(R.id.dialog_input)).setText(user.getAddress());
                 alertDialogBuilder.setView(dialogView);
                 alertDialogBuilder.setPositiveButton("Update", new DialogInterface.OnClickListener() {
                     @Override
@@ -235,6 +239,7 @@ public class ProfileActivity extends AppCompatActivity {
             case R.id.profile_job_layout:
                 alertDialogBuilder.setMessage("Update you job");
                 dialogView = inflater.inflate(R.layout.update_dialog, null);
+                ((EditText)dialogView.findViewById(R.id.dialog_input)).setText(user.getJob());
                 alertDialogBuilder.setView(dialogView);
                 alertDialogBuilder.setPositiveButton("Update", new DialogInterface.OnClickListener() {
                     @Override
