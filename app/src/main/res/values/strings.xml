@@ -20,4 +20,6 @@
     <string name="wc_skip">Go to home</string>
     <string name="title_activity_sign_up">Sign Up</string>
     <string name="title_activity_login">Login</string>
+    <string name="title_activity_about">About IEC</string>
+    <string name="title_activity_business_guide">Business Guide</string>
 </resources>
