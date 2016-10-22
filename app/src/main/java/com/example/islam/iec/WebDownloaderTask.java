@@ -345,8 +345,9 @@ public class WebDownloaderTask  extends AsyncTask<String, Void, String> {
                 if (response != null) {
                     if (0 == response.optInt("status")) {
                         PrefManager prefManager = new PrefManager(mainActivity);
-                        mainActivity.addTicket(new EventTicket( response.optString("name") ,response.optString("reg_code") ));
+                        mainActivity.addTicket(new EventTicket( response.optString("name") , response.optString("event_id"),response.optString("reg_code") ));
                         Toast.makeText(mainActivity, "Ticket booked", Toast.LENGTH_LONG).show();
+
 
 
                     } else if (!response.optString("error_msg").isEmpty()){
@@ -394,8 +395,9 @@ public class WebDownloaderTask  extends AsyncTask<String, Void, String> {
         for (int index = 0; index < ticketsJSONArray.length(); index++) {
             JSONObject ticket = ticketsJSONArray.getJSONObject(index);
             eventTickets.add(new EventTicket(
-                    ticket.optString("event"),
-                    ticket.optString("reg_code")));
+                    ticket.getString("event"),
+                    ticket.getString("event_id"),
+                    ticket.getString("reg_code")));
         }
         return eventTickets;
     }

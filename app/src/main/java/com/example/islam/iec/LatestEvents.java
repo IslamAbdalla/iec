@@ -111,5 +111,13 @@ public class LatestEvents extends Fragment {
         latestEventsAdapter.clearEvents();
     }
 
+    public void redrawEvents(){
+        latestEventsRecyclerView.setAdapter(null);
+        latestEventsRecyclerView.setLayoutManager(null);
+        latestEventsRecyclerView.setAdapter(latestEventsAdapter);
+        latestEventsRecyclerView.setLayoutManager(latestEventsLayoutManager);
+        latestEventsAdapter.notifyDataSetChanged();
+    }
+
 
 }

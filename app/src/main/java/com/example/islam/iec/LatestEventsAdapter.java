@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -14,7 +16,10 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -135,10 +140,23 @@ public class LatestEventsAdapter extends RecyclerView.Adapter<LatestEventsAdapte
                 }
             });
             if (holder.bookButton != null) {
+                Log.i("IEC", "bookEvent: Booked: " + isEventBooked(event.getId()));
+                if (isEventBooked(event.getId())){
+                    holder.bookButton.setBackgroundColor(context.getResources().getColor(R.color.textGray));
+                    holder.bookButton.setText("Booked");
+                    holder.bookButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Toast.makeText(context, "Event is already booked", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                } else
+
                 holder.bookButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Log.i("IEC", "bookEvent: loggedIn: " + prefManager.isLoggedIn());
+
+
                         if (prefManager.isLoggedIn()) {
                             new WebDownloaderTask((Activity) context, WebDownloaderTask.BOOK).execute(event.getId());
                         } else {
@@ -186,6 +204,19 @@ public class LatestEventsAdapter extends RecyclerView.Adapter<LatestEventsAdapte
             this.notifyItemRangeRemoved(0, listSize);
         }
 
+    }
+
+    private Boolean isEventBooked (String eventID) {
+
+        Gson gson = new Gson();
+        String json = prefManager.getTicketsList();
+        ArrayList<EventTicket> eventTickets = gson.fromJson(json, new TypeToken<ArrayList<EventTicket>>(){}.getType());
+        for (int i = 0; i < eventTickets.size(); i++) {
+            EventTicket ticket = eventTickets.get(i);
+            if (ticket.getEventID().equals(eventID))
+                return true;
+        }
+        return false;
     }
 
 }

@@ -31,6 +31,7 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     public PrefManager prefManager;
     private MyEvents myEventsFragment;
+    private LatestEvents latestEvents;
 
 
     @Override
@@ -56,6 +57,7 @@ public class MainActivity extends AppCompatActivity
         }
 
         myEventsFragment = new MyEvents();
+        latestEvents = new LatestEvents();
         ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
         setupViewPager(viewPager);
 
@@ -205,7 +207,7 @@ public class MainActivity extends AppCompatActivity
 
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(new LatestEvents(), "Events");
+        adapter.addFragment(latestEvents, "Events");
         adapter.addFragment(myEventsFragment, "My Tickets");
         viewPager.setAdapter(adapter);
     }
@@ -254,8 +256,10 @@ public class MainActivity extends AppCompatActivity
         prefManager.setTicketsList(json);
 
         // Update tickets from server
-        myEventsFragment.updateTickets(prefManager.isLoggedIn());
+//        myEventsFragment.updateTickets(prefManager.isLoggedIn());
+        latestEvents.redrawEvents();
 
     }
+
 
 }

@@ -7,10 +7,12 @@ public class EventTicket {
 
     private String eventName;
     private String regCode;
+    private String eventID;
 
-    public EventTicket(String eventName, String regCode) {
+    public EventTicket(String eventName, String eventID, String regCode) {
         this.eventName = eventName;
         this.regCode = regCode;
+        this.eventID = eventID;
     }
 
     public String getEventName() {
@@ -27,5 +29,13 @@ public class EventTicket {
 
     public void setRegCode(String regCode) {
         this.regCode = regCode;
+    }
+
+    public String getEventID() {
+        return eventID;
+    }
+
+    public void setEventID(String eventID) {
+        this.eventID = eventID;
     }
 }
