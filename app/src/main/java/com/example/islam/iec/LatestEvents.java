@@ -59,36 +59,78 @@ public class LatestEvents extends Fragment {
 
         Gson gson = new Gson();
         String json = prefManager.getEventsList();
-        latestEventsList = gson.fromJson(json, new TypeToken<ArrayList<Event>>(){}.getType());
+//        latestEventsList = gson.fromJson(json, new TypeToken<ArrayList<Event>>(){}.getType());
 
-//        latestEventsList.add(new Event("Startup Weekend Khartoum",
-//                                    "Khartoum, Spark city",
-//                                    "Khartoum, Spark city",
-//                                    "2 Oct 2016",
-//                                    "No description",
-//                                    "",
-//                                    true
-//                                    ));
-//
-//        latestEventsList.add(new Event("Separator"));
-//
-//        latestEventsList.add(new Event("Startup Weekend Medani",
-//                                    "Medani, Hantoob",
-//                                    "Medani, Hantoob",
-//                                    "2 Oct 2016",
-//                                    "No description",
-//                                    "",
-//                                    false
-//                                    ));
-//
-//        latestEventsList.add(new Event("Startup Grind",
-//                                    "Bahri, Cooper",
-//                                    "Bahri, Cooper",
-//                                    "2 Oct 2016",
-//                                    "No description",
-//                                    "",
-//                                    false
-//                                    ));
+        latestEventsList.add(new Event("Startup Weekend Khartoum",
+                                    "53",
+                                    "Khartoum, Spark city",
+                                    "Khartoum, Spark city",
+                                    "2 Oct 2016",
+                                    "No description",
+                                    "",
+                                    true
+                                    ));
+
+        latestEventsList.add(new Event("Startup Weekend Khartoum",
+                                    "55",
+                                    "Khartoum, Spark city",
+                                    "Khartoum, Spark city",
+                                    "2 Oct 2016",
+                                    "No description",
+                                    "",
+                                    true
+                                    ));
+
+        latestEventsList.add(new Event("Startup Weekend Khartoum",
+                                    "56",
+                                    "Khartoum, Spark city",
+                                    "Khartoum, Spark city",
+                                    "2 Oct 2016",
+                                    "No description",
+                                    "",
+                                    true
+                                    ));
+        latestEventsList.add(new Event("Separator"));
+
+        latestEventsList.add(new Event("Startup Weekend Medani",
+                                    "55",
+                                    "Medani, Hantoob",
+                                    "Medani, Hantoob",
+                                    "2 Oct 2016",
+                                    "No description",
+                                    "",
+                                    false
+                                    ));
+
+        latestEventsList.add(new Event("Startup Grind",
+                                    "58",
+                                    "Bahri, Cooper",
+                                    "Bahri, Cooper",
+                                    "2 Oct 2016",
+                                    "No description",
+                                    "",
+                                    false
+                                    ));
+
+        latestEventsList.add(new Event("Startup Grind",
+                                    "58",
+                                    "Bahri, Cooper",
+                                    "Bahri, Cooper",
+                                    "2 Oct 2016",
+                                    "No description",
+                                    "",
+                                    false
+                                    ));
+
+        latestEventsList.add(new Event("Startup Grind",
+                                    "58",
+                                    "Bahri, Cooper",
+                                    "Bahri, Cooper",
+                                    "2 Oct 2016",
+                                    "No description",
+                                    "",
+                                    false
+                                    ));
 
         // Use linear layout manager
         latestEventsLayoutManager = new LinearLayoutManager(getActivity());

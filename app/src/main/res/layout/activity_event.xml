@@ -173,23 +173,72 @@
                         <!--android:background="@color/sepGray"/>-->
 
 
-                    <Button
-                        android:text="Book Now"
+                    <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:paddingTop="10dp"
-                        android:paddingBottom="10dp"
-                        android:layout_marginTop="0dp"
-                        android:background="@drawable/rounded_button"
-                        android:layout_gravity="center_horizontal"
-                        android:textColor="@color/white"
-                        android:textAllCaps="false"
-                        android:layout_marginBottom="10dp"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginRight="10dp"
-                        android:textSize="16sp"
-                        android:stateListAnimator="@null"
-                        />
+                        android:layout_height="wrap_content">
+
+                        <Button
+                            android:text="Book Now"
+                            android:layout_width="0dp"
+                            android:layout_weight="0.5"
+                            android:layout_height="wrap_content"
+                            android:paddingTop="6dp"
+                            android:paddingBottom="6dp"
+                            android:layout_marginTop="0dp"
+                            android:background="@drawable/rounded_button"
+                            android:layout_gravity="center_horizontal"
+                            android:textColor="@color/white"
+                            android:textAllCaps="false"
+                            android:layout_marginBottom="10dp"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="10dp"
+                            android:textSize="16sp"
+                            android:stateListAnimator="@null"
+                            android:minHeight="0dp"
+                            />
+                        <!--<ImageButton-->
+                            <!--android:text=""-->
+                            <!--android:layout_width="0dp"-->
+                            <!--android:layout_weight="0.1"-->
+                            <!--android:layout_height="50dp"-->
+                            <!--android:paddingRight="13dp"-->
+                            <!--android:paddingLeft="8dp"-->
+                            <!--android:paddingTop="10dp"-->
+                            <!--android:paddingBottom="10dp"-->
+                            <!--android:layout_marginTop="0dp"-->
+                            <!--android:background="@drawable/circle_button"-->
+                            <!--android:layout_gravity="center_horizontal"-->
+                            <!--android:textColor="@color/white"-->
+                            <!--android:textAllCaps="false"-->
+                            <!--android:layout_marginBottom="10dp"-->
+                            <!--android:layout_marginRight="10dp"-->
+                            <!--android:textSize="16sp"-->
+                            <!--android:stateListAnimator="@null"-->
+                            <!--android:src="@drawable/share"-->
+                            <!--android:scaleType="centerCrop"-->
+                            <!--/>-->
+
+                        <Button
+                            android:text="Share event"
+                            android:layout_width="0dp"
+                            android:layout_weight="0.5"
+                            android:layout_height="wrap_content"
+                            android:paddingTop="6dp"
+                            android:paddingBottom="6dp"
+                            android:layout_marginTop="0dp"
+                            android:background="@drawable/outline_button"
+                            android:layout_gravity="center_horizontal"
+                            android:textColor="@color/colorAccent"
+                            android:textAllCaps="false"
+                            android:layout_marginBottom="10dp"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="10dp"
+                            android:textSize="16sp"
+                            android:stateListAnimator="@null"
+                            android:minHeight="0dp"
+                            />
+                    </LinearLayout>
+
                     <!--style="@style/BookButton"-->
                 </LinearLayout>
 
@@ -242,82 +291,128 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:elevation="2dp"
-                android:layout_marginBottom="20dp"
+                android:layout_marginBottom="9dp"
                 android:layout_marginStart="9dp"
                 android:layout_marginEnd="9dp">
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:focusable="true"
-                    android:clickable="true"
-                    android:background="?android:attr/selectableItemBackground"
-                    android:onClick="openProjects">
-
-                    <FrameLayout
-                        android:layout_width="70dp"
-                        android:layout_height="70dp"
-                        android:id="@+id/vote_for_projects_icon_frame">
-                        <ImageView
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:layout_gravity="center"
-                            android:src="@drawable/ic_vote_for_projects"
-                            />
-                    </FrameLayout>
-
-                    <TextView
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+                    <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="center_vertical"
-                        android:textSize="16sp"
-                        android:text="Vote for projects"/>
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:focusable="true"
+                        android:clickable="true"
+                        android:background="?android:attr/selectableItemBackground"
+                        android:onClick="openProjects">
+
+                        <FrameLayout
+                            android:layout_width="70dp"
+                            android:layout_height="70dp"
+                            android:id="@+id/vote_for_projects_icon_frame">
+                            <ImageView
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:layout_gravity="center"
+                                android:src="@drawable/ic_vote_for_projects"
+                                />
+                        </FrameLayout>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center_vertical"
+                            android:textSize="16sp"
+                            android:text="Vote for projects"/>
+
+
+
+
+                    </LinearLayout>
+                    <!--<View-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="1dp"-->
+                        <!--android:background="@color/sepGray"/>-->
+                    <!--<LinearLayout-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:orientation="horizontal"-->
+                        <!--android:focusable="true"-->
+                        <!--android:clickable="true"-->
+                        <!--android:background="?android:attr/selectableItemBackground"-->
+                        <!--android:onClick="openProjects">-->
+
+                        <!--<FrameLayout-->
+                            <!--android:layout_width="70dp"-->
+                            <!--android:layout_height="70dp"-->
+                            <!--android:id="@+id/share_icon_frame">-->
+                            <!--<ImageView-->
+                                <!--android:layout_width="40dp"-->
+                                <!--android:layout_height="40dp"-->
+                                <!--android:layout_gravity="center"-->
+                                <!--android:src="@android:drawable/"-->
+                                <!--/>-->
+                        <!--</FrameLayout>-->
+
+                        <!--<TextView-->
+                            <!--android:layout_width="match_parent"-->
+                            <!--android:layout_height="match_parent"-->
+                            <!--android:gravity="center_vertical"-->
+                            <!--android:textSize="16sp"-->
+                            <!--android:text="Share event"/>-->
+
+
+
+
+                    <!--</LinearLayout>-->
+
 
 
                 </LinearLayout>
 
             </android.support.v7.widget.CardView>
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Share with"
-                android:layout_marginStart="20dp"
-                android:layout_marginBottom="12dp"
-                android:textColor="@color/textGray"
-                />
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:orientation="horizontal"
-                android:layout_marginBottom="20dp">
+            <!--<TextView-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text="Share with"-->
+                <!--android:layout_marginStart="20dp"-->
+                <!--android:layout_marginBottom="12dp"-->
+                <!--android:textColor="@color/textGray"-->
+                <!--/>-->
+            <!--<LinearLayout-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="60dp"-->
+                <!--android:orientation="horizontal"-->
+                <!--android:layout_marginBottom="20dp">-->
 
-                <ImageView
-                    android:layout_width="0dp"
-                    android:layout_height="60dp"
-                    android:src="@drawable/ic_facebook"
-                    android:layout_weight="0.3"
-                    android:layout_marginEnd="15dp"
-                    android:layout_marginStart="15dp"
-                    />
-                <ImageView
-                    android:layout_width="0dp"
-                    android:layout_height="60dp"
-                    android:src="@drawable/ic_twitter"
-                    android:layout_weight="0.3"
-                    android:layout_marginEnd="15dp"
-                    android:layout_marginStart="15dp"
-                    />
-                <ImageView
-                    android:layout_width="0dp"
-                    android:layout_height="60dp"
-                    android:src="@drawable/ic_whatsapp"
-                    android:layout_weight="0.3"
-                    android:layout_marginEnd="15dp"
-                    android:layout_marginStart="15dp"
-                    />
+                <!--<ImageView-->
+                    <!--android:layout_width="0dp"-->
+                    <!--android:layout_height="48dp"-->
+                    <!--android:src="@drawable/ic_facebook"-->
+                    <!--android:layout_weight="0.3"-->
+                    <!--android:layout_marginEnd="15dp"-->
+                    <!--android:layout_marginStart="15dp"-->
+                    <!--/>-->
+                <!--<ImageView-->
+                    <!--android:layout_width="0dp"-->
+                    <!--android:layout_height="48dp"-->
+                    <!--android:src="@drawable/ic_twitter"-->
+                    <!--android:layout_weight="0.3"-->
+                    <!--android:layout_marginEnd="15dp"-->
+                    <!--android:layout_marginStart="15dp"-->
+                    <!--/>-->
+                <!--<ImageView-->
+                    <!--android:layout_width="0dp"-->
+                    <!--android:layout_height="48dp"-->
+                    <!--android:src="@drawable/ic_whatsapp"-->
+                    <!--android:layout_weight="0.3"-->
+                    <!--android:layout_marginEnd="15dp"-->
+                    <!--android:layout_marginStart="15dp"-->
+                    <!--/>-->
 
-            </LinearLayout>
+            <!--</LinearLayout>-->
 
 
 

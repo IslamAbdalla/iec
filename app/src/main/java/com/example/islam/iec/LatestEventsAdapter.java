@@ -120,7 +120,7 @@ public class LatestEventsAdapter extends RecyclerView.Adapter<LatestEventsAdapte
                     .fit()
                     .centerCrop()
                     .into(holder.imgEvent);
-            if (position == 2) {
+            if (position == 1) {
                 holder.imgEvent.setImageResource(R.drawable.startup_weekend_medani);
             Picasso.with(context)
                     .load("https://scontent-arn2-1.xx.fbcdn.net/t31.0-8/13047850_812313515567579_4736785202866688398_o.jpg")
