@@ -78,6 +78,8 @@ public class EventActivity extends AppCompatActivity {
 
         }
 
+
+
         // To display title only when collapsed
         if (appBarLayout != null && event != null) {
             appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
@@ -115,6 +117,7 @@ public class EventActivity extends AppCompatActivity {
         Intent intent = new Intent(this, ProjectsActivity.class);
         Log.d("IEC", "openProjects: Event ID " + event.getId());
         intent.putExtra("eventID", event.getId() );
+        intent.putExtra("event", event);
         startActivity(intent);
     }
 }

@@ -302,7 +302,7 @@ public class ProfileActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         Boolean returnFlag = false;
     if (item.getItemId() == android.R.id.home) {
-//        this.onBackPressed();
+       // this.onBackPressed();
        // return false;
         Log.d("IEC", "onOptionsItemSelected: Back is pressed");
         this.onBackPressed();

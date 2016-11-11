@@ -140,7 +140,6 @@ public class LatestEventsAdapter extends RecyclerView.Adapter<LatestEventsAdapte
                 }
             });
             if (holder.bookButton != null) {
-                Log.i("IEC", "bookEvent: Booked: " + isEventBooked(event.getId()));
                 if (isEventBooked(event.getId())){
                     holder.bookButton.setBackgroundColor(context.getResources().getColor(R.color.textGray));
                     holder.bookButton.setText("Booked");

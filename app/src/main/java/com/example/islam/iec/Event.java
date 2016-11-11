@@ -24,7 +24,8 @@ public class Event implements Parcelable{
     private String locationText;
     private Boolean upcoming;
     private Boolean isSeparator;
-    private ArrayList<Project> projects;
+    public ArrayList<Project> projects;
+    public PrefManager.ProjectState votedState;
 
     public Event(String title, String id, String location,String locationText, String date, String description, String image, Boolean upcoming) {
         this.name = title;
@@ -36,6 +37,7 @@ public class Event implements Parcelable{
         this.image = image;
         this.upcoming = upcoming;
         this.isSeparator = false;
+        votedState = PrefManager.ProjectState.UNKNOWN;
     }
     public Event(String string){
         this.name = null;
@@ -49,6 +51,9 @@ public class Event implements Parcelable{
         this.isSeparator = true;
     }
 
+    public void setProjects (ArrayList<Project> mProjects) {
+        projects = mProjects;
+    }
 
     public String getName() {
         return name;
@@ -125,7 +130,7 @@ public class Event implements Parcelable{
         return isSeparator;
     }
 
-    private static class Project implements Parcelable {
+    public static class Project implements Parcelable {
         private String name;
         private String image;
         private String link;
@@ -177,7 +182,11 @@ public class Event implements Parcelable{
             dest.writeString(this.id);
         }
 
-        public Project() {
+        public Project(String imageURL, String name, String url, String id) {
+            this.image = imageURL;
+            this.name = name;
+            this.link = url;
+            this.id = id;
         }
 
         protected Project(Parcel in) {

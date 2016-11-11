@@ -5,23 +5,23 @@ package com.example.islam.iec;
  */
 public class Project {
     private String name;
-    private String url;
-    private String imageURL;
+    private String link;
+    private String image;
     private String id;
 
     public Project(String imageURL, String name, String url, String id) {
-        this.imageURL = imageURL;
+        this.image = imageURL;
         this.name = name;
-        this.url = url;
+        this.link = url;
         this.id = id;
     }
 
-    public String getImageURL() {
-        return imageURL;
+    public String getImage() {
+        return image;
     }
 
-    public void setImageURL(String imageURL) {
-        this.imageURL = imageURL;
+    public void setImage(String image) {
+        this.image = image;
     }
 
     public String getName() {
@@ -32,12 +32,12 @@ public class Project {
         this.name = name;
     }
 
-    public String getUrl() {
-        return url;
+    public String getLink() {
+        return link;
     }
 
-    public void setUrl(String url) {
-        this.url = url;
+    public void setLink(String link) {
+        this.link = link;
     }
 
     public String getId() {

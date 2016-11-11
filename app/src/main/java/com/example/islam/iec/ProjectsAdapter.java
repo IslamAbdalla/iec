@@ -13,7 +13,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,12 +24,14 @@ import java.util.ArrayList;
  * Created by islam on 10/20/16.
  */
 public class ProjectsAdapter extends RecyclerView.Adapter<ProjectsAdapter.ViewHolder> {
-    private ArrayList<Project> Projects;
+    private ArrayList<Event.Project> Projects;
     private Context context;
+    private PrefManager prefManager;
 
-    public ProjectsAdapter(Context mContext, ArrayList<Project> mProjects) {
+    public ProjectsAdapter(Context mContext, ArrayList<Event.Project> mProjects) {
         Projects = mProjects;
         context = mContext;
+        prefManager = new PrefManager(context);
     }
 
     @Override
@@ -42,10 +43,31 @@ public class ProjectsAdapter extends RecyclerView.Adapter<ProjectsAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        final Project project = Projects.get(position);
+        final String eventID = ((ProjectsActivity) context).eventID;
+        final PrefManager.ProjectState state = prefManager.getVoted(eventID);
+
+        // Voting app
+        if (state == PrefManager.ProjectState.NOTYET) {
+            Log.d("ProjectsAdapter", "onBindViewHolder: Not yet");
+            holder.voteButton.setBackgroundColor(context.getResources().getColor(R.color.colorAccent));
+            holder.voteButton.setText("Vote");
+        }
+        if (state == PrefManager.ProjectState.VOTED) {
+            Log.d("ProjectsAdapter", "onBindViewHolder: voted");
+            holder.voteButton.setBackgroundColor(context.getResources().getColor(R.color.textGray));
+            holder.voteButton.setText("Voted");
+        }
+        if (state == PrefManager.ProjectState.UNKNOWN) {
+            Log.d("ProjectsAdapter", "onBindViewHolder: unknown");
+            holder.voteButton.setBackgroundColor(context.getResources().getColor(R.color.textGray));
+            holder.voteButton.setText("Vote");
+
+        }
+
+        final Event.Project project = Projects.get(position);
         holder.projectName.setText(project.getName());
-        final String url = project.getUrl();
-        if (!project.getImageURL().isEmpty()) {
+        final String url = project.getLink();
+        if (!project.getImage().isEmpty()) {
 
             Picasso.with(context)
                     .load("http://design.ubuntu.com/wp-content/uploads/ubuntu-logo32.png")
@@ -65,26 +87,56 @@ public class ProjectsAdapter extends RecyclerView.Adapter<ProjectsAdapter.ViewHo
         holder.voteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (prefManager.isLoggedIn()){
+                    Log.d("ProjectsAdapter", "onClick: state is " + state.toString());
+                    switch (state) {
+                        case NOTYET:
+                            {
+                            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
+                            alertDialogBuilder.setMessage("You can only vote for ONE project. Do you want to vote for " + project.getName() + "?");
+                            alertDialogBuilder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
 
-                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
-                alertDialogBuilder.setMessage("You can only vote for ONE project. Do you want to vote for "+ project.getName()+"?");
-                alertDialogBuilder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-
-                    Toast.makeText(context, "Voted successfully", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(context, "Voted successfully", Toast.LENGTH_SHORT).show();
 
 
+                                }
+                            });
+
+                            alertDialogBuilder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+
+                                }
+                            });
+                            alertDialogBuilder.show();
+                            }
+                            break;
+
+                        case VOTED:
+                        {
+                            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
+                            alertDialogBuilder.setMessage("You have already voted in this event.");
+                            alertDialogBuilder.setPositiveButton("Dismiss", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                }
+                            });
+
+                            alertDialogBuilder.show();
+                        }
+                            break;
+                        case UNKNOWN:
+                            new WebDownloaderTask((ProjectsActivity) context, WebDownloaderTask.VOTED).execute(eventID);
+                            Toast.makeText(context, "Trying to reach the server.", Toast.LENGTH_SHORT).show();
+
+                            break;
                     }
-                });
 
-                alertDialogBuilder.setNegativeButton("No", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
+                }
 
-                    }
-                });
-                alertDialogBuilder.show();
+
             }
         });
 
@@ -110,11 +162,11 @@ public class ProjectsAdapter extends RecyclerView.Adapter<ProjectsAdapter.ViewHo
     }
 
     // Provide a data updater function
-    public void updateDataSet(ArrayList<Project> inProjects) {
+    public void updateDataSet(ArrayList<Event.Project> inProjects) {
         Projects = inProjects;
     }
 
-    public void addProject(Project project) {
+    public void addProject(Event.Project project) {
         Projects.add(0, project);
         notifyItemInserted(0);
     }

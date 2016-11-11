@@ -14,9 +14,10 @@ public class ProjectsActivity extends AppCompatActivity {
     private RecyclerView projectsRecyclerView;
     private ProjectsAdapter projectsAdapter;
     private RecyclerView.LayoutManager projectsLayoutManager;
-    ArrayList<Project> projectsList;
-    private PrefManager prefManager;
-    private String eventID;
+    ArrayList<Event.Project> projectsList;
+    public PrefManager prefManager;
+    public String eventID;
+    public Event event;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,16 +28,22 @@ public class ProjectsActivity extends AppCompatActivity {
 
         Bundle data = getIntent().getExtras();
         eventID = data.getString("eventID");
+        event = (Event) data.getParcelable("event");
         Log.d("IEC", "onCreate: Event ID "+ eventID );
+//        Log.d("IEC", "onCreate: project name "+ event.projects.get(1).getName() );
+
         projectsRecyclerView = (RecyclerView) findViewById(R.id.projects_rec_view);
         if (projectsRecyclerView != null) {
             projectsRecyclerView.setHasFixedSize(true);
         }
 
         projectsList = new ArrayList<>();
-        projectsList.add(new Project("", "The great and powerful", "someURL", "323"));
-        projectsList.add(new Project("My image", "The second project", "someURL", "52"));
-        projectsList.add(new Project("", "Vote for me", "someURL","81"));
+        for (int index = 0; index < event.projects.size(); index++) {
+            projectsList.add(event.projects.get(index));
+        }
+//        projectsList.add(new Project("My image", "The second project", "someURL", "52"));
+//        projectsList.add(new Project("", "Vote for me", "someURL","81"));
+
 
 
         // Use linear layout manager
@@ -51,6 +58,11 @@ public class ProjectsActivity extends AppCompatActivity {
         prefManager = new PrefManager(this);
 
 
+        if (prefManager.isLoggedIn())  {
+            new WebDownloaderTask(this, WebDownloaderTask.VOTED).execute(eventID);
+        }
+
+
     }
     public boolean onOptionsItemSelected(MenuItem item) {
     if (item.getItemId() == android.R.id.home) {
@@ -58,5 +70,13 @@ public class ProjectsActivity extends AppCompatActivity {
 
     }
         return true;
+    }
+
+    public void redrawProjects(){
+        projectsRecyclerView.setAdapter(null);
+        projectsRecyclerView.setLayoutManager(null);
+        projectsRecyclerView.setAdapter(projectsAdapter);
+        projectsRecyclerView.setLayoutManager(projectsLayoutManager);
+        projectsAdapter.notifyDataSetChanged();
     }
 }

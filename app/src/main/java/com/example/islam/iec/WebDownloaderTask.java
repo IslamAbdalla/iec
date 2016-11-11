@@ -34,7 +34,7 @@ public class WebDownloaderTask  extends AsyncTask<String, Void, String> {
     private static final String BASE_URL = "http://192.168.43.155/wp-json/iec-api/v1";
     WeakReference<Fragment> fragmentWeakReference;
     WeakReference<Activity> activityWeakReference;
-    final static public int GET_EVENTS = 0, GET_TICKETS = 1, LOG_IN = 2, REGISTER = 3, BOOK = 4, UPDATE = 5;
+    final static public int GET_EVENTS = 0, GET_TICKETS = 1, LOG_IN = 2, REGISTER = 3, BOOK = 4, UPDATE = 5, VOTE = 6, VOTED = 7;
     private int action;
     private String username, password;
     private ProgressDialog progressDialog;
@@ -115,6 +115,7 @@ public class WebDownloaderTask  extends AsyncTask<String, Void, String> {
         String route;
         OkHttpClient client = new OkHttpClient();
         Request request;
+        String eventID;
         RequestBody requestBody;
         request = new Request.Builder()
                 .url(BASE_URL )
@@ -162,7 +163,7 @@ public class WebDownloaderTask  extends AsyncTask<String, Void, String> {
                 break;
             case BOOK:
                 route = "/book/";
-                String eventID = string[0];
+                eventID = string[0];
                 Log.d(TAG, "doInBackground: eventID: " + eventID);
                 requestBody = new MultipartBody.Builder()
                         .setType(MultipartBody.FORM)
@@ -195,6 +196,21 @@ public class WebDownloaderTask  extends AsyncTask<String, Void, String> {
                 request = new Request.Builder()
                         .url(BASE_URL + route)
                         .method("POST", RequestBody.create(null, new byte[0]))
+                        .header("Authorization", "Basic "+ Base64.encodeToString("wordpressuser:3IeOHORJOeCQq^%oUV".getBytes(),Base64.NO_WRAP))
+//                        .header("Authorization", "Basic "+ Base64.encodeToString((username + ":" + password).getBytes(),Base64.NO_WRAP))
+                        .post(requestBody)
+                        .build();
+                break;
+            case VOTED:
+                route = "/voted/";
+                eventID = string[0];
+                Log.d(TAG, "doInBackground: eventID: " + eventID);
+                requestBody = new MultipartBody.Builder()
+                        .setType(MultipartBody.FORM)
+                        .addFormDataPart("event", eventID)
+                        .build();
+                request = new Request.Builder()
+                        .url(BASE_URL + route)
                         .header("Authorization", "Basic "+ Base64.encodeToString("wordpressuser:3IeOHORJOeCQq^%oUV".getBytes(),Base64.NO_WRAP))
 //                        .header("Authorization", "Basic "+ Base64.encodeToString((username + ":" + password).getBytes(),Base64.NO_WRAP))
                         .post(requestBody)
@@ -337,7 +353,6 @@ public class WebDownloaderTask  extends AsyncTask<String, Void, String> {
 
                 break;
             case BOOK:
-                // TODO: check for status 0
                 Log.d(TAG, "onPostExecute: book" + s);
                 MainActivity mainActivity = (MainActivity) activityWeakReference.get();
 
@@ -385,6 +400,26 @@ public class WebDownloaderTask  extends AsyncTask<String, Void, String> {
                 }
                 progressDialog.dismiss();
                 break;
+            case VOTED:
+                Log.d(TAG, "onPostExecute: voted " + s);
+                ProjectsActivity projectsActivity = (ProjectsActivity) activityWeakReference.get();
+                if (response != null) {
+                    if (0 == response.optInt("status")) {
+                        Event event = projectsActivity.event;
+                        PrefManager prefManager = new PrefManager(projectsActivity);
+                        prefManager.setVoted(event.getId(), response.optBoolean("voted"));
+                        projectsActivity.redrawProjects();
+
+                    } else if (!response.optString("error_msg").isEmpty()){
+                        Toast.makeText(projectsActivity, response.optString("error_msg"), Toast.LENGTH_LONG).show();
+                    } else {
+                        Toast.makeText(projectsActivity, "Unknown error occurred.", Toast.LENGTH_LONG).show();
+
+                    }
+                } else {
+                    Toast.makeText(projectsActivity, "Could not connect to the server.", Toast.LENGTH_LONG).show();
+                }
+                break;
         }
 
     }
@@ -427,15 +462,34 @@ public class WebDownloaderTask  extends AsyncTask<String, Void, String> {
                 latestEventsList.add(new Event("Separator"));
                 separator = 0;
             }
-            latestEventsList.add(new Event(event.optString("name"),
+            Event tmpEvent = new Event(event.optString("name"),
                     event.optString("id"),
                     event.optString("location"),
                     event.optString("location"),
                     event.optString("date"),
                     event.optString("details"),
                     event.optString("image"),
-                    (index == 0)
-            ));
+                    (index == 0));
+
+
+            // Parse projects
+            ArrayList<Event.Project> projectsList = new ArrayList<>();
+            JSONArray projectsJSONArray = event.optJSONArray("projects");
+            for (int innerIndex = 0; innerIndex < projectsJSONArray.length(); innerIndex++) {
+                JSONObject project = projectsJSONArray.getJSONObject(innerIndex);
+                projectsList.add(new Event.Project(
+                        project.optString("image"),
+                        project.optString("name"),
+                        project.optString("link"),
+                        project.optString("id")
+                ));
+            }
+
+            tmpEvent.setProjects(projectsList);
+
+
+            latestEventsList.add(tmpEvent);
+
         }
         return latestEventsList;
     }

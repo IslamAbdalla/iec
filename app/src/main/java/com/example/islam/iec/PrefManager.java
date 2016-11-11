@@ -4,8 +4,11 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by islam on 9/27/16.
@@ -18,6 +21,9 @@ public class PrefManager {
     // shared pref mode
     int PRIVATE_MODE = 0;
 
+    public enum ProjectState {
+        VOTED, NOTYET, UNKNOWN
+    }
     // Shared preferences file name
     private static final String PREF_NAME = "main_pref";
 
@@ -35,6 +41,8 @@ public class PrefManager {
 
     private static final String EVENTS_LIST = "EventsList";
     private static final String TICKETS_LIST = "TicketsList";
+
+    private static final String VOTED_LIST = "VotedList";
 
     public PrefManager(Context context) {
         this._context = context;
@@ -103,6 +111,37 @@ public class PrefManager {
         Gson gson = new Gson();
         String json = gson.toJson(eventsList);
         return pref.getString(TICKETS_LIST,json);
+    }
+
+    public void setVoted(String projectID, Boolean voted){
+        HashMap<String, Boolean> votedList = new HashMap<>();
+        Gson gson = new Gson();
+        String json = gson.toJson(votedList);
+        json = pref.getString(VOTED_LIST, json);
+        votedList = gson.fromJson(json, new TypeToken<HashMap<String, Boolean>>(){}.getType());
+
+        votedList.put(projectID, voted);
+        json = gson.toJson(votedList);
+        editor.putString(VOTED_LIST, json);
+        editor.apply();
+
+    }
+    public ProjectState getVoted(String projectID){
+
+        HashMap<String, Boolean> votedList = new HashMap<>();
+        Gson gson = new Gson();
+        String json = gson.toJson(votedList);
+        json = pref.getString(VOTED_LIST, json);
+        votedList = gson.fromJson(json, new TypeToken<HashMap<String, Boolean>>(){}.getType());
+
+        if (votedList.containsKey(projectID)){
+            if (votedList.get(projectID))
+                return ProjectState.VOTED;
+            else
+                return ProjectState.NOTYET;
+        } else
+            return ProjectState.UNKNOWN;
+
     }
 
 

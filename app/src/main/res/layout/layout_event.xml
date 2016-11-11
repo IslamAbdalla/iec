@@ -48,7 +48,6 @@
                 android:layout_below="@+id/event_title"
                 android:text="Location"
                 android:padding="2dip"
-                android:layout_marginStart="10dip"
                 android:textSize="14sp"/>
             <TextView
                 android:layout_width="wrap_content"
@@ -57,7 +56,6 @@
                 android:layout_below="@+id/event_location"
                 android:text="1 January, 3:00pm"
                 android:padding="2dip"
-                android:layout_marginStart="10dip"
                 android:textSize="14sp"/>
 
             <Button
