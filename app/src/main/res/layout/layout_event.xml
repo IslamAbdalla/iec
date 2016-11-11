@@ -4,10 +4,10 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_marginTop="6dip"
-    android:layout_marginEnd="6dip"
-    android:layout_marginStart="6dp"
-    android:layout_marginBottom="0dp"
+    android:layout_marginTop="0dip"
+    android:layout_marginEnd="0dip"
+    android:layout_marginStart="0dp"
+    android:layout_marginBottom="6dp"
     app:cardElevation="2dp">
     <RelativeLayout
         android:layout_width="match_parent"
@@ -25,47 +25,125 @@
             android:src="@drawable/startup_weekend_khartoum"
             android:id="@+id/event_pic"
             android:scaleType="centerCrop"/>
-
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/event_pic"
-            android:padding="9dip">
+            android:orientation="vertical"
+            android:layout_below="@id/event_pic">
+
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:id="@+id/event_title"
                 android:text="Event Title"
-                android:textColor="#444"
-                android:padding="3dip"
-                android:textSize="22sp"/>
+                android:layout_margin="12dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/grey_700"
+                android:textSize="18sp"
+                android:layout_gravity="center_horizontal"/>
 
-            <TextView
-                android:layout_width="wrap_content"
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/sepGray"/>
+
+
+
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/event_location"
-                android:layout_below="@+id/event_title"
-                android:text="Location"
-                android:padding="2dip"
-                android:textSize="14sp"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/event_date"
-                android:layout_below="@+id/event_location"
-                android:text="1 January, 3:00pm"
-                android:padding="2dip"
-                android:textSize="14sp"/>
+                android:orientation="horizontal"
+                android:paddingBottom="4dp"
+                android:paddingTop="4dp"
+                android:layout_margin="6dp">
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".50"
+                    android:orientation="horizontal"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="right"
+                    >
+
+
+                    <ImageView
+                        android:id="@+id/loc_icon_frame"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/placeholder"
+                        android:layout_margin="4dp"
+                        />
+
+
+                    <TextView
+                        android:id="@+id/event_location"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toEndOf="@+id/loc_icon_frame"
+                        android:layout_centerVertical="true"
+                        android:text="Khartoum, Sparkcity"
+                        android:textSize="12sp"
+                        android:layout_marginRight="4dp"/>
+
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:paddingTop="3dp"
+                    android:paddingBottom="3dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp">
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="match_parent"
+                        android:background="@color/sepGray"
+                        />
+                </LinearLayout>
+
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".50"
+                    android:orientation="horizontal"
+                    android:layout_gravity="center_vertical">
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/calendar"
+                        android:id="@+id/date_icon_frame"
+                        android:layout_margin="4dp"/>
+
+                    <TextView
+                        android:id="@+id/event_date"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Tue 20 Sept 2016"
+                        android:layout_centerVertical="true"
+                        android:layout_toEndOf="@id/date_icon_frame"
+                        android:textSize="12sp"/>
+
+                </RelativeLayout>
+
+
+            </LinearLayout>
+
 
             <Button
                 android:id="@+id/btn_book"
                 android:text="Book"
                 android:layout_alignParentEnd="true"
                 android:layout_alignBottom="@id/event_date"
-                style="@style/BookButton"/>
+                style="@style/BookButton"
+                android:visibility="gone"/>
 
-        </RelativeLayout>
+
+        </LinearLayout>
     </RelativeLayout>
 
 </android.support.v7.widget.CardView>

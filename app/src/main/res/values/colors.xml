@@ -286,9 +286,9 @@
 
     <!-- Colors for the app -->
 
-    <color name="colorPrimary">#eb8823</color>
-    <color name="colorPrimaryDark">#ce6016</color>
-    <color name="colorAccent">#63b9e8</color>
+    <color name="colorPrimary">@color/cyan_700</color>
+    <color name="colorPrimaryDark">@color/cyan_800</color>
+    <color name="colorAccent">@color/light_green_400</color>
     <color name="white">#FFF</color>
     <color name="textGray">#aaa</color>
     <color name="bgGray">#f2f2f2</color>

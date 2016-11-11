@@ -68,12 +68,12 @@
                     <TextView
                         android:id="@+id/event_ac_title"
                         android:text="Startup Weekend Khartoum"
-                        android:layout_margin="20dp"
+                        android:layout_margin="12dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="#444"
-                        android:padding="4dip"
-                        android:textSize="22sp"/>
+                        android:textColor="@color/grey_700"
+                        android:textSize="18sp"
+                        android:layout_gravity="center_horizontal"/>
 
                     <View
                         android:layout_width="match_parent"
@@ -85,98 +85,112 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
-                        android:paddingBottom="20dp"
-                        android:paddingTop="20dp"
-                        android:background="#fafafa">
+                        android:paddingBottom="4dp"
+                        android:paddingTop="4dp"
+                        android:background="#fff"
+                        android:layout_margin="6dp">
                         <RelativeLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight=".50"
                             android:orientation="horizontal"
-                            android:clickable="true">
-                            <FrameLayout
-                                android:layout_width="40dp"
-                                android:layout_height="40dp"
+                            android:clickable="true"
+                            android:layout_gravity="center_vertical"
+                            android:gravity="right"
+
+                            >
+
+
+                            <ImageView
                                 android:id="@+id/loc_icon_frame"
-                                android:layout_alignParentStart="true">
-                                <ImageView
-                                    android:layout_width="20dp"
-                                    android:layout_height="20dp"
-                                    android:layout_gravity="center"
-                                    android:src="@drawable/ic_location"
-                                    />
-                            </FrameLayout>
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_toRightOf="@id/loc_icon_frame"
-                                android:layout_alignParentTop="true"
-                                android:text="Location"
-                                android:id="@+id/loc_tag"/>
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:layout_gravity="center"
+                                android:src="@drawable/placeholder"
+                                android:layout_margin="4dp"
+                                />
+
+
                             <TextView
                                 android:id="@+id/event_ac_loc"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:layout_below="@+id/loc_tag"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
                                 android:layout_toEndOf="@+id/loc_icon_frame"
-                                android:text="Khartoum, Sparkcity"/>
+                                android:layout_centerVertical="true"
+                                android:text="Khartoum, Sparkcity"
+                                android:textSize="12sp"
+                                android:layout_marginRight="4dp"/>
 
                         </RelativeLayout>
-                        <View
+
+                        <LinearLayout
                             android:layout_width="1dp"
                             android:layout_height="match_parent"
-                            android:background="@color/sepGray"/>
+                            android:paddingTop="3dp"
+                            android:paddingBottom="3dp"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="10dp">
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="match_parent"
+                                android:background="@color/sepGray"
+                                />
+                        </LinearLayout>
+
 
                         <RelativeLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight=".50"
                             android:orientation="horizontal"
-                            android:clickable="true">
-                            <FrameLayout
-                                android:layout_width="40dp"
-                                android:layout_height="40dp"
+                            android:clickable="true"
+                            android:layout_gravity="center_vertical">
+                            <ImageView
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:layout_gravity="center"
+                                android:src="@drawable/calendar"
                                 android:id="@+id/date_icon_frame"
-                                android:layout_alignParentStart="true">
+                                android:layout_margin="4dp"/>
 
-                                <ImageView
-                                    android:layout_width="20dp"
-                                    android:layout_height="20dp"
-                                    android:layout_gravity="center"
-                                    android:src="@drawable/ic_time"/>
-                            </FrameLayout>
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="Date"
-                                android:layout_toEndOf="@id/date_icon_frame"
-                                android:id="@+id/date_tag"/>
                             <TextView
                                 android:id="@+id/event_ac_date"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
                                 android:text="Tue 20 Sept 2016"
-                                android:layout_below="@+id/date_tag"
-                                android:layout_toEndOf="@+id/date_icon_frame"/>
+                                android:layout_centerVertical="true"
+                                android:layout_toEndOf="@id/date_icon_frame"
+                                android:textSize="12sp"/>
 
                         </RelativeLayout>
 
 
                     </LinearLayout>
 
-                    <View
-                        android:layout_width="1dp"
-                        android:layout_height="match_parent"
-                        android:background="@color/sepGray"/>
+                    <!--<View-->
+                        <!--android:layout_width="1dp"-->
+                        <!--android:layout_height="match_parent"-->
+                        <!--android:background="@color/sepGray"/>-->
 
 
                     <Button
                         android:text="Book Now"
                         android:layout_width="match_parent"
-                        android:paddingTop="14dp"
-                        android:paddingBottom="14dp"
-                        style="@style/BookButton" />
-
+                        android:layout_height="wrap_content"
+                        android:paddingTop="10dp"
+                        android:paddingBottom="10dp"
+                        android:layout_marginTop="0dp"
+                        android:background="@drawable/rounded_button"
+                        android:layout_gravity="center_horizontal"
+                        android:textColor="@color/white"
+                        android:textAllCaps="false"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:textSize="16sp"
+                        android:stateListAnimator="@null"
+                        />
+                    <!--style="@style/BookButton"-->
                 </LinearLayout>
 
 

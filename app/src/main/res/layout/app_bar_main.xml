@@ -26,10 +26,9 @@
             android:id="@+id/tabs"
             app:tabMode="fixed"
             app:tabGravity="fill"
-            android:background="#FFF"
-            app:tabTextColor="#999"
-            app:tabSelectedTextColor="#555"
-            app:tabIndicatorColor="@color/colorPrimary"
+            app:tabTextColor="#ddd"
+            app:tabSelectedTextColor="@color/white"
+            app:tabIndicatorColor="@color/white"
             app:tabIndicatorHeight="3dp"
             />
 
