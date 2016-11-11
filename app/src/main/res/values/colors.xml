@@ -292,7 +292,7 @@
     <color name="white">#FFF</color>
     <color name="textGray">#aaa</color>
     <color name="bgGray">#f2f2f2</color>
-    <color name="sepGray">#ddd</color>
+    <color name="sepGray">@color/grey_200</color>
 
 
     <!-- Welcoming screens colors -->
