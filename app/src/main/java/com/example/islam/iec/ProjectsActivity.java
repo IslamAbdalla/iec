@@ -1,5 +1,6 @@
 package com.example.islam.iec;
 
+import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -8,6 +9,8 @@ import android.util.Log;
 import android.view.MenuItem;
 
 import java.util.ArrayList;
+
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class ProjectsActivity extends AppCompatActivity {
 
@@ -79,4 +82,11 @@ public class ProjectsActivity extends AppCompatActivity {
         projectsRecyclerView.setLayoutManager(projectsLayoutManager);
         projectsAdapter.notifyDataSetChanged();
     }
+
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
+
 }

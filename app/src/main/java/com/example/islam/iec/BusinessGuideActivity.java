@@ -1,8 +1,11 @@
 package com.example.islam.iec;
 
+import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class BusinessGuideActivity extends AppCompatActivity {
 
@@ -15,4 +18,11 @@ public class BusinessGuideActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
     }
+
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
+
 }

@@ -1,5 +1,6 @@
 package com.example.islam.iec;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -9,6 +10,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class SignUp extends AppCompatActivity {
     private PrefManager prefManager;
@@ -34,7 +37,7 @@ public class SignUp extends AppCompatActivity {
 
         // Check fields
 
-        /*if (username == null ||
+        if (username == null ||
             phone == null ||
             password == null ||
             confirmPassword == null) {
@@ -61,7 +64,7 @@ public class SignUp extends AppCompatActivity {
             !password.getText().toString().equals(confirmPassword.getText().toString())) {
             Toast.makeText(SignUp.this, "Passwords do not match.", Toast.LENGTH_SHORT).show();
             return;
-        }*/
+        }
         new WebDownloaderTask(this, WebDownloaderTask.REGISTER).execute("http://www.test.com/index.html");
     }
 
@@ -71,4 +74,11 @@ public class SignUp extends AppCompatActivity {
         else Log.i("IEC", "completeLogin: Nope");
         finish();
     }
+
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
+
 }
