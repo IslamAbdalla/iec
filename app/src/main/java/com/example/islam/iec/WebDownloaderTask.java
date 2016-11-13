@@ -141,7 +141,7 @@ public class WebDownloaderTask  extends AsyncTask<String, Void, String> {
         String route;
         OkHttpClient client = new OkHttpClient();
         Request request;
-        String eventID;
+        String eventID,projectID;
         RequestBody requestBody;
         request = new Request.Builder()
                 .url(BASE_URL )
@@ -234,6 +234,24 @@ public class WebDownloaderTask  extends AsyncTask<String, Void, String> {
                 requestBody = new MultipartBody.Builder()
                         .setType(MultipartBody.FORM)
                         .addFormDataPart("event_id", eventID)
+                        .build();
+                request = new Request.Builder()
+                        .url(BASE_URL + route)
+//                        .header("Authorization", "Basic "+ Base64.encodeToString("wordpressuser:3IeOHORJOeCQq^%oUV".getBytes(),Base64.NO_WRAP))
+                        .header("Authorization", "Basic "+ Base64.encodeToString((username + ":" + password).getBytes(),Base64.NO_WRAP))
+                        .post(requestBody)
+                        .build();
+                Log.d(TAG, "doInBackground: username: " + username + " - password: " +password);
+                break;
+            case VOTE:
+                route = "/vote/";
+                eventID = string[0];
+                projectID = string[1];
+                Log.d(TAG, "doInBackground: eventID: " + eventID);
+                requestBody = new MultipartBody.Builder()
+                        .setType(MultipartBody.FORM)
+                        .addFormDataPart("event_id", eventID)
+                        .addFormDataPart("project_id", projectID)
                         .build();
                 request = new Request.Builder()
                         .url(BASE_URL + route)
@@ -436,6 +454,27 @@ public class WebDownloaderTask  extends AsyncTask<String, Void, String> {
                         PrefManager prefManager = new PrefManager(projectsActivity);
                         prefManager.setVoted(event.getId(), response.optBoolean("voted"));
                         projectsActivity.redrawProjects();
+
+                    } else if (!response.optString("error_msg").isEmpty()){
+                        Toast.makeText(projectsActivity, response.optString("error_msg"), Toast.LENGTH_LONG).show();
+                    } else {
+                        Toast.makeText(projectsActivity, "Unknown error occurred.", Toast.LENGTH_LONG).show();
+
+                    }
+                } else {
+                    Toast.makeText(projectsActivity, "Could not connect to the server.", Toast.LENGTH_LONG).show();
+                }
+                break;
+            case VOTE:
+                Log.d(TAG, "onPostExecute: voted " + s);
+                projectsActivity = (ProjectsActivity) activityWeakReference.get();
+                if (response != null) {
+                    if (0 == response.optInt("status")) {
+                        Event event = projectsActivity.event;
+                        PrefManager prefManager = new PrefManager(projectsActivity);
+                        prefManager.setVoted(event.getId(), true);
+                        projectsActivity.redrawProjects();
+                        Toast.makeText(projectsActivity, "Voted successfully", Toast.LENGTH_SHORT).show();
 
                     } else if (!response.optString("error_msg").isEmpty()){
                         Toast.makeText(projectsActivity, response.optString("error_msg"), Toast.LENGTH_LONG).show();

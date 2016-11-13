@@ -49,17 +49,23 @@ public class ProjectsAdapter extends RecyclerView.Adapter<ProjectsAdapter.ViewHo
         // Voting app
         if (state == PrefManager.ProjectState.NOTYET) {
             Log.d("ProjectsAdapter", "onBindViewHolder: Not yet");
-            holder.voteButton.setBackgroundColor(context.getResources().getColor(R.color.colorAccent));
+//            holder.voteButton.setBackgroundColor(context.getResources().getColor(R.color.colorAccent));
+            holder.voteButton.setBackground(context.getResources().getDrawable(R.drawable.outline_button));
+            holder.voteButton.setTextColor(context.getResources().getColor(R.color.colorAccent));
             holder.voteButton.setText("Vote");
         }
         if (state == PrefManager.ProjectState.VOTED) {
             Log.d("ProjectsAdapter", "onBindViewHolder: voted");
-            holder.voteButton.setBackgroundColor(context.getResources().getColor(R.color.textGray));
+//            holder.voteButton.setBackgroundColor(context.getResources().getColor(R.color.textGray));
+            holder.voteButton.setBackground(context.getResources().getDrawable(R.drawable.rounded_greyed_button));
+            holder.voteButton.setTextColor(context.getResources().getColor(R.color.white));
             holder.voteButton.setText("Voted");
         }
         if (state == PrefManager.ProjectState.UNKNOWN) {
             Log.d("ProjectsAdapter", "onBindViewHolder: unknown");
-            holder.voteButton.setBackgroundColor(context.getResources().getColor(R.color.textGray));
+//            holder.voteButton.setBackgroundColor(context.getResources().getColor(R.color.textGray));
+            holder.voteButton.setBackground(context.getResources().getDrawable(R.drawable.rounded_greyed_button));
+            holder.voteButton.setTextColor(context.getResources().getColor(R.color.white));
             holder.voteButton.setText("Vote");
 
         }
@@ -70,7 +76,8 @@ public class ProjectsAdapter extends RecyclerView.Adapter<ProjectsAdapter.ViewHo
         if (!project.getImage().isEmpty()) {
 
             Picasso.with(context)
-                    .load("http://design.ubuntu.com/wp-content/uploads/ubuntu-logo32.png")
+//                    .load("http://design.ubuntu.com/wp-content/uploads/ubuntu-logo32.png")
+                    .load(project.getImage())
                     //.resize(holder.imgEvent.getMeasuredWidth(),360)
                     .fit()
                     .centerCrop()
@@ -98,7 +105,8 @@ public class ProjectsAdapter extends RecyclerView.Adapter<ProjectsAdapter.ViewHo
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
 
-                                    Toast.makeText(context, "Voted successfully", Toast.LENGTH_SHORT).show();
+                            new WebDownloaderTask((ProjectsActivity) context, WebDownloaderTask.VOTE).execute(eventID, project.getId());
+                                    Toast.makeText(context, "Connecting to the server", Toast.LENGTH_SHORT).show();
 
 
                                 }

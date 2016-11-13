@@ -30,8 +30,19 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Vote"
-            android:background="@color/colorAccent"
-            android:textColor="@color/white"/>
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+        android:layout_marginTop="0dp"
+            android:background="@drawable/outline_button"
+        android:layout_gravity="center_vertical"
+        android:textColor="@color/colorAccent"
+        android:textSize="14sp"
+        android:stateListAnimator="@null"
+        android:minHeight="0dp"
+            android:minWidth="0dp"/>
+
     </LinearLayout>
     <View
         android:layout_width="match_parent"

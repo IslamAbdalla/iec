@@ -259,8 +259,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:gravity="center_horizontal"
-                        android:paddingTop="170dp"
-                        android:paddingBottom="170dp"
+                        android:paddingTop="10dp"
+                        android:paddingBottom="10dp"
                         android:textSize="14sp"
                         android:textColor="@color/textGray"
                         android:text="HTML details goes here." />
