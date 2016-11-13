@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.view.ViewCompat;
@@ -19,6 +20,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -42,6 +44,7 @@ public class EventActivity extends AppCompatActivity {
     public ImageView image;
     public Button bookButton;
     private PrefManager prefManager;
+    public LinearLayout voteForProjectLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +67,7 @@ public class EventActivity extends AppCompatActivity {
         details = (TextView) findViewById(R.id.event_ac_details);
         image = (ImageView) findViewById(R.id.header);
         bookButton = (Button) findViewById(R.id.btn_book);
+        voteForProjectLayout = (LinearLayout) findViewById(R.id.vote_for_projects_layout);
         prefManager = new PrefManager(this);
 
         // Get event details
@@ -76,20 +80,13 @@ public class EventActivity extends AppCompatActivity {
             date.setText(event.getDate());
             details.setText(Html.fromHtml(event.getDescription()));
 
-            if (event.getUpcoming())
             Picasso.with(this)
-                    .load("https://scontent.xx.fbcdn.net/v/t1.0-9/14358705_715127548627927_376893474631163672_n.jpg?oh=3452f21fa868e991606207fe0bc8ad23&oe=5866434F")
+                    .load(event.getImage())
                     //.resize(holder.imgEvent.getMeasuredWidth(),360)
                     .fit()
                     .centerCrop()
                     .into(image);
-            else
-            Picasso.with(this)
-                    .load("https://scontent-arn2-1.xx.fbcdn.net/t31.0-8/13047850_812313515567579_4736785202866688398_o.jpg")
-                    //.resize(holder.imgEvent.getMeasuredWidth(),360)
-                    .fit()
-                    .centerCrop()
-                    .into(image);
+
 
         }
 
@@ -122,8 +119,15 @@ public class EventActivity extends AppCompatActivity {
             });
         }
 
-        // Button color
+        // Book button
         updateBookButton();
+
+        // Show or hide vote for projects
+        if(event.projects.isEmpty()){
+            voteForProjectLayout.setVisibility(View.GONE);
+        } else {
+            voteForProjectLayout.setVisibility(View.VISIBLE);
+        }
     }
 
     public void openProjects(View view) {
@@ -140,6 +144,7 @@ public class EventActivity extends AppCompatActivity {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 
+    @NonNull
     private Boolean isEventBooked (String eventID) {
 
         Gson gson = new Gson();

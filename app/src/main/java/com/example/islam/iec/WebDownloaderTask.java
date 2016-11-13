@@ -252,15 +252,15 @@ public class WebDownloaderTask  extends AsyncTask<String, Void, String> {
         try {
             Log.i("IEC", "doInBackground: "+ request.toString());
             Response response = client.newCall(request).execute();
-            if (response.isSuccessful()) {
+//            if (response.isSuccessful()) {
                 return response.body().string();
-            }
-            else
-            Log.i("IEC", "doInBackground: "+response.body().string());
+//            }
+//            else
+//            Log.i("IEC", "doInBackground: "+response.body().string());
         } catch (Exception e) {
             return e.toString();
         }
-    return "Download failed";
+//    return "Download failed";
     }
 
     @Override
@@ -315,7 +315,7 @@ public class WebDownloaderTask  extends AsyncTask<String, Void, String> {
                             }
                         }
                     } else if (!response.optString("error_msg").isEmpty()) {
-                        Toast.makeText(loginActivity, "Failed to log in.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(loginActivity, response.optString("error_msg"), Toast.LENGTH_SHORT).show();
                     } else {
                         Toast.makeText(loginActivity, "Unknown error occurred.", Toast.LENGTH_LONG).show();
                     }

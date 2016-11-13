@@ -115,21 +115,12 @@ public class LatestEventsAdapter extends RecyclerView.Adapter<LatestEventsAdapte
 
             Log.i("IEC", "onBindViewHolder: Image URL: " + event.getImage());
             Picasso.with(context)
-                    .load("https://scontent.xx.fbcdn.net/v/t1.0-9/14358705_715127548627927_376893474631163672_n.jpg?oh=3452f21fa868e991606207fe0bc8ad23&oe=5866434F")
+//                    .load("https://scontent.xx.fbcdn.net/v/t1.0-9/14358705_715127548627927_376893474631163672_n.jpg?oh=3452f21fa868e991606207fe0bc8ad23&oe=5866434F")
+                    .load(event.getImage())
                     //.resize(holder.imgEvent.getMeasuredWidth(),360)
                     .fit()
                     .centerCrop()
                     .into(holder.imgEvent);
-            if (position == 1) {
-                holder.imgEvent.setImageResource(R.drawable.startup_weekend_medani);
-            Picasso.with(context)
-                    .load("https://scontent-arn2-1.xx.fbcdn.net/t31.0-8/13047850_812313515567579_4736785202866688398_o.jpg")
-                    //.resize(holder.imgEvent.getMeasuredWidth(),360)
-                    .fit()
-                    .centerCrop()
-                    .into(holder.imgEvent);
-
-            }
 
             holder.rootLayout.setOnClickListener(new View.OnClickListener() {
                 @Override

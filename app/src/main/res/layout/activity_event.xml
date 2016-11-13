@@ -279,6 +279,7 @@
                 <!--android:layout_marginEnd="9dp">-->
 
                     <LinearLayout
+                        android:id="@+id/vote_for_projects_layout"
                         android:layout_margin="10dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
