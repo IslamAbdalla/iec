@@ -22,4 +22,6 @@
     <string name="title_activity_login">Login</string>
     <string name="title_activity_about">About IEC</string>
     <string name="title_activity_business_guide">Business Guide</string>
+    <string name="title_activity_projects">Projects</string>
+    <string name="title_activity_profile">My profile</string>
 </resources>

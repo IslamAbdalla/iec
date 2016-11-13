@@ -45,26 +45,29 @@ public class ProjectsAdapter extends RecyclerView.Adapter<ProjectsAdapter.ViewHo
     public void onBindViewHolder(final ViewHolder holder, int position) {
         final String eventID = ((ProjectsActivity) context).eventID;
         final PrefManager.ProjectState state = prefManager.getVoted(eventID);
+        if (!((ProjectsActivity) context).event.getUpcoming()){
+            holder.voteButton.setVisibility(View.GONE);
+        }
 
         // Voting app
         if (state == PrefManager.ProjectState.NOTYET) {
             Log.d("ProjectsAdapter", "onBindViewHolder: Not yet");
 //            holder.voteButton.setBackgroundColor(context.getResources().getColor(R.color.colorAccent));
-            holder.voteButton.setBackground(context.getResources().getDrawable(R.drawable.outline_button));
+            holder.voteButton.setBackground(context.getResources().getDrawable(R.drawable.vote_button));
             holder.voteButton.setTextColor(context.getResources().getColor(R.color.colorAccent));
             holder.voteButton.setText("Vote");
         }
         if (state == PrefManager.ProjectState.VOTED) {
             Log.d("ProjectsAdapter", "onBindViewHolder: voted");
 //            holder.voteButton.setBackgroundColor(context.getResources().getColor(R.color.textGray));
-            holder.voteButton.setBackground(context.getResources().getDrawable(R.drawable.rounded_greyed_button));
+            holder.voteButton.setBackground(context.getResources().getDrawable(R.drawable.vote_greyed_button));
             holder.voteButton.setTextColor(context.getResources().getColor(R.color.white));
             holder.voteButton.setText("Voted");
         }
         if (state == PrefManager.ProjectState.UNKNOWN) {
             Log.d("ProjectsAdapter", "onBindViewHolder: unknown");
 //            holder.voteButton.setBackgroundColor(context.getResources().getColor(R.color.textGray));
-            holder.voteButton.setBackground(context.getResources().getDrawable(R.drawable.rounded_greyed_button));
+            holder.voteButton.setBackground(context.getResources().getDrawable(R.drawable.vote_greyed_button));
             holder.voteButton.setTextColor(context.getResources().getColor(R.color.white));
             holder.voteButton.setText("Vote");
 
@@ -141,6 +144,8 @@ public class ProjectsAdapter extends RecyclerView.Adapter<ProjectsAdapter.ViewHo
 
                             break;
                     }
+
+                } else {
 
                 }
 

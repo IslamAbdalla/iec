@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.AppBarLayout;
@@ -41,6 +42,7 @@ public class EventActivity extends AppCompatActivity {
     public TextView location;
     public TextView date;
     public TextView details;
+    public TextView projectsLabel;
     public ImageView image;
     public Button bookButton;
     private PrefManager prefManager;
@@ -65,6 +67,7 @@ public class EventActivity extends AppCompatActivity {
         location = (TextView) findViewById(R.id.event_ac_loc);
         date = (TextView) findViewById(R.id.event_ac_date);
         details = (TextView) findViewById(R.id.event_ac_details);
+        projectsLabel = (TextView) findViewById(R.id.vote_for_projects_label);
         image = (ImageView) findViewById(R.id.header);
         bookButton = (Button) findViewById(R.id.btn_book);
         voteForProjectLayout = (LinearLayout) findViewById(R.id.vote_for_projects_layout);
@@ -76,7 +79,7 @@ public class EventActivity extends AppCompatActivity {
         if (event != null ) {
             Log.i("IEC", "onCreate: Event.name: " +  event.getName());
             title.setText(event.getName());
-            location.setText(event.getLocation());
+            location.setText(event.getLocationText());
             date.setText(event.getDate());
             details.setText(Html.fromHtml(event.getDescription()));
 
@@ -214,5 +217,18 @@ public class EventActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         updateBookButton();
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    public void openLocation(View view) {
+        double latitude = event.getLat();
+        double longitude = event.getLng();
+        String label = event.getLocationText();
+        String uriBegin = "geo:" + latitude + "," + longitude;
+        String query = latitude + "," + longitude + "(" + label + ")";
+        String encodedQuery = Uri.encode(query);
+        String uriString = uriBegin + "?q=" + encodedQuery + "&z=16";
+        Uri uri = Uri.parse(uriString);
+        Intent intent = new Intent(android.content.Intent.ACTION_VIEW, uri);
+        startActivity(intent);
     }
 }

@@ -20,17 +20,19 @@ public class Event implements Parcelable{
 
     private String image;
     private @DrawableRes int imageId;
-    private String location;
+    private Double lat;
+    private Double lng;
     private String locationText;
     private Boolean upcoming;
     private Boolean isSeparator;
     public ArrayList<Project> projects;
     public PrefManager.ProjectState votedState;
 
-    public Event(String title, String id, String location,String locationText, String date, String description, String image, Boolean upcoming) {
+    public Event(String title, String id, Double lat, Double lng,String locationText, String date, String description, String image, Boolean upcoming) {
         this.name = title;
         this.id = id;
-        this.location = location;
+        this.lat = lat;
+        this.lng = lng;
         this.locationText = locationText;
         this.date = date;
         this.description = description;
@@ -42,7 +44,8 @@ public class Event implements Parcelable{
     public Event(String string){
         this.name = null;
         this.id = null;
-        this.location = null;
+        this.lat = null;
+        this.lng = null;
         this.locationText = null;
         this.date = null;
         this.description = null;
@@ -94,13 +97,22 @@ public class Event implements Parcelable{
         this.imageId = imageId;
     }
 
-    public String getLocation() {
-        return location;
+    public Double getLat() {
+        return lat;
     }
 
-    public void setLocation(String location) {
-        this.location = location;
+    public void setLat(Double lat) {
+        this.lat = lat;
     }
+
+    public Double getLng() {
+        return lng;
+    }
+
+    public void setLng(Double lng) {
+        this.lng = lng;
+    }
+
 
     public String getLocationText() {
         return locationText;
@@ -222,7 +234,8 @@ public class Event implements Parcelable{
         dest.writeString(this.description);
         dest.writeString(this.image);
         dest.writeInt(this.imageId);
-        dest.writeString(this.location);
+        dest.writeDouble(this.lat);
+        dest.writeDouble(this.lng);
         dest.writeString(this.locationText);
         dest.writeValue(this.upcoming);
         dest.writeValue(this.isSeparator);
@@ -236,7 +249,8 @@ public class Event implements Parcelable{
         this.description = in.readString();
         this.image = in.readString();
         this.imageId = in.readInt();
-        this.location = in.readString();
+        this.lat = in.readDouble();
+        this.lng = in.readDouble();
         this.locationText = in.readString();
         this.upcoming = (Boolean) in.readValue(Boolean.class.getClassLoader());
         this.isSeparator = (Boolean) in.readValue(Boolean.class.getClassLoader());

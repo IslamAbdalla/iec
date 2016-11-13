@@ -110,7 +110,7 @@ public class LatestEventsAdapter extends RecyclerView.Adapter<LatestEventsAdapte
 
         if(!event.isSeparator()) {
             holder.txtTitle.setText(event.getName());
-            holder.txtLocation.setText(event.getLocation());
+            holder.txtLocation.setText(event.getLocationText());
             holder.txtDate.setText((CharSequence) event.getDate().toString());
 
             Log.i("IEC", "onBindViewHolder: Image URL: " + event.getImage());

@@ -87,19 +87,19 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
-                        android:paddingBottom="4dp"
-                        android:paddingTop="4dp"
-                        android:background="#fff"
-                        android:layout_margin="6dp">
+                        android:background="#fff">
                         <RelativeLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight=".50"
                             android:orientation="horizontal"
-                            android:clickable="true"
                             android:layout_gravity="center_vertical"
                             android:gravity="right"
-
+                            android:padding="10dp"
+                            android:focusable="true"
+                            android:clickable="true"
+                            android:background="?android:attr/selectableItemBackground"
+                            android:onClick="openLocation"
                             >
 
 
@@ -129,9 +129,7 @@
                             android:layout_width="1dp"
                             android:layout_height="match_parent"
                             android:paddingTop="3dp"
-                            android:paddingBottom="3dp"
-                            android:layout_marginLeft="10dp"
-                            android:layout_marginRight="10dp">
+                            android:paddingBottom="3dp">
                             <View
                                 android:layout_width="1dp"
                                 android:layout_height="match_parent"
@@ -146,7 +144,8 @@
                             android:layout_weight=".50"
                             android:orientation="horizontal"
                             android:clickable="true"
-                            android:layout_gravity="center_vertical">
+                            android:layout_gravity="center_vertical"
+                            android:padding="10dp">
                             <ImageView
                                 android:layout_width="20dp"
                                 android:layout_height="20dp"
@@ -258,11 +257,10 @@
                         android:id="@+id/event_ac_details"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:gravity="center_horizontal"
                         android:paddingTop="10dp"
                         android:paddingBottom="10dp"
                         android:textSize="14sp"
-                        android:textColor="@color/textGray"
+                        android:textColor="@color/grey_600"
                         android:text="HTML details goes here." />
 
 
@@ -280,7 +278,8 @@
 
                     <LinearLayout
                         android:id="@+id/vote_for_projects_layout"
-                        android:layout_margin="10dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:focusable="true"
@@ -301,10 +300,11 @@
                                 <!--/>-->
 
                         <TextView
+                            android:id="@+id/vote_for_projects_label"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:textSize="16sp"
-                            android:text="Vote for projects"
+                            android:text="View projects"
                             android:textColor="@color/colorPrimary"
                             android:layout_gravity="center_horizontal"
                             android:gravity="center_horizontal"/>

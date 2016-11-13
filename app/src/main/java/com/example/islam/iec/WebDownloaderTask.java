@@ -16,7 +16,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.UnsupportedEncodingException;
 import java.lang.ref.WeakReference;
+import java.net.URLDecoder;
 import java.util.ArrayList;
 
 import okhttp3.MediaType;
@@ -543,16 +545,24 @@ public class WebDownloaderTask  extends AsyncTask<String, Void, String> {
             JSONObject event = eventsJSONArray.getJSONObject(index);
             if (separator == 1 && !event.optBoolean("upcoming")){
                 latestEventsList.add(new Event("Separator"));
-                separator = 0;
+                separator =  0;
             }
-            Event tmpEvent = new Event(event.optString("name"),
-                    event.optString("id"),
-                    event.optString("location"),
-                    event.optString("location"),
-                    event.optString("date"),
-                    event.optString("details"),
-                    event.optString("image"),
-                    (index == 0));
+            Event tmpEvent = null;
+            try {
+                tmpEvent = new Event(event.optString("name"),
+                        event.optString("id"),
+                        event.optDouble("lat"),
+                        event.optDouble("lng"),
+                        event.optString("location"),
+                        event.optString("date"),
+                        URLDecoder.decode(event.optString("details"), "UTF-8"),
+                        event.optString("image"),
+                        (separator == 1));
+
+                Log.d(TAG, "parseEvents: "+ URLDecoder.decode(event.optString("details"), "UTF-8"));
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
 
 
             // Parse projects
