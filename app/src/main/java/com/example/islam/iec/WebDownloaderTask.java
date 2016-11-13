@@ -31,7 +31,8 @@ import okhttp3.Response;
 
 
 public class WebDownloaderTask  extends AsyncTask<String, Void, String> {
-    private static final String BASE_URL = "http://192.168.43.155/wp-json/iec-api/v1";
+//    private static final String BASE_URL = "http://172.31.200.34/wp-json/iec-api/v1";
+    private static final String BASE_URL = "http://192.168.43.155:8080";
     WeakReference<Fragment> fragmentWeakReference;
     WeakReference<Activity> activityWeakReference;
     final static public int GET_EVENTS = 0, GET_TICKETS = 1, LOG_IN = 2, REGISTER = 3, BOOK = 4, UPDATE = 5, VOTE = 6, VOTED = 7;
@@ -94,6 +95,10 @@ public class WebDownloaderTask  extends AsyncTask<String, Void, String> {
                 Activity profileActivity = activityWeakReference.get();
                 registerUser = new User("","","","","","","");
                 if (profileActivity != null) {
+                    PrefManager prefManager = new PrefManager(profileActivity);
+                    username = prefManager.getUser().getUsername();
+                    password = prefManager.getUser().getPassword();
+
                     progressDialog = ProgressDialog.show(profileActivity, "Updating data", "Please wait");
                     registerUser.setPassword(((ProfileActivity) profileActivity).user.getPassword());
                     registerUser.setName(((ProfileActivity) profileActivity).user.getName());
@@ -101,10 +106,30 @@ public class WebDownloaderTask  extends AsyncTask<String, Void, String> {
                     registerUser.setJob(((ProfileActivity) profileActivity).user.getJob());
                     registerUser.setAddress(((ProfileActivity) profileActivity).user.getAddress());
                     registerUser.setPhone(((ProfileActivity) profileActivity).user.getPhone());
+                    registerUser.setUsername(username);
+
                 } else {
 
                     Log.e(TAG, "onPreExecute: Failed to update user data");
                 }
+                break;
+
+            case VOTE :
+            case VOTED :
+            case BOOK:
+            case GET_TICKETS:
+                PrefManager prefManager;
+                if (activityWeakReference != null){
+                Activity activity = activityWeakReference.get();
+                    prefManager = new PrefManager(activity);
+                } else {
+                Fragment fragment = fragmentWeakReference.get();
+                    prefManager = new PrefManager(fragment.getContext());
+                }
+                username = prefManager.getUser().getUsername();
+                password = prefManager.getUser().getPassword();
+                Log.d(TAG, "doInBackground: First username: " + username + " - password: " +password);
+
                 break;
         }
 
@@ -147,14 +172,14 @@ public class WebDownloaderTask  extends AsyncTask<String, Void, String> {
                         .build();
                 break;
             case REGISTER:
+                route = "/register/";
                 requestBody = new MultipartBody.Builder()
                         .setType(MultipartBody.FORM)
                         .addFormDataPart("username", registerUser.getUsername())
-                        .addFormDataPart("phone", registerUser.getPassword())
+                        .addFormDataPart("phone", registerUser.getPhone())
                         .addFormDataPart("password", registerUser.getPassword())
                         .build();
 
-                route = "/register/";
                 request = new Request.Builder()
                         .url(BASE_URL + route)
                         .method("POST", RequestBody.create(null, new byte[0]))
@@ -192,14 +217,14 @@ public class WebDownloaderTask  extends AsyncTask<String, Void, String> {
                         .addFormDataPart("address", registerUser.getAddress())
                         .build();
 
-                route = "/register/";
                 request = new Request.Builder()
                         .url(BASE_URL + route)
                         .method("POST", RequestBody.create(null, new byte[0]))
-                        .header("Authorization", "Basic "+ Base64.encodeToString("wordpressuser:3IeOHORJOeCQq^%oUV".getBytes(),Base64.NO_WRAP))
-//                        .header("Authorization", "Basic "+ Base64.encodeToString((username + ":" + password).getBytes(),Base64.NO_WRAP))
+//                        .header("Authorization", "Basic "+ Base64.encodeToString("wordpressuser:3IeOHORJOeCQq^%oUV".getBytes(),Base64.NO_WRAP))
+                        .header("Authorization", "Basic "+ Base64.encodeToString((username + ":" + password).getBytes(),Base64.NO_WRAP))
                         .post(requestBody)
                         .build();
+                Log.d(TAG, "doInBackground: username: " + username + " - password: " +password);
                 break;
             case VOTED:
                 route = "/voted/";
@@ -207,14 +232,15 @@ public class WebDownloaderTask  extends AsyncTask<String, Void, String> {
                 Log.d(TAG, "doInBackground: eventID: " + eventID);
                 requestBody = new MultipartBody.Builder()
                         .setType(MultipartBody.FORM)
-                        .addFormDataPart("event", eventID)
+                        .addFormDataPart("event_id", eventID)
                         .build();
                 request = new Request.Builder()
                         .url(BASE_URL + route)
-                        .header("Authorization", "Basic "+ Base64.encodeToString("wordpressuser:3IeOHORJOeCQq^%oUV".getBytes(),Base64.NO_WRAP))
-//                        .header("Authorization", "Basic "+ Base64.encodeToString((username + ":" + password).getBytes(),Base64.NO_WRAP))
+//                        .header("Authorization", "Basic "+ Base64.encodeToString("wordpressuser:3IeOHORJOeCQq^%oUV".getBytes(),Base64.NO_WRAP))
+                        .header("Authorization", "Basic "+ Base64.encodeToString((username + ":" + password).getBytes(),Base64.NO_WRAP))
                         .post(requestBody)
                         .build();
+                Log.d(TAG, "doInBackground: username: " + username + " - password: " +password);
                 break;
             default:
                 route = "/";

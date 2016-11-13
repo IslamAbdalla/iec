@@ -190,9 +190,16 @@ public class MainActivity extends AppCompatActivity
         alertDialogBuilder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+
+                // Clearing pref manager
                 User emptyUser = new User("","","","","","","");
                 prefManager.setUser(emptyUser);
                 prefManager.setIsLoggedIn(false);
+
+                // Clearing stored tickets
+                Gson gson = new Gson();
+                String json = gson.toJson(new ArrayList<EventTicket>());
+                prefManager.setTicketsList(json);
 
                 updateUI(false);
                 Toast.makeText(MainActivity.this, "Logged out successfully", Toast.LENGTH_SHORT).show();
