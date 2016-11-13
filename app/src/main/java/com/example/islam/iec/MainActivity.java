@@ -280,4 +280,13 @@ public class MainActivity extends AppCompatActivity
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+//        if (myEventsFragment != null) {
+//            myEventsFragment.redrawTickets();
+//            myEventsFragment.updateTickets(prefManager.isLoggedIn());
+//        }
+    }
+
 }

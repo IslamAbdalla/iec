@@ -115,5 +115,26 @@ public class MyEvents extends Fragment {
         }
     }
 
+    public void redrawTickets(){
+
+        if (prefManager != null) {
+            prefManager = new PrefManager(getContext());
+            Gson gson = new Gson();
+            String json = prefManager.getTicketsList();
+
+            if (prefManager.isLoggedIn() ){
+                myEventsList = gson.fromJson(json, new TypeToken<ArrayList<EventTicket>>(){}.getType());
+                if (myEventsList.isEmpty()) {
+                    showNoTicketsIndicator();
+                } else {
+                    setTickets(myEventsList);
+                }
+            } else {
+                showNoTicketsIndicator();
+            }
+
+        }
+    }
+
 
 }

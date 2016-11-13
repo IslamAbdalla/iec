@@ -10,6 +10,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -158,8 +159,8 @@ public class WebDownloaderTask  extends AsyncTask<String, Void, String> {
                 route = "/ticket/";
                 request = new Request.Builder()
                         .url(BASE_URL + route)
-                        .header("Authorization", "Basic "+ Base64.encodeToString("wordpressuser:3IeOHORJOeCQq^%oUV".getBytes(),Base64.NO_WRAP))
-//                        .header("Authorization", "Basic "+ Base64.encodeToString((username + ":" + password).getBytes(),Base64.NO_WRAP))
+//                        .header("Authorization", "Basic "+ Base64.encodeToString("wordpressuser:3IeOHORJOeCQq^%oUV".getBytes(),Base64.NO_WRAP))
+                        .header("Authorization", "Basic "+ Base64.encodeToString((username + ":" + password).getBytes(),Base64.NO_WRAP))
                         .build();
                 break;
             case LOG_IN:
@@ -197,8 +198,8 @@ public class WebDownloaderTask  extends AsyncTask<String, Void, String> {
                 request = new Request.Builder()
                         .url(BASE_URL + route)
                         .method("POST", RequestBody.create(null, new byte[0]))
-                        .header("Authorization", "Basic "+ Base64.encodeToString("wordpressuser:3IeOHORJOeCQq^%oUV".getBytes(),Base64.NO_WRAP))
-//                        .header("Authorization", "Basic "+ Base64.encodeToString((username + ":" + password).getBytes(),Base64.NO_WRAP))
+//                        .header("Authorization", "Basic "+ Base64.encodeToString("wordpressuser:3IeOHORJOeCQq^%oUV".getBytes(),Base64.NO_WRAP))
+                        .header("Authorization", "Basic "+ Base64.encodeToString((username + ":" + password).getBytes(),Base64.NO_WRAP))
                         .post(requestBody)
                         .build();
 
@@ -353,7 +354,7 @@ public class WebDownloaderTask  extends AsyncTask<String, Void, String> {
 
                         if (response != null && 0 == response.optInt("status")) {
                             myEventsFragment.clearTickets();
-                            JSONArray eventsJSONArray = response.optJSONArray("ticket");
+                            JSONArray eventsJSONArray = response.optJSONArray("tickets");
                             ArrayList<EventTicket> eventsTicketsList;
 
 
@@ -368,7 +369,7 @@ public class WebDownloaderTask  extends AsyncTask<String, Void, String> {
                                 Log.d(TAG, "onPostExecute: Setting EventList: " + json);
 
                                 myEventsFragment.setTickets(eventsTicketsList);
-                            } catch (JSONException e) {
+                            } catch (Exception e) {
                                  e.printStackTrace();
                             }
 
@@ -380,25 +381,26 @@ public class WebDownloaderTask  extends AsyncTask<String, Void, String> {
                 break;
             case BOOK:
                 Log.d(TAG, "onPostExecute: book" + s);
-                MainActivity mainActivity = (MainActivity) activityWeakReference.get();
-
+                //MainActivity mainActivity = (MainActivity) activityWeakReference.get();
+                EventActivity eventActivity = (EventActivity) activityWeakReference.get();
 
                 if (response != null) {
                     if (0 == response.optInt("status")) {
-                        PrefManager prefManager = new PrefManager(mainActivity);
-                        mainActivity.addTicket(new EventTicket( response.optString("name") , response.optString("event_id"),response.optString("reg_code") ));
-                        Toast.makeText(mainActivity, "Ticket booked", Toast.LENGTH_LONG).show();
+                        PrefManager prefManager = new PrefManager(eventActivity);
+                        //mainActivity.addTicket(new EventTicket( response.optString("name") , response.optString("event_id"),response.optString("reg_code") ));
+                        addTicket(prefManager,new EventTicket( response.optString("name") , response.optString("event_id"),response.optString("reg_code") ) );
+                        Toast.makeText(eventActivity, "Ticket booked", Toast.LENGTH_LONG).show();
 
 
 
                     } else if (!response.optString("error_msg").isEmpty()){
-                        Toast.makeText(mainActivity, response.optString("error_msg"), Toast.LENGTH_LONG).show();
+                        Toast.makeText(eventActivity, response.optString("error_msg"), Toast.LENGTH_LONG).show();
                     } else {
-                        Toast.makeText(mainActivity, "Unknown error occurred.", Toast.LENGTH_LONG).show();
+                        Toast.makeText(eventActivity, "Unknown error occurred.", Toast.LENGTH_LONG).show();
 
                     }
                 } else {
-                    Toast.makeText(mainActivity, "Could not connect to the server.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(eventActivity, "Could not connect to the server.", Toast.LENGTH_LONG).show();
                 }
 
 
@@ -450,13 +452,30 @@ public class WebDownloaderTask  extends AsyncTask<String, Void, String> {
 
     }
 
+    private void addTicket(PrefManager prefManager, EventTicket ticket) {
+
+        Log.d("WebDownloader", "addTicket: Adding ticket");
+        Gson gson = new Gson();
+
+        String json = prefManager.getTicketsList();
+        ArrayList<EventTicket> eventTickets = gson.fromJson(json, new TypeToken<ArrayList<EventTicket>>(){}.getType());
+
+        eventTickets.add(0, ticket);
+        //myEventsFragment.setTickets(eventTickets);
+
+        json = gson.toJson(eventTickets);
+        prefManager.setTicketsList(json);
+
+        //latestEvents.setBooked(ticket.getEventID());
+    }
+
     private ArrayList<EventTicket> parseTickets(JSONArray ticketsJSONArray) throws JSONException{
         ArrayList<EventTicket> eventTickets = new ArrayList<>();
 
         for (int index = 0; index < ticketsJSONArray.length(); index++) {
             JSONObject ticket = ticketsJSONArray.getJSONObject(index);
             eventTickets.add(new EventTicket(
-                    ticket.getString("event"),
+                    ticket.getString("name"),
                     ticket.getString("event_id"),
                     ticket.getString("reg_code")));
         }
