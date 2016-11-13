@@ -2,6 +2,7 @@ package com.example.islam.iec;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -10,15 +11,22 @@ import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
@@ -32,6 +40,8 @@ public class EventActivity extends AppCompatActivity {
     public TextView date;
     public TextView details;
     public ImageView image;
+    public Button bookButton;
+    private PrefManager prefManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +63,8 @@ public class EventActivity extends AppCompatActivity {
         date = (TextView) findViewById(R.id.event_ac_date);
         details = (TextView) findViewById(R.id.event_ac_details);
         image = (ImageView) findViewById(R.id.header);
+        bookButton = (Button) findViewById(R.id.btn_book);
+        prefManager = new PrefManager(this);
 
         // Get event details
         Bundle data = getIntent().getExtras();
@@ -110,9 +122,8 @@ public class EventActivity extends AppCompatActivity {
             });
         }
 
-
-
-
+        // Button color
+        updateBookButton();
     }
 
     public void openProjects(View view) {
@@ -127,5 +138,76 @@ public class EventActivity extends AppCompatActivity {
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
+
+    private Boolean isEventBooked (String eventID) {
+
+        Gson gson = new Gson();
+        String json = prefManager.getTicketsList();
+        ArrayList<EventTicket> eventTickets = gson.fromJson(json, new TypeToken<ArrayList<EventTicket>>(){}.getType());
+        for (int i = 0; i < eventTickets.size(); i++) {
+            EventTicket ticket = eventTickets.get(i);
+            if (ticket.getEventID().equals(eventID))
+                return true;
+        }
+        return false;
+    }
+
+    public void updateBookButton(){
+
+        if (prefManager.isLoggedIn()){
+            if (isEventBooked(event.getId())){
+                bookButton.setBackground(getResources().getDrawable(R.drawable.rounded_greyed_button));
+                bookButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Toast.makeText(EventActivity.this, "You have already booked this event.", Toast.LENGTH_LONG).show();
+                    }
+                });
+            } else {
+                bookButton.setBackground(getResources().getDrawable(R.drawable.rounded_button));
+                bookButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        new WebDownloaderTask(EventActivity.this, WebDownloaderTask.BOOK).execute(event.getId());
+                        Toast.makeText(EventActivity.this, "Connecting..", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+
+        } else {
+            bookButton.setBackground(getResources().getDrawable(R.drawable.rounded_button));
+            bookButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(EventActivity.this);
+                    alertDialogBuilder.setMessage("Please log in to continue.");
+                    alertDialogBuilder.setPositiveButton("Log in", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            Intent intent = new Intent(EventActivity.this, Login.class);
+                            EventActivity.this.startActivityForResult(intent, 0);
+
+                        }
+                    });
+
+                    alertDialogBuilder.setNegativeButton("Sign up", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            Intent intent = new Intent(EventActivity.this, SignUp.class);
+                            EventActivity.this.startActivityForResult(intent, 1);
+                        }
+                    });
+                    alertDialogBuilder.show();
+                }
+            });
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        updateBookButton();
+        super.onActivityResult(requestCode, resultCode, data);
     }
 }

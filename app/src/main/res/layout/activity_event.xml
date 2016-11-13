@@ -192,6 +192,7 @@
                 android:layout_margin="10dp">
 
                 <Button
+                    android:id="@+id/btn_book"
                     android:text="Book Now"
                     android:layout_width="0dp"
                     android:layout_weight="0.5"

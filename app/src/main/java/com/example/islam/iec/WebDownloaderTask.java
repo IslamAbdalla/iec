@@ -402,8 +402,7 @@ public class WebDownloaderTask  extends AsyncTask<String, Void, String> {
                 } else {
                     Toast.makeText(eventActivity, "Could not connect to the server.", Toast.LENGTH_LONG).show();
                 }
-
-
+                eventActivity.updateBookButton();
 
                 break;
             case UPDATE:
