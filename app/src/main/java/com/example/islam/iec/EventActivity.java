@@ -1,6 +1,5 @@
 package com.example.islam.iec;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -10,9 +9,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
-import android.support.v4.view.ViewCompat;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -47,6 +43,8 @@ public class EventActivity extends AppCompatActivity {
     public Button bookButton;
     private PrefManager prefManager;
     public LinearLayout voteForProjectLayout;
+
+    static final int SIGN_IN_CODE = 4;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -139,7 +137,7 @@ public class EventActivity extends AppCompatActivity {
         Log.d("IEC", "openProjects: Event ID " + event.getId());
         intent.putExtra("eventID", event.getId() );
         intent.putExtra("event", event);
-        startActivity(intent);
+        startActivityForResult(intent,0);
     }
 
     @Override
@@ -163,9 +161,20 @@ public class EventActivity extends AppCompatActivity {
 
     public void updateBookButton(){
 
-        if (prefManager.isLoggedIn()){
+        if (!event.getUpcoming()){
+            bookButton.setBackground(getResources().getDrawable(R.drawable.rounded_greyed_button));
+            bookButton.setText(R.string.book_now);
+            bookButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(EventActivity.this, "This event has already finished.", Toast.LENGTH_LONG).show();
+                }
+            });
+
+        } else if (prefManager.isLoggedIn()){
             if (isEventBooked(event.getId())){
                 bookButton.setBackground(getResources().getDrawable(R.drawable.rounded_greyed_button));
+                bookButton.setText(R.string.booked);
                 bookButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -174,6 +183,7 @@ public class EventActivity extends AppCompatActivity {
                 });
             } else {
                 bookButton.setBackground(getResources().getDrawable(R.drawable.rounded_button));
+                bookButton.setText(R.string.book_now);
                 bookButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -185,6 +195,7 @@ public class EventActivity extends AppCompatActivity {
 
         } else {
             bookButton.setBackground(getResources().getDrawable(R.drawable.rounded_button));
+                bookButton.setText(R.string.book_now);
             bookButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -195,7 +206,7 @@ public class EventActivity extends AppCompatActivity {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             Intent intent = new Intent(EventActivity.this, Login.class);
-                            EventActivity.this.startActivityForResult(intent, 0);
+                            EventActivity.this.startActivityForResult(intent, SIGN_IN_CODE);
 
                         }
                     });
@@ -216,7 +227,12 @@ public class EventActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         updateBookButton();
+        if (requestCode == SIGN_IN_CODE && resultCode == RESULT_OK) {
+            Log.d("EventActivity", "onActivityResult: Result ok");
+            new WebDownloaderTask(EventActivity.this, WebDownloaderTask.UPDATE_TICKETS).execute();
+        }
         super.onActivityResult(requestCode, resultCode, data);
+
     }
 
     public void openLocation(View view) {
@@ -230,5 +246,17 @@ public class EventActivity extends AppCompatActivity {
         Uri uri = Uri.parse(uriString);
         Intent intent = new Intent(android.content.Intent.ACTION_VIEW, uri);
         startActivity(intent);
+    }
+
+    public void shareEvent(View view) {
+        Intent sendIntent = new Intent();
+        sendIntent.setAction(Intent.ACTION_SEND);
+        sendIntent.putExtra(Intent.EXTRA_TEXT, event.getName()+"\n"
+                +event.getLocationText()+"\n"
+                +event.getDate()
+                +"\nClick here for more info\nhttps://www.facebook.com/IECpage/"
+        );
+        sendIntent.setType("text/plain");
+        startActivity(Intent.createChooser(sendIntent, getResources().getText(R.string.send_to)));
     }
 }

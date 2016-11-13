@@ -24,4 +24,7 @@
     <string name="title_activity_business_guide">Business Guide</string>
     <string name="title_activity_projects">Projects</string>
     <string name="title_activity_profile">My profile</string>
+    <string name="send_to">Share event to</string>
+    <string name="booked">Booked</string>
+    <string name="book_now">Book Now</string>
 </resources>

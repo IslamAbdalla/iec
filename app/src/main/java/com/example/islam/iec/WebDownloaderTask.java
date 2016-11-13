@@ -35,10 +35,11 @@ import okhttp3.Response;
 
 public class WebDownloaderTask  extends AsyncTask<String, Void, String> {
 //    private static final String BASE_URL = "http://172.31.200.34/wp-json/iec-api/v1";
-    private static final String BASE_URL = "http://192.168.43.155:8080";
+//    private static final String BASE_URL = "http://192.168.43.155:8080";
+    private static final String BASE_URL = "http://185.116.213.18/~iecsuorg/app_api/public/index.php";
     WeakReference<Fragment> fragmentWeakReference;
     WeakReference<Activity> activityWeakReference;
-    final static public int GET_EVENTS = 0, GET_TICKETS = 1, LOG_IN = 2, REGISTER = 3, BOOK = 4, UPDATE = 5, VOTE = 6, VOTED = 7;
+    final static public int GET_EVENTS = 0, GET_TICKETS = 1, LOG_IN = 2, REGISTER = 3, BOOK = 4, UPDATE = 5, VOTE = 6, VOTED = 7, UPDATE_TICKETS = 8;
     private int action;
     private String username, password;
     private ProgressDialog progressDialog;
@@ -121,6 +122,7 @@ public class WebDownloaderTask  extends AsyncTask<String, Void, String> {
             case VOTED :
             case BOOK:
             case GET_TICKETS:
+            case UPDATE_TICKETS:
                 PrefManager prefManager;
                 if (activityWeakReference != null){
                 Activity activity = activityWeakReference.get();
@@ -157,6 +159,7 @@ public class WebDownloaderTask  extends AsyncTask<String, Void, String> {
                         .url(BASE_URL + route)
                         .build();
                 break;
+            case UPDATE_TICKETS:
             case GET_TICKETS:
                 route = "/ticket/";
                 request = new Request.Builder()
@@ -290,7 +293,7 @@ public class WebDownloaderTask  extends AsyncTask<String, Void, String> {
         JSONObject response = null;
         try {
             response = new JSONObject(s);
-        } catch (JSONException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         switch (action) {
@@ -313,7 +316,7 @@ public class WebDownloaderTask  extends AsyncTask<String, Void, String> {
 
                             fragment.setEvents(latestEventsList);
                         }
-                    } catch (JSONException e) {
+                    } catch (Exception e) {
                         e.printStackTrace();
                     }
                 }
@@ -390,23 +393,47 @@ public class WebDownloaderTask  extends AsyncTask<String, Void, String> {
 
                                 myEventsFragment.setTickets(eventsTicketsList);
                             } catch (Exception e) {
-                                 e.printStackTrace();
+                                e.printStackTrace();
                             }
-
-
                         }
-
                 }
+                break;
+            case UPDATE_TICKETS:
+                Log.d(TAG, "onPostExecute: get Tickets" + s);
+                if (activityWeakReference == null) {
+                    Log.e(TAG, "onPostExecute: Activity is null");
+                    return;
+                }
+                EventActivity eventActivity = (EventActivity) activityWeakReference.get();
+                if (eventActivity != null) {
 
+                    if (response != null && 0 == response.optInt("status")) {
+                        JSONArray eventsJSONArray = response.optJSONArray("tickets");
+                        ArrayList<EventTicket> eventsTicketsList;
+
+                        try {
+                            eventsTicketsList = parseTickets(eventsJSONArray);
+                            Gson gson = new Gson();
+                            String json = gson.toJson(eventsTicketsList);
+                            PrefManager prefManager = new PrefManager(eventActivity);
+                            prefManager.setTicketsList(json);
+                            Log.d(TAG, "onPostExecute: Setting EventList: " + json);
+                            eventActivity.updateBookButton();
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
                 break;
             case BOOK:
                 Log.d(TAG, "onPostExecute: book" + s);
                 //MainActivity mainActivity = (MainActivity) activityWeakReference.get();
-                EventActivity eventActivity = (EventActivity) activityWeakReference.get();
+                eventActivity = (EventActivity) activityWeakReference.get();
 
                 if (response != null) {
+                    PrefManager prefManager = new PrefManager(eventActivity);
                     if (0 == response.optInt("status")) {
-                        PrefManager prefManager = new PrefManager(eventActivity);
                         //mainActivity.addTicket(new EventTicket( response.optString("name") , response.optString("event_id"),response.optString("reg_code") ));
                         addTicket(prefManager,new EventTicket( response.optString("name") , response.optString("event_id"),response.optString("reg_code") ) );
                         Toast.makeText(eventActivity, "Ticket booked", Toast.LENGTH_LONG).show();
@@ -533,7 +560,7 @@ public class WebDownloaderTask  extends AsyncTask<String, Void, String> {
                     userJSON.getString("job"),
                     userJSON.getString("phone")
             );
-        } catch (JSONException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
@@ -560,7 +587,7 @@ public class WebDownloaderTask  extends AsyncTask<String, Void, String> {
                         (separator == 1));
 
                 Log.d(TAG, "parseEvents: "+ URLDecoder.decode(event.optString("details"), "UTF-8"));
-            } catch (UnsupportedEncodingException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
 

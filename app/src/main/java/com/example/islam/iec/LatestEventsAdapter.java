@@ -127,7 +127,7 @@ public class LatestEventsAdapter extends RecyclerView.Adapter<LatestEventsAdapte
                 public void onClick(View v) {
                     Intent intent = new Intent(v.getContext(), EventActivity.class);
                     intent.putExtra("event", event);
-                    v.getContext().startActivity(intent);
+                    ((Activity) context).startActivityForResult(intent,0);
                 }
             });
             if (holder.bookButton != null) {

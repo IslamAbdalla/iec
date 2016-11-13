@@ -225,6 +225,7 @@
                     android:stateListAnimator="@null"
                     android:minHeight="0dp"
                     android:layout_marginRight="10dp"
+                    android:onClick="shareEvent"
                     />
             </LinearLayout>
 
@@ -287,7 +288,8 @@
                         android:onClick="openProjects"
                         android:background="@drawable/rounded_primary_button"
                         android:padding="10dp"
-                        android:layout_gravity="center_horizontal">
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginBottom="10dp">
                         <!--android:background="?android:attr/selectableItemBackground"-->
 
                             <!--<ImageView-->

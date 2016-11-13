@@ -1,6 +1,8 @@
 package com.example.islam.iec;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -37,6 +39,9 @@ public class Login extends AppCompatActivity {
         if (prefManager.isLoggedIn())
             Log.i("IEC", "completeLogin: Logged in :D");
         else Log.i("IEC", "completeLogin: Nope");
+
+        Intent resultIntent = new Intent();
+        setResult(Activity.RESULT_OK, resultIntent);
         finish();
     }
 
