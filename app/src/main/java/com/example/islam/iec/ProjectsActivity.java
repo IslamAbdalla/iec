@@ -1,6 +1,7 @@
 package com.example.islam.iec;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -89,4 +90,11 @@ public class ProjectsActivity extends AppCompatActivity {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (prefManager.isLoggedIn())  {
+            new WebDownloaderTask(this, WebDownloaderTask.VOTED).execute(eventID);
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
 }

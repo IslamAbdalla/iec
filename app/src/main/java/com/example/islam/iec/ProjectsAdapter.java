@@ -1,5 +1,6 @@
 package com.example.islam.iec;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -27,6 +28,7 @@ public class ProjectsAdapter extends RecyclerView.Adapter<ProjectsAdapter.ViewHo
     private ArrayList<Event.Project> Projects;
     private Context context;
     private PrefManager prefManager;
+    static final int SIGN_IN_CODE = 5;
 
     public ProjectsAdapter(Context mContext, ArrayList<Event.Project> mProjects) {
         Projects = mProjects;
@@ -147,6 +149,25 @@ public class ProjectsAdapter extends RecyclerView.Adapter<ProjectsAdapter.ViewHo
 
                 } else {
 
+                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
+                    alertDialogBuilder.setMessage("Please log in to continue.");
+                    alertDialogBuilder.setPositiveButton("Log in", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            Intent intent = new Intent(context, Login.class);
+                            ((Activity)context).startActivityForResult(intent, SIGN_IN_CODE);
+
+                        }
+                    });
+
+                    alertDialogBuilder.setNegativeButton("Sign up", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            Intent intent = new Intent(context, SignUp.class);
+                            ((Activity)context).startActivityForResult(intent, 1);
+                        }
+                    });
+                    alertDialogBuilder.show();
                 }
 
 
@@ -198,8 +219,8 @@ public class ProjectsAdapter extends RecyclerView.Adapter<ProjectsAdapter.ViewHo
             rootLayout = (LinearLayout) v.findViewById(R.id.project_root_layout);
             voteButton = (Button) v.findViewById(R.id.btn_project_vote);
         }
-
     }
+
 
 
 }

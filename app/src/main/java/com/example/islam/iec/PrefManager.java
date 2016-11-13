@@ -144,6 +144,14 @@ public class PrefManager {
 
     }
 
+    public void clearVoted(){
+        HashMap<String, Boolean> votedList = new HashMap<>();
+        Gson gson = new Gson();
+        String json = gson.toJson(votedList);
+        editor.putString(VOTED_LIST, json);
+        editor.apply();
+    }
+
 
 
 }

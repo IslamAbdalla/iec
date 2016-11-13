@@ -200,6 +200,7 @@ public class MainActivity extends AppCompatActivity
                 Gson gson = new Gson();
                 String json = gson.toJson(new ArrayList<EventTicket>());
                 prefManager.setTicketsList(json);
+                prefManager.clearVoted();
 
                 updateUI(false);
                 Toast.makeText(MainActivity.this, "Logged out successfully", Toast.LENGTH_SHORT).show();

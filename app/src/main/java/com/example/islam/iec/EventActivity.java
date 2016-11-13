@@ -187,8 +187,33 @@ public class EventActivity extends AppCompatActivity {
                 bookButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        new WebDownloaderTask(EventActivity.this, WebDownloaderTask.BOOK).execute(event.getId());
-                        Toast.makeText(EventActivity.this, "Connecting..", Toast.LENGTH_SHORT).show();
+
+
+
+                        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(EventActivity.this);
+                        alertDialogBuilder.setMessage("Do you want to book " + event.getName() + "?");
+                        alertDialogBuilder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                                new WebDownloaderTask(EventActivity.this, WebDownloaderTask.BOOK).execute(event.getId());
+                                Toast.makeText(EventActivity.this, "Connecting..", Toast.LENGTH_SHORT).show();
+
+
+                            }
+                        });
+
+                        alertDialogBuilder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                            }
+                        });
+                        alertDialogBuilder.show();
+
+
+
+
                     }
                 });
             }
