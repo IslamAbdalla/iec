@@ -18,10 +18,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,6 +37,9 @@ public class MainActivity extends AppCompatActivity
     public PrefManager prefManager;
     private MyEvents myEventsFragment;
     private LatestEvents latestEvents;
+
+    private TextView navUsernameHolder;
+    private TextView navEmailHolder;
 
 
     @Override
@@ -67,6 +74,11 @@ public class MainActivity extends AppCompatActivity
             tabLayout.setupWithViewPager(viewPager);
         }
 
+        View header=navigationView.getHeaderView(0);
+        /*View view=navigationView.inflateHeaderView(R.layout.nav_header_main);*/
+
+        navUsernameHolder = (TextView) header.findViewById(R.id.nav_username_holder);
+        navEmailHolder = (TextView) header.findViewById(R.id.nav_email_holder);
         updateUI(true);
 
     }
@@ -88,6 +100,9 @@ public class MainActivity extends AppCompatActivity
                 navigationView.getMenu().findItem(R.id.nav_login).setVisible(false);
                 navigationView.getMenu().findItem(R.id.nav_signup).setVisible(false);
 
+                navUsernameHolder.setText(prefManager.getUser().getUsername());
+                navEmailHolder.setText(prefManager.getUser().getEmail());
+
             }
         } else {
             if (navigationView != null) {
@@ -97,6 +112,9 @@ public class MainActivity extends AppCompatActivity
                 navigationView.getMenu().findItem(R.id.nav_signup).setVisible(true);
 
 
+                navUsernameHolder.setText("");
+                navEmailHolder.setText("");
+                Log.d("updateUI", "updateUI: clearing username");
             }
         }
         if(!firstTime) {

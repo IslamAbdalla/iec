@@ -30,17 +30,20 @@
         <!--android:id="@+id/imageView" />-->
 
         <TextView
+            android:id="@+id/nav_username_holder"
+            android:lines="1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingTop="@dimen/nav_header_vertical_spacing"
-            android:text="Islam Abdalla"
+            android:text=""
             android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
         <TextView
+            android:id="@+id/nav_email_holder"
+            android:lines="1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="mail@example.com"
-            android:id="@+id/textView" />
+            android:text="" />
 
     </LinearLayout>
 
