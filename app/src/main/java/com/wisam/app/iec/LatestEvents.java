@@ -3,6 +3,7 @@ package com.wisam.app.iec;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -28,6 +29,7 @@ public class LatestEvents extends Fragment {
     private RecyclerView.LayoutManager latestEventsLayoutManager;
     private ArrayList<Event> latestEventsList;
     private PrefManager prefManager;
+    private SwipeRefreshLayout swipeRefreshLayout;
 
 
     public LatestEvents() {
@@ -138,7 +140,8 @@ public class LatestEvents extends Fragment {
         latestEventsAdapter = new LatestEventsAdapter(getActivity(), latestEventsList);
         latestEventsRecyclerView.setAdapter(latestEventsAdapter);
 
-
+        // ======== Swipe Refresh ============= //
+        setupSwipeRefresh();
     }
 
     public void setEvents(ArrayList<Event> latestEvents) {
@@ -196,6 +199,23 @@ public class LatestEvents extends Fragment {
                 return i;
         }
         return -1;
+    }
+
+    private void setupSwipeRefresh() {
+        swipeRefreshLayout = (SwipeRefreshLayout) getView().findViewById(R.id.swipe_refresh_layout);
+        if (swipeRefreshLayout != null) {
+            swipeRefreshLayout.setEnabled(true);
+            swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+                @Override
+                public void onRefresh() {
+
+                    Log.d("Main", "onRefresh: called");
+                    new WebDownloaderTask(LatestEvents.this, WebDownloaderTask.GET_EVENTS).execute("http://www.test.com/index.html");
+                    swipeRefreshLayout.setRefreshing(false);
+                    Log.d("Main", "onRefresh: stopped Refresh animation");
+                }
+            });
+        }
     }
 
 

@@ -34,7 +34,8 @@ import okhttp3.Response;
 public class WebDownloaderTask  extends AsyncTask<String, Void, String> {
 //    private static final String BASE_URL = "http://172.31.200.34/wp-json/iec-api/v1";
 //    private static final String BASE_URL = "http://192.168.43.155:8080";
-    private static final String BASE_URL = "http://185.116.213.18/~iecsuorg/app_api/public/index.php";
+//    private static final String BASE_URL = "http://185.116.213.18/~iecsuorg/app_api/public/index.php";
+    private static final String BASE_URL = "http://iec-su.org/app_api/public/index.php";
     WeakReference<Fragment> fragmentWeakReference;
     WeakReference<Activity> activityWeakReference;
     final static public int GET_EVENTS = 0, GET_TICKETS = 1, LOG_IN = 2, REGISTER = 3, BOOK = 4, UPDATE = 5, VOTE = 6, VOTED = 7, UPDATE_TICKETS = 8;
@@ -121,18 +122,19 @@ public class WebDownloaderTask  extends AsyncTask<String, Void, String> {
             case BOOK:
             case GET_TICKETS:
             case UPDATE_TICKETS:
-                PrefManager prefManager;
+                PrefManager prefManager = null;
                 if (activityWeakReference != null){
                 Activity activity = activityWeakReference.get();
                     prefManager = new PrefManager(activity);
-                } else {
+                } else if (fragmentWeakReference != null){
                 Fragment fragment = fragmentWeakReference.get();
                     prefManager = new PrefManager(fragment.getContext());
                 }
-                username = prefManager.getUser().getUsername();
-                password = prefManager.getUser().getPassword();
-                Log.d(TAG, "doInBackground: First username: " + username + " - password: " +password);
-
+                if(prefManager != null) {
+                    username = prefManager.getUser().getUsername();
+                    password = prefManager.getUser().getPassword();
+                    Log.d(TAG, "doInBackground: First username: " + username + " - password: " + password);
+                }
                 break;
         }
 
@@ -584,7 +586,7 @@ public class WebDownloaderTask  extends AsyncTask<String, Void, String> {
                         event.optString("image"),
                         (separator == 1));
 
-                Log.d(TAG, "parseEvents: "+ URLDecoder.decode(event.optString("details"), "UTF-8"));
+//                Log.d(TAG, "parseEvents: "+ URLDecoder.decode(event.optString("details"), "UTF-8"));
             } catch (Exception e) {
                 e.printStackTrace();
             }

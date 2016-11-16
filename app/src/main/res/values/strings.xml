@@ -27,4 +27,6 @@
     <string name="send_to">Share event to</string>
     <string name="booked">Booked</string>
     <string name="book_now">Book Now</string>
+    <string name="developed_by"><a href="https://www.linkedin.com/in/islam-abdalla-5b252168">IEC App is developed by Islam Abdalla</a></string>
+    <string name="special_thanks"><a href="https://www.facebook.com/hind.abuelmaaly">A special thanks to Hind Abu Elmaaly</a></string>
 </resources>

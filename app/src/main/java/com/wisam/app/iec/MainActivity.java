@@ -12,6 +12,7 @@ import android.support.v4.view.ViewPager;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -24,8 +25,6 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,6 +39,7 @@ public class MainActivity extends AppCompatActivity
 
     private TextView navUsernameHolder;
     private TextView navEmailHolder;
+    private SwipeRefreshLayout swipeRefreshLayout;
 
 
     @Override
@@ -77,11 +77,17 @@ public class MainActivity extends AppCompatActivity
         View header=navigationView.getHeaderView(0);
         /*View view=navigationView.inflateHeaderView(R.layout.nav_header_main);*/
 
+        // ======== Swipe to refresh ====== //
+
+
         navUsernameHolder = (TextView) header.findViewById(R.id.nav_username_holder);
         navEmailHolder = (TextView) header.findViewById(R.id.nav_email_holder);
         updateUI(true);
 
     }
+
+
+
 
     /**
      * This function is called to update the UI including the nav drawer buttons, booked tickets..
