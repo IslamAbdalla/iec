@@ -4,6 +4,7 @@ package com.wisam.app.iec;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -27,6 +28,7 @@ public class MyEvents extends Fragment {
     private RecyclerView.LayoutManager myEventsLayoutManager;
     public ArrayList<EventTicket> myEventsList;
     private PrefManager prefManager;
+    private SwipeRefreshLayout swipeRefreshLayout;
 
     public MyEvents() {
         // Required empty public constructor
@@ -78,6 +80,8 @@ public class MyEvents extends Fragment {
         prefManager = new PrefManager(getContext());
 
 
+        setupSwipeRefresh();
+
     }
 
     public void hideNoTicketsIndicator(){
@@ -85,6 +89,7 @@ public class MyEvents extends Fragment {
         textView.setVisibility(View.INVISIBLE);
     }
     public void showNoTicketsIndicator(){
+        Log.d("Tickets", "showNoTicketsIndicator: ");
         TextView textView = (TextView) getView().findViewById(R.id.no_tickets_indicator);
         textView.setVisibility(View.VISIBLE);
     }
@@ -96,6 +101,7 @@ public class MyEvents extends Fragment {
         myEventsAdapter.updateDataSet(eventTickets);
         myEventsAdapter.notifyDataSetChanged();
 
+        swipeRefreshLayout.setRefreshing(false);
     }
 
     public void clearTickets(){
@@ -132,6 +138,35 @@ public class MyEvents extends Fragment {
                 showNoTicketsIndicator();
             }
 
+        }
+    }
+
+    private void setupSwipeRefresh() {
+        swipeRefreshLayout = (SwipeRefreshLayout) getView().findViewById(R.id.swipe_refresh_layout);
+        if (swipeRefreshLayout != null) {
+            swipeRefreshLayout.setEnabled(true);
+            swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+                @Override
+                public void onRefresh() {
+
+                    Log.d("Tickets", "onRefresh: called");
+
+                    if (prefManager.isLoggedIn() ){
+
+                        String json = prefManager.getTicketsList();
+                        Gson gson = new Gson();
+                        myEventsList = gson.fromJson(json, new TypeToken<ArrayList<EventTicket>>(){}.getType());
+                        if (myEventsList.isEmpty()) {
+                            showNoTicketsIndicator();
+                        }
+                        new WebDownloaderTask(MyEvents.this, WebDownloaderTask.GET_TICKETS).execute("http://www.test.com/index.html");
+                    } else {
+                        showNoTicketsIndicator();
+                    }
+//                    swipeRefreshLayout.setRefreshing(false);
+//                    Log.d("Tickets", "onRefresh: stopped Refresh animation");
+                }
+            });
         }
     }
 

@@ -5,6 +5,10 @@
     tools:context=".MyEvents"
     android:background="@color/grey_100">
 
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_refresh_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -12,6 +16,7 @@
         android:paddingBottom="8dp"
         android:clipToPadding="false"/>
 
+    </android.support.v4.widget.SwipeRefreshLayout>
     <TextView
         android:id="@+id/no_tickets_indicator"
         android:layout_width="match_parent"
@@ -20,7 +25,7 @@
         android:paddingTop="40dp"
         android:textSize="18sp"
         android:textColor="@color/textGray"
-        android:text="You haven't booked any events yet."
+        android:text="You don't have any booked events yet."
         android:visibility="invisible"/>
 
 </FrameLayout>

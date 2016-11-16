@@ -148,6 +148,8 @@ public class LatestEvents extends Fragment {
         Log.i("IEC", "setEvents: Set");
         latestEventsAdapter.updateDataSet(latestEvents);
         latestEventsAdapter.notifyDataSetChanged();
+        swipeRefreshLayout.setRefreshing(false);
+        Log.d("Main", "onRefresh: stopped Refresh animation");
 
     }
 
@@ -211,8 +213,6 @@ public class LatestEvents extends Fragment {
 
                     Log.d("Main", "onRefresh: called");
                     new WebDownloaderTask(LatestEvents.this, WebDownloaderTask.GET_EVENTS).execute("http://www.test.com/index.html");
-                    swipeRefreshLayout.setRefreshing(false);
-                    Log.d("Main", "onRefresh: stopped Refresh animation");
                 }
             });
         }
